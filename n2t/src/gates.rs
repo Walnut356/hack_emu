@@ -313,25 +313,3 @@ pub fn DEMUX_8(input: u8, s0: u8, s1: u8, s2: u8) -> (u8, u8, u8, u8, u8, u8, u8
     (a, b, c, d, e, f, g, h)
 }
 
-// #[derive(Debug, Clone, Copy, PartialEq)]
-// pub struct AddOp {
-//     pub sum: u8,
-//     pub carry: u8,
-// }
-
-// pub fn half_adder(a: u8, b: u8) -> AddOp {
-//     AddOp {
-//         sum: XOR(a, b),
-//         carry: AND(a, b),
-//     }
-// }
-
-// pub fn full_adder(a: u8, b:u8, c: u8) -> AddOp {
-//     let part = half_adder(a, b);
-
-//     AddOp {
-//         sum: ,
-//         carry: ,
-
-//     }
-// }

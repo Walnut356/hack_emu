@@ -1,11 +1,6 @@
 use n2t::gates::*;
-
-fn thing(a:u8, b:u8) -> u8 {
-    NAND(NOT(a), b)
-}
+use n2t::arithmetic::*;
 
 fn main() {
-    let result = truth_table(thing);
-    print_table(result);
-
+    assert_eq!(half_adder(1, 1), full_adder(1, 1, 0));
 }
