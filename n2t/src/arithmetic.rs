@@ -53,3 +53,16 @@ pub fn incrementer(a: &Vec<u8>) -> Vec<u8> {
     }
     result.into_iter().rev().collect()
 }
+
+pub fn is_zero(a: &Vec<u8>) -> u8 {
+    let mut temp = a.clone();
+
+    while temp.len() > 1 {
+        for (i, (j, &k)) in zip(temp.clone(), temp.clone().iter().rev()).enumerate() {
+            temp[i] = OR(j, k);
+        }
+        temp.truncate(temp.len() / 2);
+    }
+
+    NOT(temp[0])
+}
