@@ -89,9 +89,9 @@ pub fn NOT(a: u8) -> u8 {
     NAND(a, a)
 }
 
-pub fn multi_NOT(a: Vec<u8>) -> Vec<u8> {
+pub fn multi_NOT(a: &Vec<u8>) -> Vec<u8> {
     let mut out = Vec::new();
-    for i in a {
+    for &i in a {
         out.push(NOT(i));
     }
     out
@@ -214,6 +214,9 @@ pub fn MUX(a: u8, b: u8, sel: u8) -> u8 {
     OR(AND(NOT(sel), a), AND(sel, b))
 }
 
+/// if sel == 0, return a
+///
+/// if sel == 1, return b
 pub fn multi_MUX(a: &Vec<u8>, b: &Vec<u8>, sel: u8) -> Vec<u8> {
     let mut out = Vec::new();
     for i in 0..a.len() {
@@ -312,4 +315,3 @@ pub fn DEMUX_8(input: u8, s0: u8, s1: u8, s2: u8) -> (u8, u8, u8, u8, u8, u8, u8
 
     (a, b, c, d, e, f, g, h)
 }
-
