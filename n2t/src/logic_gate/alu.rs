@@ -1,5 +1,5 @@
-use crate::arithmetic::*;
-use crate::gates::*;
+use crate::logic_gate::arithmetic::*;
+use crate::logic_gate::gates::*;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct ControlBits {
