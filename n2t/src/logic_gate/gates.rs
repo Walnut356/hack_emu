@@ -49,7 +49,7 @@ pub fn bitvec_to_u16(a: &Vec<u8>) -> u8 {
     let mut result = 0;
     for (i, j) in a.into_iter().enumerate() {
         result |= j;
-        if i < 16 {
+        if i < 15 {
             result = result << 1;
         }
     }

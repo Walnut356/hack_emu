@@ -32,7 +32,7 @@ fn bench_alu() {
     let dur = now.elapsed();
     println!("{:?}", dur.as_micros());
 
-    println!("{val:?}");
+    println!("result = {:?}", bitvec_to_u16(&val));
 }
 
 fn bench_native() {
@@ -58,5 +58,5 @@ fn bench_native() {
     let dur = now.elapsed();
     println!("{:?}", dur.as_micros());
 
-    println!("{val:?}");
+    println!("result = {val:?}");
 }
