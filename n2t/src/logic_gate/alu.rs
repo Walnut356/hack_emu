@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use crate::logic_gate::arithmetic::*;
 use crate::logic_gate::gates::*;
 
@@ -58,4 +60,31 @@ pub fn ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec<u8>
     control.zr = is_zero(&result);
 
     result
+}
+
+pub fn bench_alu() {
+    let mut control = ControlBits {
+        zx: 0,
+        nx: 0,
+        zy: 1,
+        ny: 1,
+        f: 1,
+        no: 0,
+        zr: 0,
+        ng: 0,
+    };
+    let mut val = vec![0; 16];
+
+    let now = Instant::now();
+    for i in 0..10000 {
+        val = ALU(
+            vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            &mut control,
+        );
+    }
+    let dur = now.elapsed();
+    println!("{:?}", dur.as_micros());
+
+    println!("result = {:?}", bitvec_to_u16(&val));
 }

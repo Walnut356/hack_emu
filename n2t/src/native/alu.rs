@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct ControlBits {
     // in
@@ -40,4 +42,29 @@ pub fn ALU(mut x: u16, mut y: u16, control: &mut ControlBits) -> u16 {
     control.ng = result < 0;
 
     result
+}
+
+fn bench_native() {
+    // use n2t::native::arithmetic::*;
+    // use n2t::native::gates::*;
+    let mut control = ControlBits {
+        zx: false,
+        nx: false,
+        zy: true,
+        ny: true,
+        f: true,
+        no: false,
+        zr: false,
+        ng: false,
+    };
+    let mut val = 0;
+
+    let now = Instant::now();
+    for i in 0..10000 {
+        val = ALU(17, 3, &mut control);
+    }
+    let dur = now.elapsed();
+    println!("{:?}", dur.as_micros());
+
+    println!("result = {val:?}");
 }
