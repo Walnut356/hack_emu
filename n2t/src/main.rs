@@ -3,8 +3,8 @@ use n2t::native;
 use std::time::Instant;
 
 fn main() {
-    let vec: Vec<u8> = vec![0, 1, 2, 3, 4];
-    let res: &[u8; 3] = vec[0..3].try_into().unwrap();
+    let vec = 0b1000_0000_0000_0000;
+    let res = 0b0000_0000_0000_0001;
 
     println!("{:?}", res);
     println!("{:?}", vec);

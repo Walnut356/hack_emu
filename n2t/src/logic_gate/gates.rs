@@ -280,38 +280,63 @@ pub fn multi_MUX_8(
 
 </table>
 */
-pub fn DEMUX(input: u8, sel: u8) -> (u8, u8) {
-    (AND(NOT(sel), input), AND(sel, input))
+pub fn DEMUX(input: u8, sel: u8) -> [u8; 2] {
+    [AND(NOT(sel), input), AND(sel, input)]
 }
 
-pub fn DEMUX_4(input: u8, s0: u8, s1: u8) -> (u8, u8, u8, u8) {
+pub fn DEMUX_4(input: u8, s0: u8, s1: u8) -> [u8; 4] {
     let temp = DEMUX(input, s0);
-    let (a, b) = DEMUX(temp.0, s1);
-    let (c, d) = DEMUX(temp.1, s1);
-    (a, b, c, d)
+    let [a, b] = DEMUX(temp[0], s1);
+    let [c, d] = DEMUX(temp[1], s1);
+    [a, b, c, d]
 }
 
-pub fn multi_DEMUX_4(input: &Vec<u8>, s0: u8, s1: u8) -> (Vec<u8>, Vec<u8>, Vec<u8>, Vec<u8>) {
-    let mut out = (
+pub fn multi_DEMUX_4(input: &Vec<u8>, s0: u8, s1: u8) -> [Vec<u8>; 4] {
+    let mut out = [
         Vec::with_capacity(input.len()),
         Vec::with_capacity(input.len()),
         Vec::with_capacity(input.len()),
         Vec::with_capacity(input.len()),
-    );
+    ];
     for &i in input {
         let temp = DEMUX_4(i, s0, s1);
-        out.0.push(temp.0);
-        out.1.push(temp.1);
-        out.2.push(temp.2);
-        out.3.push(temp.3);
+        out[0].push(temp[0]);
+        out[1].push(temp[1]);
+        out[2].push(temp[2]);
+        out[3].push(temp[3]);
     }
     out
 }
 
-pub fn DEMUX_8(input: u8, s0: u8, s1: u8, s2: u8) -> (u8, u8, u8, u8, u8, u8, u8, u8) {
+pub fn DEMUX_8(input: u8, s0: u8, s1: u8, s2: u8) -> [u8; 8] {
     let temp = DEMUX(input, s0);
-    let (a, b, c, d) = DEMUX_4(temp.0, s1, s2);
-    let (e, f, g, h) = DEMUX_4(temp.1, s1, s2);
+    let [a, b, c, d] = DEMUX_4(temp[0], s1, s2);
+    let [e, f, g, h] = DEMUX_4(temp[1], s1, s2);
 
-    (a, b, c, d, e, f, g, h)
+    [a, b, c, d, e, f, g, h]
+}
+
+pub fn multi_DEMUX_8(input: &Vec<u8>, s0: u8, s1: u8, s2: u8) -> [Vec<u8>; 8] {
+    let mut out = [
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+        Vec::with_capacity(input.len()),
+    ];
+    for &i in input {
+        let temp = DEMUX_8(i, s0, s1, s2);
+        out[0].push(temp[0]);
+        out[1].push(temp[1]);
+        out[2].push(temp[2]);
+        out[3].push(temp[3]);
+        out[4].push(temp[0]);
+        out[5].push(temp[1]);
+        out[6].push(temp[2]);
+        out[7].push(temp[3]);
+    }
+    out
 }
