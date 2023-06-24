@@ -21,3 +21,28 @@ impl RAM {
         self.data[address as usize]
     }
 }
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct InstPtr {
+    val: u16,
+}
+
+impl InstPtr {
+    pub fn new() -> Self {
+        InstPtr { val: 0 }
+    }
+
+    pub fn cycle(&mut self, input: u16, load: u8, inc: u8, reset: u8) -> u16 {
+        if inc > 0 {
+            self.val += 1;
+        }
+        if load > 0 {
+            self.val = input;
+        }
+        if reset > 0 {
+            self.val = 0;
+        }
+
+        self.val
+    }
+}
