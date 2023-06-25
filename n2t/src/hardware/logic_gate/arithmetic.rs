@@ -1,6 +1,6 @@
 use std::iter::zip;
 
-use crate::logic_gate::gates::*;
+use crate::hardware::logic_gate::gates::*;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Add {

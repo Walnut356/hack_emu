@@ -1,7 +1,8 @@
 use std::time::Instant;
 
-use crate::logic_gate::arithmetic::*;
-use crate::logic_gate::gates::*;
+use crate::hardware::logic_gate::arithmetic::*;
+use crate::hardware::logic_gate::gates::*;
+use crate::utils::*;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct ControlBits {
@@ -86,5 +87,5 @@ pub fn bench_alu() {
     let dur = now.elapsed();
     println!("{:?}", dur.as_micros());
 
-    println!("result = {:?}", bitvec_to_u16(&val));
+    println!("result = {:?}", int_from_bitvec(&val));
 }

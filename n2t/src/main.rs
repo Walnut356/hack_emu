@@ -1,11 +1,9 @@
-use n2t::logic_gate;
-use n2t::native;
-use std::time::Instant;
+use n2t::utils::*;
 
-fn main() {
-    let vec = 0b1000_0000_0000_0000;
-    let res = 0b0000_0000_0000_0001;
-
-    println!("{:?}", res);
-    println!("{:?}", vec);
+fn  main() {
+    let x: u16 = 17;
+    let y = bitvec_from_int(x);
+    let z = int_from_bitvec(&y);
+    println!("{y:?}");
+    println!("{z:?}");
 }

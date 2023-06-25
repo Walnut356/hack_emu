@@ -1,24 +1,52 @@
 /// logical implementations using only NAND chip + manually constructed chips
-pub mod logic_gate {
-    pub mod alu;
-    pub mod arithmetic;
-    pub mod gates;
-    pub mod memory;
+pub mod hardware {
+    pub mod logic_gate {
+        pub mod alu;
+        pub mod arithmetic;
+        pub mod cpu;
+        pub mod gates;
+        pub mod memory;
+    }
+
+    /// shortcut implementations in native rust to speed up processing
+    pub mod native {
+        pub mod alu;
+        pub mod cpu;
+        pub mod gates;
+        pub mod instructions;
+        pub mod memory;
+    }
 }
 
-/// shortcut implementations in native rust to speed up processing
-pub mod native {
-    pub mod alu;
-    pub mod gates;
-    pub mod memory;
+pub mod utils {
+    // kinda disgusting but it'll do.
+    pub fn bitvec_from_int(int: u16) -> Vec<u8> {
+        let mut y: Vec<u8> = format!("{int:b}").try_into().unwrap();
+        for i in &mut y {
+            *i -= 48;
+        }
+        y
+    }
+
+    // genuinely not sure which one of these is more horrific
+    pub fn int_from_bitvec(vec: &Vec<u8>) -> u16 {
+        let mut result: u16 = 0;
+        for (i, j) in vec.into_iter().enumerate() {
+            result |= (*j) as u16;
+            if i < vec.len() - 1 {
+                result = result << 1;
+            }
+        }
+        result
+    }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::logic_gate::alu::*;
-    use crate::logic_gate::arithmetic::*;
-    use crate::logic_gate::gates::*;
-    use crate::logic_gate::memory::*;
+    use crate::hardware::logic_gate::alu::*;
+    use crate::hardware::logic_gate::arithmetic::*;
+    use crate::hardware::logic_gate::gates::*;
+    use crate::hardware::logic_gate::memory::*;
 
     #[test]
     fn test_nand() {
@@ -2362,7 +2390,7 @@ mod test {
 
     #[test]
     pub fn test_ram() {
-        let mut ram = crate::native::memory::RAM::new();
+        let mut ram = crate::hardware::native::memory::RAM::new();
 
         let input = 0;
         let load = 0;

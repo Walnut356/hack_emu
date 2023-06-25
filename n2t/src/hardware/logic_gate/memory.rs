@@ -1,7 +1,7 @@
 use std::iter::zip;
 
-use crate::logic_gate::arithmetic::incrementer;
-use crate::logic_gate::gates::*;
+use crate::hardware::logic_gate::arithmetic::incrementer;
+use crate::hardware::logic_gate::gates::*;
 
 // DFF is considered "fundamental", so while this is would realistically work, i'll just be using Vecs as the minimum
 // so i don't have to refactor all of the prior logic to work with DFFs.
@@ -257,6 +257,29 @@ impl RAM16K {
         }
 
         multi_MUX_4(&out[0], &out[1], &out[2], &out[3], address[12], address[13])
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct RAM32K {
+    pub ram4k: [RAM16K; 2],
+}
+
+impl RAM32K {
+    pub fn new() -> Self {
+        RAM32K {
+            ram4k: [RAM16K::new(), RAM16K::new()],
+        }
+    }
+
+    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 15], load: u8) -> Vec<u8> {
+        let temp = DEMUX(load, address[14]);
+        let mut out = Vec::new();
+        for i in 0..16 {
+            out.push(self.ram4k[i].cycle(input, address[0..=13].try_into().unwrap(), temp[i]));
+        }
+
+        multi_MUX(&out[0], &out[1], address[14])
     }
 }
 

@@ -27,36 +27,6 @@ pub fn multi_truth_table(op: fn(u8, u8, u8) -> u8) -> [u8; 8] {
     result
 }
 
-pub fn print_table(result: [[u8; 2]; 2]) {
-    println!("   0  1 ");
-    println!("0 {:?}", result[0]);
-    println!("1 {:?}", result[1]);
-}
-
-pub fn bitvec_to_u8(a: &Vec<u8>) -> u8 {
-    let mut result = 0;
-    for (i, j) in a.into_iter().enumerate() {
-        result |= j;
-        if i < 7 {
-            result = result << 1;
-        }
-    }
-
-    result
-}
-
-pub fn bitvec_to_u16(a: &Vec<u8>) -> u8 {
-    let mut result = 0;
-    for (i, j) in a.into_iter().enumerate() {
-        result |= j;
-        if i < 15 {
-            result = result << 1;
-        }
-    }
-
-    result
-}
-
 /**
 Base gate for all other gates
 
