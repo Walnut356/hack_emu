@@ -60,8 +60,8 @@ pub fn ALU(mut x: &Vec<u8>, mut y: &Vec<u8>, control: &mut ControlBits) -> Vec<u
 
     let temp_y = multi_MUX_4(y, not_y, zero, not_zero, control.zy, control.ny);
 
-    let x_and_y = multi_AND(&x, &y);
-    let x_plus_y = adder(&x, &y);
+    let x_and_y = multi_AND(&temp_x, &temp_y);
+    let x_plus_y = adder(&temp_x, &temp_y);
 
     let mut result = multi_MUX_4(
         &x_and_y,

@@ -5,8 +5,13 @@ use std::io::stdin;
 use std::time::Instant;
 
 fn main() {
-    bench_alu();
-    bench_native();
+
+    let y = 1000;
+    let z = bitvec_from_int(y);
+    let w = int_from_bitvec(&z);
+    println!("{z:?}, {w:?}");
+    // bench_alu();
+    // bench_native();
     // let x: u16;
     // let mut s = String::new();
 
