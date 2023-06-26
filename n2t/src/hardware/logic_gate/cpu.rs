@@ -36,10 +36,11 @@ pub fn execute(program: Vec<u16>) {
             //reset = reset input
             let instr = bitvec_from_int(rom[int_from_bitvec(&pc.val.data) as usize]);
             println!(
-                "a register: {}, d register: {}, alu_out: {}",
+                "a register: {}, d register: {}, alu_out: {}, out_m: {}",
                 int_from_bitvec(&reg_a.data),
                 int_from_bitvec(&reg_d.data),
-                int_from_bitvec(&alu_out)
+                int_from_bitvec(&alu_out),
+                ram.out,
             );
             println!("instr#: {}, pc: {}", counter, int_from_bitvec(&pc.val.data));
             decode_instr(&instr);
@@ -92,7 +93,7 @@ pub fn execute(program: Vec<u16>) {
                 ),
             );
 
-            pc.cycle(&reg_a.data, should_jump, NOT(should_jump), 0);
+            pc.cycle(&reg_a.data, should_jump, 1, 0);
         }
     }
 }
