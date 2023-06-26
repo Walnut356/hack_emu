@@ -40,7 +40,7 @@ pub mod utils {
         result
     }
 
-    pub fn decode_instr(instr: &Vec<u8>) {
+    pub fn decode_bitvec_instr(instr: &Vec<u8>) {
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
         let mut a_or_c = match instr[0] {
             0 => {
@@ -107,6 +107,68 @@ pub mod utils {
         };
 
         println!("{a_or_c}: {a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].")
+    }
+
+    pub fn decode_instr(instr: u16) {
+        if instr & 0b1000_0000_0000_0000 == 0 {
+            println!(
+                "load value {} into A register",
+                instr & 0b0111_1111_1111_1111
+            );
+            return;
+        }
+        let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {
+            false => "using value of A as val",
+            true => "using RAM[A] as val",
+        };
+        let cmp = match (instr & 0b0000_1111_1100_0000) >> 6 {
+            0b0000_0000_0010_1010 => "0",
+            0b0000_0000_0011_1111 => "1",
+            0b0000_0000_0011_1010 => "-1",
+            0b0000_0000_0000_1100 => "D",
+            0b0000_0000_0011_0000 => "val",
+            0b0000_0000_0000_1101 => "!D",
+            0b0000_0000_0011_0001 => "!val",
+            0b0000_0000_0000_1111 => "minus D",
+            0b0000_0000_0011_0011 => "minus val",
+            0b0000_0000_0001_1111 => "D + 1",
+            0b0000_0000_0011_0111 => "val + 1",
+            0b0000_0000_0000_1110 => "D - 1",
+            0b0000_0000_0011_0010 => "val - 1",
+            0b0000_0000_0000_0010 => "D + val",
+            0b0000_0000_0001_0011 => "D - val",
+            0b0000_0000_0000_0111 => "val - D",
+            0b0000_0000_0000_0000 => "D & val",
+            0b0000_0000_0001_0101 => "D | val",
+            _ => "Error",
+        };
+
+        let store_in = match (instr & 0b0000_0000_0011_1000) >> 3 {
+            0 => "None",
+            1 => "RAM[A]",
+            2 => "D",
+            3 => "D and RAM[A]",
+            4 => "A",
+            5 => "A and RAM[A]",
+            6 => "A and D",
+            7 => "A, D, and RAM[A]",
+            _ => "Error",
+        };
+
+        let jump = match instr & 0b0000_0000_0000_0111 {
+            0 => "Never",
+            1 => "If greater than",
+            2 => "If equal",
+            3 => "If greater than or equal",
+            4 => "If less than",
+            5 => "If not equal",
+            6 => "If less than or equal",
+            7 => "Always",
+            _ => "Error",
+        };
+
+        println!("{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].")
+
     }
 }
 
@@ -3012,6 +3074,5 @@ mod test {
             ),
             (2, 23456, 14, 23456, 12345, 23456)
         );
-
     }
 }

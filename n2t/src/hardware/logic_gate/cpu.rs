@@ -16,6 +16,7 @@ use super::gates::*;
 use crate::hardware::logic_gate::memory::{InstPtr, Register};
 use crate::hardware::native::memory::RAM32K;
 
+// unscientific benchmark puts the execution time of a single instruction at ~7800ns release/44,000ns debug, which is about 128khz release/23khz debug
 pub struct Computer {
     pub a: Register,
     pub d: Register,
@@ -69,7 +70,7 @@ impl Computer {
                 self.time,
                 int_from_bitvec(&self.pc.val.data)
             );
-            decode_instr(&instr);
+            decode_bitvec_instr(&instr);
         }
 
         self.time += 1;
