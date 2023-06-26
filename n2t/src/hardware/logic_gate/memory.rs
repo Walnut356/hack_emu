@@ -65,7 +65,7 @@ impl Register {
         Register { data: vec![0; 16] }
     }
 
-    fn cycle(&mut self, input: &Vec<u8>, load: u8) {
+    pub fn cycle(&mut self, input: &Vec<u8>, load: u8) {
         for i in 0..16 {
             self.data[i] = MUX(self.data[i], input[i], load);
         }
@@ -285,7 +285,7 @@ impl RAM32K {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct InstPtr {
-    val: Register,
+    pub val: Register,
 }
 
 impl InstPtr {

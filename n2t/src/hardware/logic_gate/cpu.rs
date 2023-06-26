@@ -9,21 +9,78 @@
 // keyboard (16 bits, addr 24,576)
 // TODO ROM32K
 
-use super::memory::*;
+use crate::utils::*;
 
-pub struct CPU {}
+use super::alu::*;
+use super::gates::*;
+use crate::hardware::logic_gate::memory::{InstPtr, Register};
+use crate::hardware::native::memory::RAM32K;
 
-pub struct Computer {
-    pub mem: RAM32K,
-    pub cpu: CPU,
-    // minor liberty to make loading the program and testing less painful. The ROM is doing basically the same thing as
-    // the RAM anyway, except it never changes, so I shouldn't be missing many learning opportunities.
-    pub rom: Vec<u16>,
-}
+pub fn execute(program: Vec<u16>) {
+    // I'm more or less required to use vec's for RAM/ROM as 64k Vec<u8>'s of size 16 is kindof a lot of memory.
+    let rom = program;
 
-impl Computer {
-    pub fn new(program: Vec<u16>) {}
-}
-fn execute() {
-    loop {}
+    loop {
+        let mut reset = false;
+        let mut pc = InstPtr::new();
+        let mut ram = RAM32K::new();
+        let mut reg_a = Register::new();
+        let mut reg_d = Register::new();
+        let mut alu_out: Vec<u8> = vec![0; 16];
+        let mut in_m: Vec<u8> = vec![0; 16];
+        let mut control = ControlBits::new();
+
+        while !reset {
+            // TODO replace 'c' in load bits w/ proper instruction control bit
+
+            // ------------------------------------- Input and register updates ------------------------------------- //
+            //reset = reset input
+            let instr = bitvec_from_int(rom[int_from_bitvec(&pc.val.data) as usize]);
+            control = ControlBits {
+                zx: instr[4],
+                nx: instr[5],
+                zy: instr[6],
+                ny: instr[7],
+                f: instr[8],
+                no: instr[9],
+                zr: control.zr,
+                ng: control.ng,
+            };
+            reg_a.cycle(
+                &multi_MUX(&instr,&alu_out, instr[0]),
+                OR(AND(instr[10], NOT(instr[0])), instr[0]),
+            );
+            reg_d.cycle(&alu_out, AND(instr[11], instr[0]));
+
+            // -------------------------------------- alu processing and output ------------------------------------- //
+            let mut out_m = ALU(
+                &reg_d.data,
+                &multi_MUX(&reg_a.data, &in_m, instr[4]),
+                &mut control,
+            );
+
+            // ick
+            in_m = bitvec_from_int(ram.cycle(
+                int_from_bitvec(&out_m),
+                int_from_bitvec(&reg_a.data[0..15].try_into().unwrap()) & 0b0111_1111_1111_1111,
+                AND(instr[0], instr[12]),
+            ));
+
+            let should_jump = MUX_8(
+                0,
+                control.ng,
+                control.zr,
+                OR(control.ng, control.zr),
+                AND(NOT(control.ng), NOT(control.zr)),
+                NOT(control.zr),
+                NOT(control.ng),
+                1,
+                instr[13],
+                instr[14],
+                instr[15],
+            );
+
+            pc.cycle(&reg_a.data, should_jump, NOT(should_jump), 0);
+        }
+    }
 }

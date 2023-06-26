@@ -44,7 +44,7 @@ pub fn ALU(mut x: u16, mut y: u16, control: &mut ControlBits) -> u16 {
     result
 }
 
-fn bench_native() {
+pub fn bench_native() {
     // use n2t::native::arithmetic::*;
     // use n2t::native::gates::*;
     let mut control = ControlBits {

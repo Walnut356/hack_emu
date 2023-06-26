@@ -19,6 +19,21 @@ pub struct ControlBits {
     pub ng: u8,
 }
 
+impl ControlBits {
+    pub fn new() -> Self {
+        ControlBits {
+            zx: 0,
+            nx: 0,
+            zy: 0,
+            ny: 0,
+            f: 0,
+            no: 0,
+            zr: 0,
+            ng: 0,
+        }
+    }
+}
+
 /// MUX solution
 pub fn mux_ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
     x = multi_MUX(&x, &multi_XOR(&x, &x), control.zx);
@@ -35,15 +50,15 @@ pub fn mux_ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec
 }
 
 /// MUX_4 solution
-pub fn ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
+pub fn ALU(mut x: &Vec<u8>, mut y: &Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
     let not_x = &multi_NOT(&x);
     let not_y = &multi_NOT(&y);
     let zero = &multi_XOR(&x, &x);
     let not_zero = &multi_NOT(zero);
 
-    x = multi_MUX_4(&x, not_x, zero, not_zero, control.zx, control.nx);
+    let temp_x = multi_MUX_4(x, not_x, zero, not_zero, control.zx, control.nx);
 
-    y = multi_MUX_4(&y, not_y, zero, not_zero, control.zy, control.ny);
+    let temp_y = multi_MUX_4(y, not_y, zero, not_zero, control.zy, control.ny);
 
     let x_and_y = multi_AND(&x, &y);
     let x_plus_y = adder(&x, &y);
@@ -79,8 +94,8 @@ pub fn bench_alu() {
     let now = Instant::now();
     for i in 0..10000 {
         val = ALU(
-            vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-            vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            &bitvec_from_int(17),
+            &vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
             &mut control,
         );
     }
