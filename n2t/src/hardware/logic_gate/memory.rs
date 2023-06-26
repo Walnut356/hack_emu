@@ -299,7 +299,7 @@ impl InstPtr {
         let plus_one = incrementer(&self.val.data);
         let temp1 = multi_MUX(&self.val.data, &plus_one, inc);
         let temp2 = multi_MUX(&temp1, &input, load);
-        let out = multi_MUX(&temp2, &multi_NOT(&temp2), reset);
+        let out = multi_MUX(&temp2, &vec![0; 16], reset);
 
         self.val.cycle(&out, 1);
         &self.val.data
