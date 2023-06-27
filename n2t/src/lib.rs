@@ -18,6 +18,10 @@ pub mod hardware {
     }
 }
 
+pub mod software {
+    pub mod assembler;
+}
+
 pub mod utils {
     // kinda disgusting but it'll do.
     pub fn bitvec_from_int(mut int: u16) -> Vec<u8> {
@@ -167,8 +171,9 @@ pub mod utils {
             _ => "Error",
         };
 
-        println!("{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].")
-
+        println!(
+            "{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A]."
+        )
     }
 }
 
