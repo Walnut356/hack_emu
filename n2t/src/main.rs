@@ -6,6 +6,8 @@ use std::path::Path;
 use std::time::Instant;
 
 fn main() {
-    let path = Path::new(r#"C:\Users\ant_b\Documents\Coding Projects\nand_2_tetris\n2t\src\software\asm files\Max.asm"#);
-    to_machine_code(&path)
+    let path = Path::new(r#"src/software/asm files/Pong.asm"#);
+    to_machine_code(&path);
+
+
 }
