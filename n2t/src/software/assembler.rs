@@ -27,38 +27,55 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
     symbol_table.insert("SCREEN".to_string(), 16384);
     symbol_table.insert("KBD".to_string(), 24576);
 
-    let mut first_pass: Vec<String> = Vec::new();
+    let mut var_counter = 16u16;
+    let mut first_pass: Vec<&str> = Vec::new();
 
     for line in buffer.lines() {
+        // it's kinda dumb, but i have to do this otherwise the var counter drifts forward due to A instructions
+        // that represent jump labels that haven't been defined yet.
+        let mut trimmed = line.trim();
+        trimmed = trimmed.split_whitespace().next().unwrap_or(trimmed);
+
+        if trimmed.starts_with('(') {
+            symbol_table.insert(trimmed[1..trimmed.len() - 1].to_string(), 0u16);
+        }
+        first_pass.push(trimmed)
+    }
+
+    let mut second_pass = Vec::new();
+
+    for line in first_pass {
         // I could probably use regex but it seems a bit excessive for something so constrained
         if line.starts_with("//") | line.is_empty() {
             continue;
         }
 
-        let mut trimmed = line.trim();
-        trimmed = trimmed.split_whitespace().next().unwrap_or(trimmed);
-
-        if trimmed.starts_with('(') {
+        if line.starts_with('(') {
             symbol_table.insert(
-                trimmed[1..trimmed.len() - 1].to_string(),
-                first_pass.len() as u16,
+                line[1..line.len() - 1].to_string(),
+                second_pass.len() as u16,
             );
             continue;
         }
-        if trimmed.starts_with('@') {
-            first_pass.push(trimmed.to_string());
-            if let Ok(num) = trimmed[1..].parse::<u16>() {
+        if line.starts_with('@') {
+            if line == "@math.1" {
+                println!("");
+            }
+            second_pass.push(line.to_string());
+            if let Ok(num) = line[1..].parse::<u16>() {
                 continue;
             } else {
-                match symbol_table.get(trimmed[1..].trim()) {
+                match symbol_table.get(&line[1..].to_string()) {
                     Some(_) => continue,
-                    None => symbol_table
-                        .insert(trimmed[1..].trim().to_string(), symbol_table.len() as u16),
+                    None => {
+                        symbol_table.insert(line[1..].to_string(), var_counter);
+                        var_counter += 1;
+                    }
                 };
             }
             continue;
         }
-        first_pass.push(trimmed.to_string());
+        second_pass.push(line.to_string());
     }
 
     let mut out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
@@ -68,7 +85,7 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
 
     let mut output = String::new();
 
-    for instr in first_pass {
+    for instr in second_pass {
         let mut code = 0u16;
 
         // a instruction

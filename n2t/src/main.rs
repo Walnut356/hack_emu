@@ -8,6 +8,4 @@ use std::time::Instant;
 fn main() {
     let path = Path::new(r#"src/software/asm files/Pong.asm"#);
     to_machine_code(&path);
-
-
 }
