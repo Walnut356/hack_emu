@@ -58,9 +58,6 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
             continue;
         }
         if line.starts_with('@') {
-            if line == "@math.1" {
-                println!("");
-            }
             second_pass.push(line.to_string());
             if let Ok(num) = line[1..].parse::<u16>() {
                 continue;
@@ -147,7 +144,7 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
             "!D" => code |= 0b0000_0011_0100_0000,
             "!A" | "!M" => code |= 0b0000_1100_0100_0000,
             "-D" => code |= 0b0000_0011_1100_0000,
-            "-A" | "!M" => code |= 0b0000_1100_1100_0000,
+            "-A" | "-M" => code |= 0b0000_1100_1100_0000,
             "D+1" => code |= 0b0000_0111_1100_0000,
             "A+1" | "M+1" => code |= 0b0000_1101_1100_0000,
             "D-1" => code |= 0b0000_0011_1000_0000,
