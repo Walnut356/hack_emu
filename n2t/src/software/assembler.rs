@@ -4,13 +4,14 @@ use std::io::{prelude::*, BufReader};
 use std::path::{Path, PathBuf};
 
 pub fn to_machine_code(path: &Path) -> PathBuf {
+    assert_eq!(path.extension().unwrap(), "asm");
     let file = File::open(path).unwrap();
     // let mut output = File::create(path.parent().unwrap()).unwrap();
     let mut stream = BufReader::new(file);
 
     let mut buffer = String::new();
 
-    stream.read_to_string(&mut buffer);
+    stream.read_to_string(&mut buffer).unwrap();
 
     let mut symbol_table: HashMap<String, u16> = HashMap::new();
 
@@ -59,7 +60,7 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
         }
         if line.starts_with('@') {
             second_pass.push(line.to_string());
-            if let Ok(num) = line[1..].parse::<u16>() {
+            if let Ok(_num) = line[1..].parse::<u16>() {
                 continue;
             } else {
                 match symbol_table.get(&line[1..].to_string()) {

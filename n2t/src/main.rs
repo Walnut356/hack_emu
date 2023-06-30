@@ -6,6 +6,6 @@ use std::path::Path;
 use std::time::Instant;
 
 fn main() {
-    let path = Path::new(r#"src/software/asm files/Pong.asm"#);
+    let path = Path::new(r#"../ch 6 asm files\Pong.asm"#);
     to_machine_code(&path);
 }

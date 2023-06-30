@@ -20,6 +20,7 @@ pub mod hardware {
 
 pub mod software {
     pub mod assembler;
+    pub mod vm;
 }
 
 pub mod utils {
