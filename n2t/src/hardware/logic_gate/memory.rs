@@ -1,5 +1,3 @@
-use std::iter::zip;
-
 use crate::hardware::logic_gate::arithmetic::incrementer;
 use crate::hardware::logic_gate::gates::*;
 

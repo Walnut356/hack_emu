@@ -24,6 +24,32 @@ pub mod software {
 }
 
 pub mod utils {
+    use std::{
+        fs::File,
+        io::{BufReader, Read},
+        path::Path,
+    };
+
+    pub fn get_file_buffer(path: &Path, ext: &str) -> String {
+        assert_eq!(
+            path.extension().unwrap(),
+            ext,
+            "Expected file extension '{:?}', got file extension {:?}",
+            ext,
+            path.extension().unwrap()
+        );
+
+        let file = File::open(path).unwrap();
+
+        let mut stream = BufReader::new(file);
+
+        let mut buffer = String::new();
+
+        stream.read_to_string(&mut buffer).unwrap();
+
+        buffer
+    }
+
     // kinda disgusting but it'll do.
     pub fn bitvec_from_int(mut int: u16) -> Vec<u8> {
         let mut result = Vec::new();
@@ -47,7 +73,7 @@ pub mod utils {
 
     pub fn decode_bitvec_instr(instr: &Vec<u8>) {
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
-        let mut a_or_c = match instr[0] {
+        let a_or_c = match instr[0] {
             0 => {
                 println!(
                     "a instr: load value {} into A register",

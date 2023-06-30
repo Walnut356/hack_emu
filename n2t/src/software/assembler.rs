@@ -1,17 +1,14 @@
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::{prelude::*, BufReader};
+use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
+use crate::utils::get_file_buffer;
+
+/// Accepts a Path to a ".asm" file, returns a Path to the generated machine code file
+/// with the ".hack" extension
 pub fn to_machine_code(path: &Path) -> PathBuf {
-    assert_eq!(path.extension().unwrap(), "asm");
-    let file = File::open(path).unwrap();
-    // let mut output = File::create(path.parent().unwrap()).unwrap();
-    let mut stream = BufReader::new(file);
-
-    let mut buffer = String::new();
-
-    stream.read_to_string(&mut buffer).unwrap();
+    let buffer = get_file_buffer(path, "asm");
 
     let mut symbol_table: HashMap<String, u16> = HashMap::new();
 
@@ -84,7 +81,7 @@ pub fn to_machine_code(path: &Path) -> PathBuf {
     let mut output = String::new();
 
     for instr in second_pass {
-        let mut code = 0u16;
+        let mut code: u16;
 
         // a instruction
         if instr.starts_with("@") {

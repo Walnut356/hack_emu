@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use std::time::Instant;
 
 use crate::hardware::logic_gate::arithmetic::*;
@@ -50,7 +52,7 @@ pub fn mux_ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec
 }
 
 /// MUX_4 solution
-pub fn ALU(mut x: &Vec<u8>, mut y: &Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
+pub fn ALU(x: &Vec<u8>, y: &Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
     let not_x = &multi_NOT(&x);
     let not_y = &multi_NOT(&y);
     let zero = &multi_XOR(&x, &x);
@@ -63,7 +65,7 @@ pub fn ALU(mut x: &Vec<u8>, mut y: &Vec<u8>, control: &mut ControlBits) -> Vec<u
     let x_and_y = multi_AND(&temp_x, &temp_y);
     let x_plus_y = adder(&temp_x, &temp_y);
 
-    let mut result = multi_MUX_4(
+    let result = multi_MUX_4(
         &x_and_y,
         &multi_NOT(&x_and_y),
         &x_plus_y,
@@ -92,7 +94,7 @@ pub fn bench_alu() {
     let mut val = vec![0; 16];
 
     let now = Instant::now();
-    for i in 0..10000 {
+    for _ in 0..10000 {
         val = ALU(
             &bitvec_from_int(17),
             &vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],

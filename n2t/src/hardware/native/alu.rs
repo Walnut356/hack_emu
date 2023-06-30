@@ -1,6 +1,7 @@
+#![allow(non_snake_case)]
+
 use super::cpu::ControlBits;
 use enumflags2::BitFlags;
-use std::time::Instant;
 
 pub fn ALU(mut x: u16, mut y: u16, control: &mut BitFlags<ControlBits>) -> u16 {
     if control.contains(ControlBits::ZeroX) {

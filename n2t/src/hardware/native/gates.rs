@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 /// most of the functions of gates are supplanted by basics like &, |, ^, etc.
 /// for consistency i'll go ahead and write it out though
 
