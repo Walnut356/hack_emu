@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
 
-use n2t::hardware::logic_gate::cpu::Computer;
+use n2t::hardware::native::cpu::Computer;
 use n2t::software::assembler::*;
 use n2t::software::vm::*;
 use n2t::utils::*;
@@ -10,5 +10,13 @@ use std::time::Instant;
 
 fn main() {
     let path = Path::new(r#"../ch 7 vm files/SimpleAdd.vm"#);
-    translate(&path);
+    let asm = vm_to_asm(&path);
+    let machine = asm_to_hack(&asm);
+    let program = hack_to_vec(&machine);
+
+    let mut cpu = Computer::new(program);
+    let mut i = 50;
+    while cpu.execute(false, true) {}
+
+    println!("{:?}", cpu.a);
 }
