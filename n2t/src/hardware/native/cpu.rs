@@ -56,19 +56,28 @@ impl Computer {
         }
     }
 
-    pub fn execute(&mut self, reset: bool, log: bool) {
+    /// executes the instruction pointed to by `self.pc` in `self.rom`.
+    ///
+    /// Returns true if execution should continue, returns false if an infinite loop is hit and execution should reset
+    /// or terminate.
+    pub fn execute(&mut self, reset: bool, log: bool) -> bool{
         self.time += 1;
         let instr = self.rom[self.pc as usize];
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
 
         if log {
-            println!("Cycle: {}, PC: {}, inst: {:b}", self.time, self.pc, instr);
-            decode_instr(instr);
             println!(
-                "a register: {}, d register: {}, alu_out: {}, out_m: {}\n",
-                self.a, self.d, self.alu_out, self.m_in
+                "\na register: {}, d register: {}, alu_out: {}, out_m: {}\nRAM[A]: {}, Stack Ptr: {}, RAM[Stack Ptr]: {}\n",
+                self.a, self.d, self.alu_out, self.m_in, self.ram[self.a as usize], self.ram[0], self.ram[self.ram[0] as usize]
             );
+            println!(
+                "Cycle: {}, PC: {}, inst: {:016b}",
+                self.time, self.pc, instr
+            );
+            decode_instr(instr);
         }
+
+        if (instr == 0b1110101010000111) && (self.a == self.pc - 1) { return false };
 
         let out_bits = self.flags.bits() & 0b0000_0011;
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;
@@ -82,28 +91,32 @@ impl Computer {
         if instr_type == InstrType::A {
             self.a = instr;
         }
-        if (instr_type == InstrType::C) & (instr & 0b0000_0000_0010_0000 > 0) {
-            self.a = self.alu_out;
-        }
 
         let input = match (0b0001_0000_0000_0000 & instr) == 0 {
             true => self.a,
             false => self.m_in,
         };
 
+        // calc
         self.alu_out = ALU(self.d, input, &mut self.flags);
 
-        if (instr_type == InstrType::C) & ((instr & 0b0000_0000_0001_0000) > 0) {
+        // set output values
+        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0001_0000) > 0) {
             self.d = self.alu_out
+        }
+
+        if (instr_type == InstrType::C) && (instr & 0b0000_0000_0010_0000 > 0) {
+            self.a = self.alu_out;
         }
 
         let addr = (self.a & 0b0111_1111_1111_1111) as usize;
 
-        if (instr_type == InstrType::C) & ((instr & 0b0000_0000_0000_1000) > 0) {
+        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0000_1000) > 0) {
             self.ram[addr] = self.alu_out;
         }
         self.m_in = self.ram[addr];
 
+        // jump check
         let mut should_jump = false;
 
         if instr_type == InstrType::C {
@@ -129,5 +142,7 @@ impl Computer {
         if reset {
             self.pc = 0
         }
+
+        return true
     }
 }
