@@ -7,7 +7,7 @@ use crate::utils::get_file_buffer;
 
 /// Accepts a Path to a ".asm" file, returns a Path to the generated machine code file
 /// with the ".hack" extension
-pub fn to_machine_code(path: &Path) -> PathBuf {
+pub fn asm_to_hack(path: &Path) -> PathBuf {
     let buffer = get_file_buffer(path, "asm");
 
     let mut symbol_table: HashMap<String, u16> = HashMap::new();

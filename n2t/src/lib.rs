@@ -30,6 +30,16 @@ pub mod utils {
         path::Path,
     };
 
+    pub fn hack_to_vec(path: &Path) -> Vec<u16> {
+        let buffer = get_file_buffer(path, "hack");
+        let mut program = Vec::new();
+
+        for line in buffer.lines() {
+            program.push(u16::from_str_radix(line, 2).expect("Not a binary number"))
+        }
+        program
+    }
+
     pub fn get_file_buffer(path: &Path, ext: &str) -> String {
         assert_eq!(
             path.extension().unwrap(),
@@ -40,11 +50,8 @@ pub mod utils {
         );
 
         let file = File::open(path).unwrap();
-
         let mut stream = BufReader::new(file);
-
         let mut buffer = String::new();
-
         stream.read_to_string(&mut buffer).unwrap();
 
         buffer
@@ -149,7 +156,7 @@ pub mod utils {
             return;
         }
         let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {
-            false => "using value of A as val",
+            false => "using A as val",
             true => "using RAM[A] as val",
         };
         let cmp = match (instr & 0b0000_1111_1100_0000) >> 6 {
@@ -199,7 +206,7 @@ pub mod utils {
         };
 
         println!(
-            "{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A]."
+            "{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].\n"
         )
     }
 }
