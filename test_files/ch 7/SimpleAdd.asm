@@ -10,7 +10,7 @@ D=A
 A=M
 M=D
 @SP
-M=M+1
+AM=M+1
 //push constant 8
 @8
 D=A
@@ -18,20 +18,16 @@ D=A
 A=M
 M=D
 @SP
-M=M+1
+AM=M+1
 //add
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 M=D+M
 @SP
-M=M+1
+AM=M+1
 (INFINITE_LOOP)
 @INFINITE_LOOP
 0;JMP
