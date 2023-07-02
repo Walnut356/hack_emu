@@ -66,6 +66,10 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
     let mut ptrs = Pointers::default();
 
+    let mut eq_count = 0;
+    let mut lt_count = 0;
+    let mut gt_count = 0;
+
     for line in buffer.lines() {
         if line.starts_with("//") | line.is_empty() {
             continue;
@@ -87,6 +91,23 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
             "push" => output.push_str(push(loc, val, &mut ptrs).as_str()),
             "pop" => output.push_str(pop(loc).as_str()),
             "add" => output.push_str(add().as_str()),
+            "sub" => output.push_str(sub().as_str()),
+            "eq" => {
+                output.push_str(eq(eq_count).as_str());
+                eq_count += 1;
+            }
+            "lt" => {
+                output.push_str(lt(lt_count).as_str());
+                eq_count += 1;
+            }
+            "gt" => {
+                output.push_str(gt(gt_count).as_str());
+                eq_count += 1;
+            }
+            "and" => output.push_str(and().as_str()),
+            "or" => output.push_str(or().as_str()),
+            "not" => output.push_str(not().as_str()),
+            "neg" => output.push_str(neg().as_str()),
             val => panic!("Invalid instruction {val}"),
         }
     }
@@ -117,7 +138,9 @@ fn push<'a>(loc: &str, val: &str, ptrs: &mut Pointers) -> String {
         "this" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("THIS")).as_str()),
         "that" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("THAT")).as_str()),
         "temp" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("TEMP")).as_str()),
-        "static" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("STATIC")).as_str()),
+        "static" => {
+            result.push_str(format!("{}{}", set_d_const(val), set_mem_d("STATIC")).as_str())
+        }
         val => panic!("Invalid push location: {val}"),
     }
 
@@ -125,11 +148,116 @@ fn push<'a>(loc: &str, val: &str, ptrs: &mut Pointers) -> String {
 }
 
 fn pop(loc: &str) -> String {
-    format!("{}{}", decr_ptr(loc), set_d_mem(loc))
+    format!("{}{}", decr_ptr(loc), "D=M\n")
 }
 
+// binary ops
 fn add() -> String {
-    format!("{}{}{}M=D+M\n{}", pop("SP"), decr_ptr("SP"), set_a_ptr("SP"), incr_ptr("SP"))
+    format!(
+        "{}{}{}{}",
+        pop("SP"),
+        decr_ptr("SP"),
+        "M=D+M\n",
+        incr_ptr("SP")
+    )
+}
+
+fn sub() -> String {
+    format!(
+        "{}{}{}{}",
+        pop("SP"),
+        decr_ptr("SP"),
+        "M=D-M\n",
+        incr_ptr("SP")
+    )
+}
+
+fn and() -> String {
+    format!(
+        "{}{}{}{}",
+        pop("SP"),
+        decr_ptr("SP"),
+        "M=D&M\n",
+        incr_ptr("SP")
+    )
+}
+
+fn or() -> String {
+    format!(
+        "{}{}{}{}",
+        pop("SP"),
+        decr_ptr("SP"),
+        "M=D|M\n",
+        incr_ptr("SP")
+    )
+}
+
+// unary ops
+fn not() -> String {
+    // No need to manipulate the stack pointer when the value is being removed and put straight back on.
+    format!("@SP\nA=M-1\nM=!M\n")
+}
+
+fn neg() -> String {
+    format!("@SP\nA=M-1\nM=-M\n")
+}
+
+// comparisons
+fn eq(eq_count: u16) -> String {
+    format!(
+        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        pop("SP"),
+        "A=A-1\n",
+        "D=M-D\n",
+        "M=-1\n",
+        "@EQ_",
+        eq_count,
+        "\nD;JEQ\n",
+        "// if not equal\n",
+        "@SP\n",
+        "A=M-1\n",
+        "M=0\n",
+        "(EQ_",
+        eq_count,
+    )
+}
+
+fn lt(lt_count: u16) -> String {
+    format!(
+        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        pop("SP"),
+        "A=A-1\n",
+        "D=M-D\n",
+        "M=-1\n",
+        "@LT_",
+        lt_count,
+        "\nD;JEQ\n",
+        "// if not equal\n",
+        "@SP\n",
+        "A=M-1\n",
+        "M=0\n",
+        "(LT_",
+        lt_count,
+    )
+}
+
+fn gt(gt_count: u16) -> String {
+    format!(
+        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        pop("SP"),
+        "A=A-1\n",
+        "D=M-D\n",
+        "M=-1\n",
+        "@GT_",
+        gt_count,
+        "\nD;JEQ\n",
+        "// if not equal\n",
+        "@SP\n",
+        "A=M-1\n",
+        "M=0\n",
+        "(GT_",
+        gt_count,
+    )
 }
 
 // Drop-in instructions for use in compound statements
@@ -150,10 +278,12 @@ fn set_d_const(val: &str) -> String {
     format!("@{val}\nD=A\n")
 }
 
+/// leaves A as the post-incr memory location
 fn incr_ptr(ptr: &str) -> String {
-    format!("@{ptr}\nM=M+1\n")
+    format!("@{ptr}\nAM=M+1\n")
 }
 
+/// leaves A as the post-decr memory location
 fn decr_ptr(ptr: &str) -> String {
-    format!("@{ptr}\nM=M-1\n")
+    format!("@{ptr}\nAM=M-1\n")
 }

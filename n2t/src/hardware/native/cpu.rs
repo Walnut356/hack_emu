@@ -60,7 +60,7 @@ impl Computer {
     ///
     /// Returns true if execution should continue, returns false if an infinite loop is hit and execution should reset
     /// or terminate.
-    pub fn execute(&mut self, reset: bool, log: bool) -> bool{
+    pub fn execute(&mut self, reset: bool, log: bool) -> bool {
         self.time += 1;
         let instr = self.rom[self.pc as usize];
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
@@ -77,7 +77,9 @@ impl Computer {
             decode_instr(instr);
         }
 
-        if (instr == 0b1110101010000111) && (self.a == self.pc - 1) { return false };
+        if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
+            return false;
+        };
 
         let out_bits = self.flags.bits() & 0b0000_0011;
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;
@@ -90,31 +92,35 @@ impl Computer {
 
         if instr_type == InstrType::A {
             self.a = instr;
+            self.pc += 1;
+            return true;
         }
 
         let input = match (0b0001_0000_0000_0000 & instr) == 0 {
             true => self.a,
-            false => self.m_in,
+            false => self.ram[(self.a & 0b0111_1111_1111_1111) as usize],
         };
 
         // calc
         self.alu_out = ALU(self.d, input, &mut self.flags);
 
         // set output values
-        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0001_0000) > 0) {
-            self.d = self.alu_out
-        }
-
-        if (instr_type == InstrType::C) && (instr & 0b0000_0000_0010_0000 > 0) {
-            self.a = self.alu_out;
-        }
-
         let addr = (self.a & 0b0111_1111_1111_1111) as usize;
 
         if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0000_1000) > 0) {
             self.ram[addr] = self.alu_out;
         }
-        self.m_in = self.ram[addr];
+
+        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0001_0000) > 0) {
+            self.d = self.alu_out
+        }
+
+        // this needs to happen after RAM is updated, otherwise the target RAM address is incorrect
+        if (instr_type == InstrType::C) && (instr & 0b0000_0000_0010_0000 > 0) {
+            self.a = self.alu_out;
+        }
+
+        self.m_in = self.ram[(self.a & 0b0111_1111_1111_1111) as usize];
 
         // jump check
         let mut should_jump = false;
@@ -143,6 +149,16 @@ impl Computer {
             self.pc = 0
         }
 
-        return true
+        return true;
+    }
+
+    /// Executes until self.pc = pc_stop
+    pub fn run_until(&mut self, pc_stop: u16, reset: bool, log: bool) -> bool {
+        assert!(pc_stop <= self.rom.len() as u16);
+        let mut cont = false;
+        while self.pc != pc_stop {
+            cont = self.execute(reset, log);
+        }
+        cont
     }
 }
