@@ -4,8 +4,6 @@ Implemented by me in Rust, following the specification described in The Elements
 
 Contains:
 
-logic gate and native-rust cpu implementations
-
-assembler
-
-vm
+* logic gate and native-rust cpu implementations
+* assembler
+* vm
