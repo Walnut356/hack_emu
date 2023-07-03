@@ -9,15 +9,14 @@ use std::path::Path;
 use std::time::Instant;
 
 fn main() {
-    let path = Path::new(r#"..\test_files\ch 7\BasicTest.vm"#);
+    let path = Path::new(r#"..\test_files\ch 7\PointerTest.vm"#);
     let asm = vm_to_asm(&path);
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
     let mut cpu = Computer::new(program);
 
-    while cpu.execute(false, true) {
-    }
+    while cpu.execute(false, true) {}
 
     println!("{:?}", cpu.a);
 }

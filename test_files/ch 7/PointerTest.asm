@@ -23,18 +23,18 @@ M=D
 D=A
 @THAT
 M=D
-//push constant 10
-@10
+//push constant 3030
+@3030
 D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-//pop local 0
+//pop pointer 0
 @0
 D=A
-@LCL
+@POINTER
 A=D+M
 D=A
 @R13
@@ -45,40 +45,18 @@ D=M
 @R13
 A=M
 M=D
-//push constant 21
-@21
+//push constant 3040
+@3040
 D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-//push constant 22
-@22
-D=A
-@SP
-A=M
-M=D
-@SP
-AM=M+1
-//pop argument 2
-@2
-D=A
-@ARG
-A=D+M
-D=A
-@R13
-M=D
-@SP
-AM=M-1
-D=M
-@R13
-A=M
-M=D
-//pop argument 1
+//pop pointer 1
 @1
 D=A
-@ARG
+@POINTER
 A=D+M
 D=A
 @R13
@@ -89,16 +67,16 @@ D=M
 @R13
 A=M
 M=D
-//push constant 36
-@36
+//push constant 32
+@32
 D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-//pop this 6
-@6
+//pop this 2
+@2
 D=A
 @THIS
 A=D+M
@@ -111,24 +89,16 @@ D=M
 @R13
 A=M
 M=D
-//push constant 42
-@42
+//push constant 46
+@46
 D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-//push constant 45
-@45
-D=A
-@SP
-A=M
-M=D
-@SP
-AM=M+1
-//pop that 5
-@5
+//pop that 6
+@6
 D=A
 @THAT
 A=D+M
@@ -141,43 +111,10 @@ D=M
 @R13
 A=M
 M=D
-//pop that 2
-@2
-D=A
-@THAT
-A=D+M
-D=A
-@R13
-M=D
-@SP
-AM=M-1
-D=M
-@R13
-A=M
-M=D
-//push constant 510
-@510
-D=A
-@SP
-A=M
-M=D
-@SP
-AM=M+1
-//pop temp 6
-@R11
-D=A
-@R13
-M=D
-@SP
-AM=M-1
-D=M
-@R13
-A=M
-M=D
-//push local 0
+//push pointer 0
 @0
 D=A
-@LCL
+@POINTER
 A=D+M
 D=M
 @SP
@@ -185,10 +122,10 @@ A=M
 M=D
 @SP
 AM=M+1
-//push that 5
-@5
+//push pointer 1
+@1
 D=A
-@THAT
+@POINTER
 A=D+M
 D=M
 @SP
@@ -205,10 +142,10 @@ AM=M-1
 M=D+M
 @SP
 AM=M+1
-//push argument 1
-@1
+//push this 2
+@2
 D=A
-@ARG
+@THIS
 A=D+M
 D=M
 @SP
@@ -225,48 +162,11 @@ AM=M-1
 M=M-D
 @SP
 AM=M+1
-//push this 6
+//push that 6
 @6
 D=A
-@THIS
+@THAT
 A=D+M
-D=M
-@SP
-A=M
-M=D
-@SP
-AM=M+1
-//push this 6
-@6
-D=A
-@THIS
-A=D+M
-D=M
-@SP
-A=M
-M=D
-@SP
-AM=M+1
-//add
-@SP
-AM=M-1
-D=M
-@SP
-AM=M-1
-M=D+M
-@SP
-AM=M+1
-//sub
-@SP
-AM=M-1
-D=M
-@SP
-AM=M-1
-M=M-D
-@SP
-AM=M+1
-//push temp 6
-@R11
 D=M
 @SP
 A=M

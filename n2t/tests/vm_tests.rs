@@ -40,7 +40,7 @@ fn test_stacktest() {
         cpu.ram[0], 266,
         "Stack pointer pointing to incorrect memory location"
     );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), -115);
+    assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), !((28 & 57) | 82));
 }
 
 #[test]
@@ -59,9 +59,33 @@ fn test_basictest() {
     assert_eq!(cpu.ram[11], 510);
 }
 
+#[test]
+fn test_pointertest() {
+    let mut cpu = get_computer("../test_files/ch 7/PointerTest.vm");
+
+    cpu.ram[16] = 3; // initializing "pointer" variable as is presumably done in the official test file.
+
+    while cpu.execute(false, false) {}
+
+    assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 6084);
+    assert_eq!(cpu.ram[3], 3030);
+    assert_eq!(cpu.ram[4], 3040);
+    assert_eq!(cpu.ram[3032], 32);
+    assert_eq!(cpu.ram[3046], 46);
+}
+
+#[test]
+fn test_statictest() {
+    let mut cpu = get_computer("../test_files/ch 7/StaticTest.vm");
+
+    while cpu.execute(false, false) {}
+
+    assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1110);
+}
+
 // thorough stack test
 // #[test]
-// fn test_stacktest() {
+// fn test_stepwise_stacktest() {
 //     let path = Path::new(r#"../test_files/ch 7/StackTest.vm"#);
 //     let asm = vm_to_asm(&path);
 //     let machine = asm_to_hack(&asm);
@@ -69,7 +93,7 @@ fn test_basictest() {
 
 //     let mut cpu = Computer::new(program);
 
-//     let mut pc_stop = 29;
+//     let mut pc_stop = 45;
 
 //     // ----------------------------------------------------- EQ ----------------------------------------------------- //
 //     cpu.run_until(pc_stop, false, false);
@@ -155,7 +179,7 @@ fn test_basictest() {
 //         cpu.ram[0], 267,
 //         "Stack pointer pointing to incorrect memory location"
 //     );
-//     assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), 28);
+//     assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), -28);
 
 //     // negate prev result
 //     pc_stop += 3;
@@ -164,7 +188,7 @@ fn test_basictest() {
 //         cpu.ram[0], 267,
 //         "Stack pointer pointing to incorrect memory location"
 //     );
-//     assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), -28);
+//     assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), 28);
 
 //     // and prev result with 84
 //     pc_stop += 8;
@@ -173,7 +197,7 @@ fn test_basictest() {
 //         cpu.ram[0], 266,
 //         "Stack pointer pointing to incorrect memory location"
 //     );
-//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), -28 & 57); // should be 32
+//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), 28 & 57); // should be 32
 
 //     // push 82, or 82 with prev result
 //     pc_stop += 14;
@@ -182,7 +206,7 @@ fn test_basictest() {
 //         cpu.ram[0], 266,
 //         "Stack pointer pointing to incorrect memory location"
 //     );
-//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), 32 | 82); // should be 114
+//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), (28 & 57) | 82); // should be 114
 
 //     // not prev result
 //     pc_stop += 4;
@@ -191,5 +215,5 @@ fn test_basictest() {
 //         cpu.ram[0], 266,
 //         "Stack pointer pointing to incorrect memory location"
 //     );
-//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), -115); // not 114 should be -115
+//     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), !((28 & 57) | 82)); // not 114 should be -115
 // }

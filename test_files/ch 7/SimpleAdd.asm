@@ -1,24 +1,24 @@
-//init stack pointer
+//init 'stack' pointer
 @256
 D=A
 @SP
 M=D
-//init local pointer
+//init 'local' pointer
 @300
 D=A
 @LCL
 M=D
-//init argument pointer
+//init 'argument' pointer
 @400
 D=A
 @ARG
 M=D
-//init this pointer
+//init 'this' pointer
 @3000
 D=A
 @THIS
 M=D
-//init that pointer
+//init 'that' pointer
 @3010
 D=A
 @THAT
