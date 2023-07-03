@@ -147,66 +147,88 @@ pub mod utils {
         println!("{a_or_c}: {a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].")
     }
 
-    pub fn decode_instr(instr: u16) {
+    pub fn decode_instr(instr: u16, vars: &[u16]) {
         if instr & 0b1000_0000_0000_0000 == 0 {
-            println!(
-                "load value {} into A register",
-                instr & 0b0111_1111_1111_1111
-            );
+            let val = instr & 0b0111_1111_1111_1111;
+            match val {
+                0 => println!("@SP"),
+                1 => println!("@LCL"),
+                2 => println!("@ARG"),
+                3 => println!("@THIS"),
+                4 => println!("@THAT"),
+                5 => println!("@R5"),
+                6 => println!("@R6"),
+                7 => println!("@R7"),
+                8 => println!("@R8"),
+                9 => println!("@R9"),
+                10 => println!("@R10"),
+                11 => println!("@R11"),
+                12 => println!("@R12"),
+                13 => println!("@R13"),
+                14 => println!("@R14"),
+                15 => println!("@R15"),
+                _ => println!("@{val}"),
+            }
+
             return;
         }
         let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {
-            false => "using A as val",
-            true => "using RAM[A] as val",
+            false => "A",
+            true => "M",
         };
+
         let cmp = match (instr & 0b0000_1111_1100_0000) >> 6 {
-            0b0000_0000_0010_1010 => "0",
-            0b0000_0000_0011_1111 => "1",
-            0b0000_0000_0011_1010 => "-1",
-            0b0000_0000_0000_1100 => "D",
-            0b0000_0000_0011_0000 => "val",
-            0b0000_0000_0000_1101 => "!D",
-            0b0000_0000_0011_0001 => "!val",
-            0b0000_0000_0000_1111 => "-D",
-            0b0000_0000_0011_0011 => "-val",
-            0b0000_0000_0001_1111 => "D + 1",
-            0b0000_0000_0011_0111 => "val + 1",
-            0b0000_0000_0000_1110 => "D - 1",
-            0b0000_0000_0011_0010 => "val - 1",
-            0b0000_0000_0000_0010 => "D + val",
-            0b0000_0000_0001_0011 => "D - val",
-            0b0000_0000_0000_0111 => "val - D",
-            0b0000_0000_0000_0000 => "D & val",
-            0b0000_0000_0001_0101 => "D | val",
-            _ => "Error",
+            0b0000_0000_0010_1010 => "0".to_owned(),
+            0b0000_0000_0011_1111 => "1".to_owned(),
+            0b0000_0000_0011_1010 => "-1".to_owned(),
+            0b0000_0000_0000_1100 => "D".to_owned(),
+            0b0000_0000_0011_0000 => a_or_m.to_owned(),
+            0b0000_0000_0000_1101 => "!D".to_owned(),
+            0b0000_0000_0011_0001 => format!("!{a_or_m}"),
+            0b0000_0000_0000_1111 => "-D".to_owned(),
+            0b0000_0000_0011_0011 => format!("-{a_or_m}"),
+            0b0000_0000_0001_1111 => "D+1".to_owned(),
+            0b0000_0000_0011_0111 => format!("{a_or_m}+1"),
+            0b0000_0000_0000_1110 => "D-1".to_owned(),
+            0b0000_0000_0011_0010 => format!("{a_or_m}-1"),
+            0b0000_0000_0000_0010 => format!("D+{a_or_m}"),
+            0b0000_0000_0001_0011 => format!("D-{a_or_m}"),
+            0b0000_0000_0000_0111 => format!("{a_or_m}-D"),
+            0b0000_0000_0000_0000 => format!("D & {a_or_m}"),
+            0b0000_0000_0001_0101 => format!("D | {a_or_m}"),
+            _ => "Error".to_owned(),
         };
 
         let store_in = match (instr & 0b0000_0000_0011_1000) >> 3 {
-            0 => "None",
-            1 => "RAM[A]",
-            2 => "D",
-            3 => "D and RAM[A]",
-            4 => "A",
-            5 => "A and RAM[A]",
-            6 => "A and D",
-            7 => "A, D, and RAM[A]",
+            0 => "",
+            1 => "M=",
+            2 => "D=",
+            3 => "DM=",
+            4 => "A=",
+            5 => "AM=",
+            6 => "AD=",
+            7 => "ADM=",
             _ => "Error",
         };
 
         let jump = match instr & 0b0000_0000_0000_0111 {
-            0 => "Never",
-            1 => "If greater than",
-            2 => "If equal",
-            3 => "If greater than or equal",
-            4 => "If less than",
-            5 => "If not equal",
-            6 => "If less than or equal",
-            7 => "Always",
+            0 => "",
+            1 => "; Jump if greater than",
+            2 => "; Jump if equal",
+            3 => "; Jump if greater than or equal",
+            4 => "; Jump if less than",
+            5 => "; Jump if not equal",
+            6 => "; Jump if less than or equal",
+            7 => "; Unconditional jump",
             _ => "Error",
         };
+        let out = format!("{store_in}{cmp}{jump}");
+        let mut temp_out = cmp.replace("A", &vars[0].to_string());
+        temp_out = temp_out.replace("D", &vars[1].to_string());
+        temp_out = temp_out.replace("M", &vars[2].to_string());
 
-        println!(
-            "{a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].\n"
-        )
+        let out2 = format!("{store_in}{temp_out}");
+
+        println!("{out} | {out2}")
     }
 }
