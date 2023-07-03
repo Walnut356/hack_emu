@@ -12,7 +12,7 @@ fn get_computer(file_path: &str) -> Computer {
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
-    let mut cpu = Computer::new(program);
+    let cpu = Computer::new(program);
 
     cpu
 }

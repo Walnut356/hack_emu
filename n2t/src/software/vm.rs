@@ -1,4 +1,4 @@
-#![allow(unused)]
+#![allow(unused, non_camel_case_types)]
 
 use crate::utils::get_file_buffer;
 use lazy_static::lazy_static;
@@ -9,13 +9,6 @@ use std::io::{prelude::*, BufReader};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::{clone, fmt};
-
-// TODO
-// constants/memory mappings
-// translate functions:
-//  add, sub, neg
-//  eq, gt, lt
-//  and, or, not
 
 const STACK_START: usize = 256;
 const STACK_MAX: usize = 2047;
