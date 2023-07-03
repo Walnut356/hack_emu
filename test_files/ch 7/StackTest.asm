@@ -3,6 +3,26 @@
 D=A
 @SP
 M=D
+//init local pointer
+@300
+D=A
+@LCL
+M=D
+//init argument pointer
+@400
+D=A
+@ARG
+M=D
+//init this pointer
+@3000
+D=A
+@THIS
+M=D
+//init that pointer
+@3010
+D=A
+@THAT
+M=D
 //push constant 17
 @17
 D=A

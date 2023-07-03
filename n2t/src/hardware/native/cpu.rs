@@ -74,12 +74,13 @@ impl Computer {
                 "Cycle: {}, PC: {}, inst: {:016b}",
                 self.time, self.pc, instr
             );
-            decode_instr(instr);
+            decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]]);
         }
 
         if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
             return false;
         };
+
 
         let out_bits = self.flags.bits() & 0b0000_0011;
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;

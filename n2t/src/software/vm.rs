@@ -2,13 +2,13 @@
 
 use crate::utils::get_file_buffer;
 use lazy_static::lazy_static;
-use std::clone;
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::fs::File;
 use std::io::{prelude::*, BufReader};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
+use std::{clone, fmt};
 
 // TODO
 // constants/memory mappings
@@ -33,15 +33,29 @@ const STATIC_START: usize = 16;
 const STATIC_MAX: usize = 255;
 const FILE_NAME: Mutex<String> = Mutex::new(String::new());
 
-#[derive(Debug, Clone, PartialEq, Default)]
-pub struct Pointers {
-    stack: u16,
-    local: u16,
-    arg: u16,
-    this: u16,
-    that: u16,
-    temp: u16,
-    stat: u16,
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum Segment {
+    stack,
+    lcl,
+    arg,
+    this,
+    that,
+    temp,
+    none,
+}
+
+impl fmt::Display for Segment {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Segment::stack => write!(f, "SP"),
+            Segment::lcl => write!(f, "LCL"),
+            Segment::arg => write!(f, "ARG"),
+            Segment::this => write!(f, "THIS"),
+            Segment::that => write!(f, "THAT"),
+            Segment::temp => write!(f, "R"),
+            Segment::none => write!(f, "None"),
+        }
+    }
 }
 
 /// Accepts a Path to a ".vm" file, returns a Path to the generated ".asm"
@@ -60,11 +74,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
     let mut output = String::new();
 
-    // set stack pointer to default location at the start of every program
-    // other people's solutions dont, but it seems like its the expectation
-    output.push_str("//init stack pointer\n@256\nD=A\n@SP\nM=D\n");
-
-    let mut ptrs = Pointers::default();
+    output.push_str(init_ptrs().as_str());
 
     let mut eq_count = 0;
     let mut lt_count = 0;
@@ -78,18 +88,34 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         // for debug purposes
         output.push_str(format!("//{line}\n").as_str());
 
-        let (instr, loc, val) = {
+        let (instr, mut seg, val) = {
             let mut temp = line.split_whitespace();
             (
                 temp.next().unwrap(),
                 temp.next().unwrap_or("None"),
-                temp.next().unwrap_or("None"),
+                temp.next(),
             )
         };
 
+        if (instr, seg, val) == ("pop", "that", Some("5")) {
+            println!("")
+        }
+
+        let loc = match seg {
+            "constant" => Segment::stack,
+            "local" => Segment::lcl,
+            "argument" => Segment::arg,
+            "this" => Segment::this,
+            "that" => Segment::that,
+            "temp" => Segment::temp,
+            "None" => Segment::none,
+            _ => panic!("Invalid segment name"),
+        };
+
         match instr {
-            "push" => output.push_str(push(loc, val, &mut ptrs).as_str()),
-            "pop" => output.push_str(pop(loc).as_str()),
+            "push" => output
+                .push_str(push(loc, val.expect("Got push instruction with no value")).as_str()),
+            "pop" => output.push_str(pop(loc, val).as_str()),
             "add" => output.push_str(add().as_str()),
             "sub" => output.push_str(sub().as_str()),
             "eq" => {
@@ -120,75 +146,101 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     out_path
 }
 
-fn push<'a>(loc: &str, val: &str, ptrs: &mut Pointers) -> String {
+/// sets pointer values "sensible defaults"
+fn init_ptrs() -> String {
+    format!(
+        "{}{}{}{}{}",
+        "//init stack pointer\n@256\nD=A\n@SP\nM=D\n",
+        "//init local pointer\n@300\nD=A\n@LCL\nM=D\n",
+        "//init argument pointer\n@400\nD=A\n@ARG\nM=D\n",
+        "//init this pointer\n@3000\nD=A\n@THIS\nM=D\n",
+        "//init that pointer\n@3010\nD=A\n@THAT\nM=D\n"
+    )
+}
+
+/// pushes a value to the stack. If the location is a memory segment (e.g. "Local"), val is treated as an index into
+/// the memory segment, and the value at the resultant memory location is pushed onto the stack.
+fn push<'a>(loc: Segment, val: &str) -> String {
     let mut result = String::new();
 
+    use Segment::*;
     match loc {
-        "constant" => {
-            if ptrs.stack == u16::MAX {
-                panic!("Stack overflow")
-            }
-            ptrs.stack += 1;
-            result.push_str(
-                format!("{}{}{}", set_d_const(val), set_mem_d("SP"), incr_ptr("SP")).as_str(),
+        stack => result
+            .push_str(format!("{}{}{}", set_d_const(val), set_mem_d(loc), incr_ptr(loc)).as_str()),
+        // base offset stored at RAM[1]
+        _ => result.push_str(
+            format!(
+                "{}{}{}{}",
+                set_a_offset(loc, val),
+                "D=M\n",
+                set_mem_d(Segment::stack),
+                incr_ptr(Segment::stack)
             )
-        }
-        "local" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("LCL")).as_str()),
-        "argument" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("ARG")).as_str()),
-        "this" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("THIS")).as_str()),
-        "that" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("THAT")).as_str()),
-        "temp" => result.push_str(format!("{}{}", set_d_const(val), set_mem_d("TEMP")).as_str()),
-        "static" => {
-            result.push_str(format!("{}{}", set_d_const(val), set_mem_d("STATIC")).as_str())
-        }
-        val => panic!("Invalid push location: {val}"),
+            .as_str(),
+        ),
     }
 
     result
 }
 
-fn pop(loc: &str) -> String {
-    format!("{}{}", decr_ptr(loc), "D=M\n")
+/// pops a value off of the stack and stores it in D if val = None, otherwise stores it in RAM[loc+val]
+fn pop(loc: Segment, val: Option<&str>) -> String {
+    if loc == Segment::stack {
+        format!("{}{}", decr_ptr(loc), "D=M\n")
+    } else {
+        let ind = val.unwrap();
+        format!(
+            "{}{}{}{}{}{}{}{}",
+            set_a_offset(loc, ind), // e.g. set A local[0]'s address
+            "D=A\n",                // set D to local[0]'s address
+            "@R13\n",
+            "M=D\n",                   // store local[0]'s address in R13
+            pop(Segment::stack, None), // pop stack into D
+            "@R13\n",
+            "A=M\n", // Access local[0]'s address from R13
+            "M=D\n"  // set RAM[local[0]] to popped value
+        )
+    }
 }
 
 // binary ops
 fn add() -> String {
     format!(
         "{}{}{}{}",
-        pop("SP"),
-        decr_ptr("SP"),
+        pop(Segment::stack, None),
+        decr_ptr(Segment::stack),
         "M=D+M\n",
-        incr_ptr("SP")
+        incr_ptr(Segment::stack)
     )
 }
 
 fn sub() -> String {
     format!(
         "{}{}{}{}",
-        pop("SP"),
-        decr_ptr("SP"),
-        "M=D-M\n",
-        incr_ptr("SP")
+        pop(Segment::stack, None),
+        decr_ptr(Segment::stack),
+        "M=M-D\n",
+        incr_ptr(Segment::stack)
     )
 }
 
 fn and() -> String {
     format!(
         "{}{}{}{}",
-        pop("SP"),
-        decr_ptr("SP"),
+        pop(Segment::stack, None),
+        decr_ptr(Segment::stack),
         "M=D&M\n",
-        incr_ptr("SP")
+        incr_ptr(Segment::stack)
     )
 }
 
 fn or() -> String {
     format!(
         "{}{}{}{}",
-        pop("SP"),
-        decr_ptr("SP"),
+        pop(Segment::stack, None),
+        decr_ptr(Segment::stack),
         "M=D|M\n",
-        incr_ptr("SP")
+        incr_ptr(Segment::stack)
     )
 }
 
@@ -206,7 +258,7 @@ fn neg() -> String {
 fn eq(eq_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop("SP"),
+        pop(Segment::stack, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -225,7 +277,7 @@ fn eq(eq_count: u16) -> String {
 fn lt(lt_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop("SP"),
+        pop(Segment::stack, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -244,7 +296,7 @@ fn lt(lt_count: u16) -> String {
 fn gt(gt_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop("SP"),
+        pop(Segment::stack, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -262,28 +314,43 @@ fn gt(gt_count: u16) -> String {
 
 // Drop-in instructions for use in compound statements
 
-fn set_a_ptr(loc: &str) -> String {
+/// sets A to a pointer's base address
+fn set_a_ptr(loc: Segment) -> String {
     format!("@{loc}\nA=M\n")
 }
 
-fn set_mem_d(loc: &str) -> String {
+/// sets A to `ind` offset of `loc` pointer's base address
+fn set_a_offset(loc: Segment, ind: &str) -> String {
+    // for the idiomatic "R0-R15" virtual registers
+    if loc == Segment::temp {
+        let off = ind.parse::<u16>().unwrap() + 5;
+        format!("@{loc}{off}\n")
+    } else {
+        format!("@{ind}\nD=A\n@{loc}\nA=D+M\n")
+    }
+}
+
+/// sets `RAM[loc]` to the value stored in `D`
+fn set_mem_d(loc: Segment) -> String {
     format!("{}M=D\n", set_a_ptr(loc))
 }
 
-fn set_d_mem(loc: &str) -> String {
+/// sets `D` to the value in `RAM[loc]`
+fn set_d_mem(loc: Segment) -> String {
     format!("{}D=M\n", set_a_ptr(loc))
 }
 
+/// sets `D` to `val`
 fn set_d_const(val: &str) -> String {
     format!("@{val}\nD=A\n")
 }
 
 /// leaves A as the post-incr memory location
-fn incr_ptr(ptr: &str) -> String {
-    format!("@{ptr}\nAM=M+1\n")
+fn incr_ptr(loc: Segment) -> String {
+    format!("@{loc}\nAM=M+1\n")
 }
 
 /// leaves A as the post-decr memory location
-fn decr_ptr(ptr: &str) -> String {
-    format!("@{ptr}\nAM=M-1\n")
+fn decr_ptr(loc: Segment) -> String {
+    format!("@{loc}\nAM=M-1\n")
 }
