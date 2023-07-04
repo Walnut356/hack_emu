@@ -3,12 +3,14 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
-use crate::utils::get_file_buffer;
+use crate::utils::get_file_buffers;
 
 /// Accepts a Path to a ".asm" file, returns a Path to the generated machine code file
 /// with the ".hack" extension
 pub fn asm_to_hack(path: &Path) -> PathBuf {
-    let buffer = get_file_buffer(path, "asm");
+    let mut files = get_file_buffers(path, "asm");
+
+    let buffer = files.pop().unwrap().0;
 
     let mut symbol_table: HashMap<String, u16> = HashMap::new();
 

@@ -28,22 +28,10 @@ pub mod utils {
     use std::{
         fs::File,
         io::{BufRead, BufReader},
-        path::Path,
+        path::Path, ffi::OsStr,
     };
 
-    pub fn hack_to_vec(path: &Path) -> Vec<u16> {
-        let buffer = get_file_buffer(path, "hack");
-        let mut program = Vec::new();
-
-        let mut lines = buffer.lines();
-
-        while let Some(Ok(line)) = lines.next() {
-            program.push(u16::from_str_radix(&line, 2).expect("Not a binary number"))
-        }
-        program
-    }
-
-    pub fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
+    fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
         assert_eq!(
             path.extension().unwrap(),
             ext,
@@ -56,6 +44,53 @@ pub mod utils {
         let stream = BufReader::new(file);
 
         stream
+    }
+
+    /// Accepts a path and an extension. If the path is a directory, the returned Vec will contain multiple elements, if
+    /// it is a file, it will contain 1.
+    ///
+    /// Panics if there are no files of the given extension
+    pub fn get_file_buffers(path: &Path, ext: &str) -> Vec<(BufReader<File>, String)> {
+        let mut files = Vec::new();
+
+        if path.is_dir() {
+            let mut file_list = path.read_dir().unwrap();
+            while let Some(Ok(file)) = file_list.next() {
+                let f_path = file.path();
+                if f_path.extension() == Some(&OsStr::new(ext)) {
+                    files.push((
+                        get_file_buffer(&f_path, ext),
+                        f_path.parent().unwrap().to_str().unwrap().to_owned(),
+                    ));
+                }
+            }
+        } else {
+            files.push((
+                get_file_buffer(path, ext),
+                path.file_stem() // there literally has to be a better way, right?
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+                    .to_owned(),
+            ));
+            let mut out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
+        }
+        if files.len() == 0 {
+            panic! {"No files with extension {} in directory '{:?}'", ext, path}
+        }
+        files
+    }
+
+    pub fn hack_to_vec(path: &Path) -> Vec<u16> {
+        let buffer = get_file_buffer(path, "hack");
+        let mut program = Vec::new();
+
+        let mut lines = buffer.lines();
+
+        while let Some(Ok(line)) = lines.next() {
+            program.push(u16::from_str_radix(&line, 2).expect("Not a binary number"))
+        }
+        program
     }
 
     // kinda disgusting but it'll do.

@@ -146,13 +146,13 @@ D=M
 A=A-1
 D=M-D
 M=-1
-@LT_0
+@LT_1
 D;JEQ
 // if not equal
 @SP
 A=M-1
 M=0
-(LT_0)
+(LT_1)
 //push constant 891
 @891
 D=A
@@ -176,13 +176,13 @@ D=M
 A=A-1
 D=M-D
 M=-1
-@LT_0
+@LT_2
 D;JEQ
 // if not equal
 @SP
 A=M-1
 M=0
-(LT_0)
+(LT_2)
 //push constant 32767
 @32767
 D=A

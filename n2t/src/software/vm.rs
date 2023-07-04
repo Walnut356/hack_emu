@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use crate::software::vm_instructions::*;
-use crate::utils::get_file_buffer;
+use crate::utils::get_file_buffers;
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::fs::File;
@@ -28,24 +28,31 @@ const STATIC_START: usize = 16;
 const STATIC_MAX: usize = 255;
 const FILE_NAME: Mutex<String> = Mutex::new(String::new());
 
+// TODO use box str instead of String?
+
 #[derive(Debug, Clone, PartialEq, EnumString, strum_macros::Display)]
-#[strum(serialize_all = "lowercase")]
 pub enum Segment {
     #[strum(to_string = "SP")]
+    #[strum(serialize = "constant")]
     Constant,
     #[strum(to_string = "LCL")]
+    #[strum(serialize = "local")]
     Local,
     #[strum(to_string = "ARG")]
+    #[strum(serialize = "argument")]
     Argument,
     #[strum(to_string = "THIS")]
+    #[strum(serialize = "this")]
     This,
     #[strum(to_string = "THAT")]
+    #[strum(serialize = "that")]
     That,
     #[strum(to_string = "R")]
+    #[strum(serialize = "temp")]
     Temp,
     // None,
     #[strum(default)]
-    Other(String),
+    Static(String),
 }
 
 #[derive(Debug, Clone, PartialEq, EnumString)]
@@ -60,42 +67,23 @@ pub enum Instruction {
     Gt,
     Neg,
     Not,
+    And,
+    Or,
 
     Label,
-    Static,
-    Func,
-    ReturnSymbol,
+    Goto,
+    #[strum(serialize = "if-goto")]
+    IfGoto,
+    Function,
+    Call,
+    Return,
 }
 
 /// Accepts a Path to a ".vm" file, returns a Path to the generated ".asm"
 pub fn vm_to_asm(path: &Path) -> PathBuf {
     let mut out_path = PathBuf::from(path);
 
-    // Create a container to hold file buffers, allowing the function to handle single files or full directories
-    let mut files = Vec::new();
-
-    if path.is_dir() {
-        let mut file_list = path.read_dir().unwrap();
-        while let Some(Ok(file)) = file_list.next() {
-            let f_path = file.path();
-            if f_path.ends_with(".vm") {
-                files.push((
-                    get_file_buffer(&f_path, "vm"),
-                    f_path.parent().unwrap().to_str().unwrap().to_owned(),
-                ));
-            }
-        }
-    } else {
-        files.push((
-            get_file_buffer(path, "vm"),
-            path.file_stem() // there literally has to be a better way, right?
-                .unwrap()
-                .to_str()
-                .unwrap()
-                .to_owned(),
-        ));
-        let mut out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
-    }
+    let mut files = get_file_buffers(path, "vm");
 
     // Init output .asm file
     out_path.set_extension("asm");
@@ -121,51 +109,62 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                 continue;
             }
 
-            // for debug purposes
+            // record vm instruction as comment for debug purposes
             output.push_str(format!("//{line}\n").as_str());
 
-            let (instr, mut seg, val) = {
-                let mut temp = line.split_whitespace();
-                (
-                    temp.next().unwrap(),
-                    temp.next().unwrap_or("None"),
-                    temp.next(),
-                )
-            };
+            let mut temp = line.split_whitespace();
+            let instr = Instruction::from_str(temp.next().unwrap())
+                .expect(format!("Invalid instruction: {}", line).as_str());
 
-            let loc = match seg {
-                "constant" => Segment::Constant,
-                "local" => Segment::Local,
-                "argument" => Segment::Argument,
-                "this" => Segment::This,
-                "that" => Segment::That,
-                "temp" => Segment::Temp,
-                _ => Segment::Other(seg.to_owned()),
-            };
+            {
+                use Instruction::*;
 
-            match instr {
-                "push" => output
-                    .push_str(push(loc, val.expect("Got push instruction with no value")).as_str()),
-                "pop" => output.push_str(pop(loc, val).as_str()),
-                "add" => output.push_str(add().as_str()),
-                "sub" => output.push_str(sub().as_str()),
-                "eq" => {
-                    output.push_str(eq(eq_count).as_str());
-                    eq_count += 1;
+                match instr {
+                    Pop => {
+                        // 2 tokens: pointer and offset
+                        let target = Segment::from_str(
+                            temp.next().expect("Pop instruction with no location"),
+                        )
+                        .unwrap(); // the default should mean this never fails
+                        let val = temp.next();
+
+                        output.push_str(&pop(target, val))
+                    }
+                    Push => {
+                        // 2 tokens: pointer and offset (or "constant" and value)
+                        let target = Segment::from_str(
+                            temp.next().expect("Pop instruction with no location"),
+                        )
+                        .unwrap(); // the default should mean this never fails
+                        let val = temp.next().unwrap();
+
+                        output.push_str(&push(target, val))
+                    }
+                    Add => output.push_str(&add()),
+                    Sub => output.push_str(&sub()),
+                    Eq => {
+                        output.push_str(&eq(eq_count));
+                        eq_count += 1;
+                    }
+                    Lt => {
+                        output.push_str(&lt(lt_count));
+                        lt_count += 1;
+                    }
+                    Gt => {
+                        output.push_str(&gt(gt_count));
+                        eq_count += 1;
+                    }
+                    Neg => output.push_str(&neg()),
+                    Not => output.push_str(&not()),
+                    And => output.push_str(&and()),
+                    Or => output.push_str(or().as_str()),
+                    Label => todo!(),    // label + file name
+                    Goto => todo!(),     // label + file name
+                    IfGoto => todo!(),   // label + file name
+                    Function => todo!(), // function name + nVars
+                    Call => todo!(),     // function name + nArgs
+                    Return => todo!(),   // 0 tokens
                 }
-                "lt" => {
-                    output.push_str(lt(lt_count).as_str());
-                    eq_count += 1;
-                }
-                "gt" => {
-                    output.push_str(gt(gt_count).as_str());
-                    eq_count += 1;
-                }
-                "and" => output.push_str(and().as_str()),
-                "or" => output.push_str(or().as_str()),
-                "not" => output.push_str(not().as_str()),
-                "neg" => output.push_str(neg().as_str()),
-                val => panic!("Invalid instruction {val}"),
             }
         }
     }
@@ -176,14 +175,4 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     out_file.flush().unwrap();
 
     out_path
-}
-
-/// sets pointer values "sensible defaults"
-fn init_program() -> String {
-    format!("{}", "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",)
-    // TODO call Sys.Init
-}
-
-fn finalize_program() -> &'static str {
-    "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP"
 }

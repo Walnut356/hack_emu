@@ -159,7 +159,7 @@ pub fn gt(gt_count: u16) -> String {
 
 /// sets A to a pointer's base address
 pub fn set_a_ptr(loc: &Segment) -> String {
-    format!("@{loc}\nA=M\n")
+    format!("@{}\nA=M\n", *loc)
 }
 
 /// sets A to `ind` offset of `loc` pointer's base address
@@ -167,9 +167,9 @@ pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
     // for the idiomatic "R0-R15" virtual registers
     if *loc == Segment::Temp {
         let off = ind.parse::<u16>().unwrap() + 5;
-        format!("@{loc}{off}\n")
+        format!("@{}{off}\n", *loc)
     } else {
-        format!("@{ind}\nD=A\n@{loc}\nA=D+M\n")
+        format!("@{ind}\nD=A\n@{}\nA=D+M\n", *loc)
     }
 }
 
@@ -190,10 +190,21 @@ pub fn set_d_const(val: &str) -> String {
 
 /// leaves A as the post-incr memory location
 pub fn incr_ptr(loc: &Segment) -> String {
-    format!("@{loc}\nAM=M+1\n")
+    format!("@{}\nAM=M+1\n", *loc)
 }
 
 /// leaves A as the post-decr memory location
 pub fn decr_ptr(loc: &Segment) -> String {
-    format!("@{loc}\nAM=M-1\n")
+    format!("@{}\nAM=M-1\n", *loc)
+}
+
+/// sets stack pointer to 256 and calls Sys.Init
+pub fn init_program() -> String {
+    format!("{}", "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",)
+    // TODO call Sys.Init
+}
+
+/// calls an infinite loop at the end of the program
+pub fn finalize_program() -> &'static str {
+    "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP"
 }
