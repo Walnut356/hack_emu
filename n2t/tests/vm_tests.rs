@@ -277,7 +277,7 @@ fn test_basicloop() {
     // forcing initialized pointers to match official software test conditions
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
-    cpu.ram[400] = 3; // "pointer" pointer
+    cpu.ram[400] = 3; // argument initial val
 
     while cpu.execute(false, false) {}
 

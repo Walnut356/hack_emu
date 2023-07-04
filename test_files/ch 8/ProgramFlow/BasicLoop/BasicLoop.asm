@@ -26,7 +26,8 @@ D=M
 A=M
 M=D
 //label LOOP_START
-(BasicLoop.LOOP_START)//push argument 0    
+(BasicLoop.LOOP_START)
+//push argument 0    
 @0
 D=A
 @ARG
@@ -125,7 +126,12 @@ M=D
 @SP
 AM=M+1
 //if-goto LOOP_START  // If counter != 0, goto LOOP_START
-BasicLoop.LOOP_START//push local 0
+@SP
+AM=M-1
+D=M
+@BasicLoop.LOOP_START
+D;JNE
+//push local 0
 @0
 D=A
 @LCL

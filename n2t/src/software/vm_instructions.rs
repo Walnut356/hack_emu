@@ -153,9 +153,16 @@ pub fn gt(gt_count: u16) -> String {
     )
 }
 
-// pub fn (dest: String) -> String {
-
-// }
+pub fn jump_zero(dest: String) -> String {
+    format!(
+        "{}{}{}@{}\n{}",
+        "@SP\n",
+        "AM=M-1\n",
+        "D=M\n",
+        dest,
+        "D;JNE\n"
+    )
+}
 
 // Drop-in instructions for use in compound statements
 

@@ -97,12 +97,12 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     let mut gt_count = 0;
 
     // Iterate over
-    for (file, f_path) in files {
+    for (file, f_name) in files {
         let mut lines = file.lines();
 
         // Managing this with global state is easier (lol) than passing it around a bunch, especially when many funcs
         // don't need it. I don't plan on multithreading, so it shouldn't be a problem.
-        *FILE_NAME.lock().unwrap() = f_path.to_owned();
+        let file_name = f_name.to_owned();
 
         while let Some(Ok(line)) = lines.next() {
             if line.starts_with("//") | line.is_empty() {
@@ -133,7 +133,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                     Push => {
                         // 2 tokens: pointer and offset (or "constant" and value)
                         let target = Segment::from_str(
-                            temp.next().expect("Pop instruction with no location"),
+                            temp.next().expect("Push instruction with no location"),
                         )
                         .unwrap(); // the default should mean this never fails
                         let val = temp.next().unwrap();
@@ -152,15 +152,34 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                     }
                     Gt => {
                         output.push_str(&gt(gt_count));
-                        eq_count += 1;
+                        gt_count += 1;
                     }
                     Neg => output.push_str(&neg()),
                     Not => output.push_str(&not()),
                     And => output.push_str(&and()),
                     Or => output.push_str(or().as_str()),
-                    Label => todo!(),    // label + file name
-                    Goto => todo!(),     // label + file name
-                    IfGoto => todo!(),   // label + file name
+                    // Flow control
+                    Label => {
+                        // label + file name
+                        let l_name = temp.next().expect("Label instruction with no label name");
+                        assert!(
+                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                            "Labels must not start with a digit. Got: {}",
+                            l_name
+                        );
+                        output.push_str(&format!("({}.{})\n", f_name, l_name));
+                    }
+                    Goto => todo!(), // label + file name
+                    IfGoto => {
+                        // label + file name
+                        let l_name = temp.next().expect("Label instruction with no label name");
+                        assert!(
+                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                            "Labels must not start with a digit. Got: {}",
+                            l_name
+                        );
+                        output.push_str(&jump_zero(format!("{}.{}", f_name, l_name)));
+                    }
                     Function => todo!(), // function name + nVars
                     Call => todo!(),     // function name + nArgs
                     Return => todo!(),   // 0 tokens
