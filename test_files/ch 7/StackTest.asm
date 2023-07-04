@@ -28,7 +28,6 @@ D=M-D
 M=-1
 @EQ_0
 D;JEQ
-// if not equal
 @SP
 A=M-1
 M=0
@@ -58,7 +57,6 @@ D=M-D
 M=-1
 @EQ_1
 D;JEQ
-// if not equal
 @SP
 A=M-1
 M=0
@@ -88,7 +86,6 @@ D=M-D
 M=-1
 @EQ_2
 D;JEQ
-// if not equal
 @SP
 A=M-1
 M=0
@@ -117,8 +114,7 @@ A=A-1
 D=M-D
 M=-1
 @LT_0
-D;JEQ
-// if not equal
+D;JLT
 @SP
 A=M-1
 M=0
@@ -147,8 +143,7 @@ A=A-1
 D=M-D
 M=-1
 @LT_1
-D;JEQ
-// if not equal
+D;JLT
 @SP
 A=M-1
 M=0
@@ -177,8 +172,7 @@ A=A-1
 D=M-D
 M=-1
 @LT_2
-D;JEQ
-// if not equal
+D;JLT
 @SP
 A=M-1
 M=0
@@ -207,8 +201,7 @@ A=A-1
 D=M-D
 M=-1
 @GT_0
-D;JEQ
-// if not equal
+D;JGT
 @SP
 A=M-1
 M=0
@@ -236,13 +229,12 @@ D=M
 A=A-1
 D=M-D
 M=-1
-@GT_0
-D;JEQ
-// if not equal
+@GT_1
+D;JGT
 @SP
 A=M-1
 M=0
-(GT_0)
+(GT_1)
 //push constant 32766
 @32766
 D=A
@@ -266,13 +258,12 @@ D=M
 A=A-1
 D=M-D
 M=-1
-@GT_0
-D;JEQ
-// if not equal
+@GT_2
+D;JGT
 @SP
 A=M-1
 M=0
-(GT_0)
+(GT_2)
 //push constant 57
 @57
 D=A

@@ -100,7 +100,7 @@ pub fn neg() -> String {
 // comparisons
 pub fn eq(eq_count: u16) -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        "{}{}{}{}{}{}{}{}{}{}{}{})\n",
         pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
@@ -108,7 +108,6 @@ pub fn eq(eq_count: u16) -> String {
         "@EQ_",
         eq_count,
         "\nD;JEQ\n",
-        "// if not equal\n",
         "@SP\n",
         "A=M-1\n",
         "M=0\n",
@@ -119,15 +118,14 @@ pub fn eq(eq_count: u16) -> String {
 
 pub fn lt(lt_count: u16) -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        "{}{}{}{}{}{}{}{}{}{}{}{})\n",
         pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
-        "M=-1\n",
+        "M=-1\n", // init push to true
         "@LT_",
         lt_count,
-        "\nD;JEQ\n",
-        "// if not equal\n",
+        "\nD;JLT\n", // if M-D is positive, leave as true, otherwise set to false
         "@SP\n",
         "A=M-1\n",
         "M=0\n",
@@ -136,17 +134,17 @@ pub fn lt(lt_count: u16) -> String {
     )
 }
 
+/// compares the top 2 values on the stack, pushes -1 if
 pub fn gt(gt_count: u16) -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
+        "{}{}{}{}{}{}{}{}{}{}{}{})\n",
         pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
         "@GT_",
         gt_count,
-        "\nD;JEQ\n",
-        "// if not equal\n",
+        "\nD;JGT\n", // jump if M-D is negative, i.e. M is greater than D
         "@SP\n",
         "A=M-1\n",
         "M=0\n",
@@ -154,6 +152,10 @@ pub fn gt(gt_count: u16) -> String {
         gt_count,
     )
 }
+
+// pub fn (dest: String) -> String {
+
+// }
 
 // Drop-in instructions for use in compound statements
 

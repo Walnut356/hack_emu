@@ -1,0 +1,141 @@
+//init 'stack' pointer
+@256
+D=A
+@SP
+M=D
+//push constant 0    
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//pop local 0         // initializes sum = 0
+@0
+D=A
+@LCL
+A=D+M
+D=A
+@R13
+M=D
+@SP
+AM=M-1
+D=M
+@R13
+A=M
+M=D
+//label LOOP_START
+(BasicLoop.LOOP_START)//push argument 0    
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//push local 0
+@0
+D=A
+@LCL
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//add
+@SP
+AM=M-1
+D=M
+@SP
+AM=M-1
+M=D+M
+@SP
+AM=M+1
+//pop local 0	        // sum = sum + counter
+@0
+D=A
+@LCL
+A=D+M
+D=A
+@R13
+M=D
+@SP
+AM=M-1
+D=M
+@R13
+A=M
+M=D
+//push argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//push constant 1
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//sub
+@SP
+AM=M-1
+D=M
+@SP
+AM=M-1
+M=M-D
+@SP
+AM=M+1
+//pop argument 0      // counter--
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@R13
+M=D
+@SP
+AM=M-1
+D=M
+@R13
+A=M
+M=D
+//push argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+//if-goto LOOP_START  // If counter != 0, goto LOOP_START
+BasicLoop.LOOP_START//push local 0
+@0
+D=A
+@LCL
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+(INFINITE_LOOP)
+@INFINITE_LOOP
+0;JMP
