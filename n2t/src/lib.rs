@@ -26,9 +26,10 @@ pub mod software {
 
 pub mod utils {
     use std::{
+        ffi::OsStr,
         fs::File,
         io::{BufRead, BufReader},
-        path::Path, ffi::OsStr,
+        path::Path,
     };
 
     fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
@@ -60,7 +61,7 @@ pub mod utils {
                 if f_path.extension() == Some(&OsStr::new(ext)) {
                     files.push((
                         get_file_buffer(&f_path, ext),
-                        f_path.parent().unwrap().to_str().unwrap().to_owned(),
+                        f_path.file_stem().unwrap().to_str().unwrap().to_owned(),
                     ));
                 }
             }
@@ -249,12 +250,12 @@ pub mod utils {
 
         let jump = match instr & 0b0000_0000_0000_0111 {
             0 => "",
-            1 => "; Jump if greater than",
-            2 => "; Jump if equal",
-            3 => "; Jump if greater than or equal",
-            4 => "; Jump if less than",
-            5 => "; Jump if not equal",
-            6 => "; Jump if less than or equal",
+            1 => "; Jump if greater than 0",
+            2 => "; Jump if equal to 0",
+            3 => "; Jump if greater than or equal to 0",
+            4 => "; Jump if less than 0",
+            5 => "; Jump if not equal to 0",
+            6 => "; Jump if less than or equal to 0",
             7 => "; Unconditional jump",
             _ => "Error",
         };

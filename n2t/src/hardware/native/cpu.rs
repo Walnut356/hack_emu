@@ -130,14 +130,14 @@ impl Computer {
             let neg = self.flags.contains(ControlBits::Neg);
             let zero = self.flags.contains(ControlBits::Zero);
             should_jump = match instr & 0b0000_0000_0000_0111 {
-                0 => false,
-                1 => !neg,
-                2 => zero,
-                3 => !neg | zero,
-                4 => neg & !zero,
-                5 => !zero,
-                6 => neg,
-                7 => true,
+                0 => false, // Never jump
+                1 => !neg & !zero, // If comp > 0 (JGT)
+                2 => zero, // If comp = 0 (JEQ)
+                3 => !neg, // If comp >= 0 (JGE)
+                4 => neg & !zero, // If comp < 0 (JLT)
+                5 => !zero, // If comp != 0 (JNE)
+                6 => neg, // If comp <= 0 (JLE)
+                7 => true, // Unconditional jump
                 _ => panic!("somehow got a number higher than 7 on a bitwise AND with 7"),
             }
         }
