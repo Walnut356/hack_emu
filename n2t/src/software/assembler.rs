@@ -26,18 +26,24 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
     symbol_table.insert("KBD".to_string(), 24576);
 
     let mut var_counter = 16u16;
-    let mut first_pass: Vec<&str> = Vec::new();
+    let mut first_pass: Vec<String> = Vec::new();
 
-    for line in buffer.lines() {
+    let mut lines = buffer.lines();
+
+    while let Some(Ok(line)) = lines.next() {
         // it's kinda dumb, but i have to do this otherwise the var counter drifts forward due to A instructions
         // that represent jump labels that haven't been defined yet.
-        let mut trimmed = line.trim();
-        trimmed = trimmed.split_whitespace().next().unwrap_or(trimmed);
+        let mut trimmed = line.trim().to_owned();
+        trimmed = trimmed
+            .split_whitespace()
+            .next()
+            .unwrap_or(&trimmed)
+            .to_owned();
 
         if trimmed.starts_with('(') {
             symbol_table.insert(trimmed[1..trimmed.len() - 1].to_string(), 0u16);
         }
-        first_pass.push(trimmed)
+        first_pass.push(trimmed);
     }
 
     let mut second_pass = Vec::new();

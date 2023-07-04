@@ -21,12 +21,13 @@ pub mod hardware {
 pub mod software {
     pub mod assembler;
     pub mod vm;
+    pub mod vm_instructions;
 }
 
 pub mod utils {
     use std::{
         fs::File,
-        io::{BufReader, Read},
+        io::{BufRead, BufReader, Read},
         path::Path,
     };
 
@@ -34,13 +35,15 @@ pub mod utils {
         let buffer = get_file_buffer(path, "hack");
         let mut program = Vec::new();
 
-        for line in buffer.lines() {
-            program.push(u16::from_str_radix(line, 2).expect("Not a binary number"))
+        let mut lines = buffer.lines();
+
+        while let Some(Ok(line)) = lines.next() {
+            program.push(u16::from_str_radix(&line, 2).expect("Not a binary number"))
         }
         program
     }
 
-    pub fn get_file_buffer(path: &Path, ext: &str) -> String {
+    pub fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
         assert_eq!(
             path.extension().unwrap(),
             ext,
@@ -51,10 +54,8 @@ pub mod utils {
 
         let file = File::open(path).unwrap();
         let mut stream = BufReader::new(file);
-        let mut buffer = String::new();
-        stream.read_to_string(&mut buffer).unwrap();
 
-        buffer
+        stream
     }
 
     // kinda disgusting but it'll do.

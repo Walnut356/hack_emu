@@ -17,9 +17,20 @@ fn get_computer(file_path: &str) -> Computer {
     cpu
 }
 
+// ------------------------------------------------------------------------------------------------------------------ //
+//                                                       Part 1                                                       //
+// ------------------------------------------------------------------------------------------------------------------ //
+
 #[test]
 fn test_simpleadd() {
     let mut cpu = get_computer(r#"../test_files/ch 7/SimpleAdd.vm"#);
+
+    // forcing initialized pointers to match official software test conditions
+    cpu.ram[1] = 300; // "local" pointer
+    cpu.ram[2] = 400; // "argument" pointer
+    cpu.ram[3] = 3000; // "this" pointer
+    cpu.ram[4] = 3010; // "that" pointer
+    cpu.ram[16] = 3; // "pointer" pointer
 
     while cpu.execute(false, false) {}
 
@@ -33,19 +44,33 @@ fn test_simpleadd() {
 #[test]
 fn test_stacktest() {
     let mut cpu = get_computer(r#"../test_files/ch 7/StackTest.vm"#);
-
+    // forcing initialized pointers to match official software test conditions
+    cpu.ram[1] = 300; // "local" pointer
+    cpu.ram[2] = 400; // "argument" pointer
+    cpu.ram[3] = 3000; // "this" pointer
+    cpu.ram[4] = 3010; // "that" pointer
+    cpu.ram[16] = 3; // "pointer" pointer
     while cpu.execute(false, false) {}
 
     assert_eq!(
         cpu.ram[0], 266,
         "Stack pointer pointing to incorrect memory location"
     );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), !((28 & 57) | 82));
+    assert_eq!(
+        i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()),
+        !((28 & 57) | 82)
+    );
 }
 
 #[test]
 fn test_basictest() {
     let mut cpu = get_computer("../test_files/ch 7/BasicTest.vm");
+    // forcing initialized pointers to match official software test conditions
+    cpu.ram[1] = 300; // "local" pointer
+    cpu.ram[2] = 400; // "argument" pointer
+    cpu.ram[3] = 3000; // "this" pointer
+    cpu.ram[4] = 3010; // "that" pointer
+    cpu.ram[16] = 3; // "pointer" pointer
 
     while cpu.execute(false, false) {}
 
@@ -62,6 +87,12 @@ fn test_basictest() {
 #[test]
 fn test_pointertest() {
     let mut cpu = get_computer("../test_files/ch 7/PointerTest.vm");
+    // forcing initialized pointers to match official software test conditions
+    cpu.ram[1] = 300; // "local" pointer
+    cpu.ram[2] = 400; // "argument" pointer
+    cpu.ram[3] = 3000; // "this" pointer
+    cpu.ram[4] = 3010; // "that" pointer
+    cpu.ram[16] = 3; // "pointer" pointer
 
     cpu.ram[16] = 3; // initializing "pointer" variable as is presumably done in the official test file.
 
@@ -77,6 +108,12 @@ fn test_pointertest() {
 #[test]
 fn test_statictest() {
     let mut cpu = get_computer("../test_files/ch 7/StaticTest.vm");
+    // forcing initialized pointers to match official software test conditions
+    cpu.ram[1] = 300; // "local" pointer
+    cpu.ram[2] = 400; // "argument" pointer
+    cpu.ram[3] = 3000; // "this" pointer
+    cpu.ram[4] = 3010; // "that" pointer
+    cpu.ram[16] = 3; // "pointer" pointer
 
     while cpu.execute(false, false) {}
 
@@ -217,3 +254,7 @@ fn test_statictest() {
 //     );
 //     assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), !((28 & 57) | 82)); // not 114 should be -115
 // }
+
+// ------------------------------------------------------------------------------------------------------------------ //
+//                                                       Part 2                                                       //
+// ------------------------------------------------------------------------------------------------------------------ //
