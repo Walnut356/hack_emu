@@ -30,7 +30,7 @@ AM=M+1
 //pop static 8
 @8
 D=A
-@STATIC
+@static
 A=D+M
 D=A
 @R13
@@ -44,7 +44,7 @@ M=D
 //pop static 3
 @3
 D=A
-@STATIC
+@static
 A=D+M
 D=A
 @R13
@@ -58,7 +58,7 @@ M=D
 //pop static 1
 @1
 D=A
-@STATIC
+@static
 A=D+M
 D=A
 @R13
@@ -72,7 +72,7 @@ M=D
 //push static 3
 @3
 D=A
-@STATIC
+@static
 A=D+M
 D=M
 @SP
@@ -83,7 +83,7 @@ AM=M+1
 //push static 1
 @1
 D=A
-@STATIC
+@static
 A=D+M
 D=M
 @SP
@@ -103,7 +103,7 @@ AM=M+1
 //push static 8
 @8
 D=A
-@STATIC
+@static
 A=D+M
 D=M
 @SP

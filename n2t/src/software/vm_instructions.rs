@@ -7,7 +7,7 @@ pub fn push<'a>(loc: Segment, val: &str) -> String {
 
     use Segment::*;
     match loc {
-        stack => result.push_str(
+        Constant => result.push_str(
             format!("{}{}{}", set_d_const(val), set_mem_d(&loc), incr_ptr(&loc)).as_str(),
         ),
         // base offset stored at RAM[1]
@@ -16,8 +16,8 @@ pub fn push<'a>(loc: Segment, val: &str) -> String {
                 "{}{}{}{}",
                 set_a_offset(&loc, val),
                 "D=M\n",
-                set_mem_d(&Segment::stack),
-                incr_ptr(&Segment::stack)
+                set_mem_d(&Segment::Constant),
+                incr_ptr(&Segment::Constant)
             )
             .as_str(),
         ),
@@ -28,7 +28,7 @@ pub fn push<'a>(loc: Segment, val: &str) -> String {
 
 /// pops a value off of the stack and stores it in D if val = None, otherwise stores it in RAM[loc+val]
 pub fn pop(loc: Segment, val: Option<&str>) -> String {
-    if loc == Segment::stack {
+    if loc == Segment::Constant {
         format!("{}{}", decr_ptr(&loc), "D=M\n")
     } else {
         let ind = val.unwrap();
@@ -37,8 +37,8 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
             set_a_offset(&loc, ind), // e.g. set A local[0]'s address
             "D=A\n",                 // set D to local[0]'s address
             "@R13\n",
-            "M=D\n",                   // store local[0]'s address in R13
-            pop(Segment::stack, None), // pop stack into D
+            "M=D\n",                      // store local[0]'s address in R13
+            pop(Segment::Constant, None), // pop stack into D
             "@R13\n",
             "A=M\n", // Access local[0]'s address from R13
             "M=D\n"  // set RAM[local[0]] to popped value
@@ -50,40 +50,40 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
 pub fn add() -> String {
     format!(
         "{}{}{}{}",
-        pop(Segment::stack, None),
-        decr_ptr(&Segment::stack),
+        pop(Segment::Constant, None),
+        decr_ptr(&Segment::Constant),
         "M=D+M\n",
-        incr_ptr(&Segment::stack)
+        incr_ptr(&Segment::Constant)
     )
 }
 
 pub fn sub() -> String {
     format!(
         "{}{}{}{}",
-        pop(Segment::stack, None),
-        decr_ptr(&Segment::stack),
+        pop(Segment::Constant, None),
+        decr_ptr(&Segment::Constant),
         "M=M-D\n",
-        incr_ptr(&Segment::stack)
+        incr_ptr(&Segment::Constant)
     )
 }
 
 pub fn and() -> String {
     format!(
         "{}{}{}{}",
-        pop(Segment::stack, None),
-        decr_ptr(&Segment::stack),
+        pop(Segment::Constant, None),
+        decr_ptr(&Segment::Constant),
         "M=D&M\n",
-        incr_ptr(&Segment::stack)
+        incr_ptr(&Segment::Constant)
     )
 }
 
 pub fn or() -> String {
     format!(
         "{}{}{}{}",
-        pop(Segment::stack, None),
-        decr_ptr(&Segment::stack),
+        pop(Segment::Constant, None),
+        decr_ptr(&Segment::Constant),
         "M=D|M\n",
-        incr_ptr(&Segment::stack)
+        incr_ptr(&Segment::Constant)
     )
 }
 
@@ -101,7 +101,7 @@ pub fn neg() -> String {
 pub fn eq(eq_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop(Segment::stack, None),
+        pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -120,7 +120,7 @@ pub fn eq(eq_count: u16) -> String {
 pub fn lt(lt_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop(Segment::stack, None),
+        pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -139,7 +139,7 @@ pub fn lt(lt_count: u16) -> String {
 pub fn gt(gt_count: u16) -> String {
     format!(
         "{}{}{}{}{}{}{}{}{}{}{}{}{})\n",
-        pop(Segment::stack, None),
+        pop(Segment::Constant, None),
         "A=A-1\n",
         "D=M-D\n",
         "M=-1\n",
@@ -165,7 +165,7 @@ pub fn set_a_ptr(loc: &Segment) -> String {
 /// sets A to `ind` offset of `loc` pointer's base address
 pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
     // for the idiomatic "R0-R15" virtual registers
-    if *loc == Segment::temp {
+    if *loc == Segment::Temp {
         let off = ind.parse::<u16>().unwrap() + 5;
         format!("@{loc}{off}\n")
     } else {

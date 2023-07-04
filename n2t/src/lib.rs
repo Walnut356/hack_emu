@@ -27,7 +27,7 @@ pub mod software {
 pub mod utils {
     use std::{
         fs::File,
-        io::{BufRead, BufReader, Read},
+        io::{BufRead, BufReader},
         path::Path,
     };
 
@@ -53,7 +53,7 @@ pub mod utils {
         );
 
         let file = File::open(path).unwrap();
-        let mut stream = BufReader::new(file);
+        let stream = BufReader::new(file);
 
         stream
     }
