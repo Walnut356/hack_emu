@@ -284,3 +284,18 @@ fn test_basicloop() {
     assert_eq!(cpu.ram[0], 257);
     assert_eq!(cpu.ram[256], 6);
 }
+
+#[test]
+fn test_fibseries() {
+    let mut cpu = get_computer("../test_files/ch 8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
+
+    // force initialized poitners to match official software test conditions
+    cpu.ram[1] = 300;
+    cpu.ram[2] = 400;
+    cpu.ram[400] = 6;
+    cpu.ram[401] = 3000;
+
+    while cpu.execute(false, false) {}
+
+    assert_eq!(cpu.ram[3000..=3005], [0, 1, 1, 2, 3, 5])
+}
