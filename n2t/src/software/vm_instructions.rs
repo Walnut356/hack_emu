@@ -153,15 +153,15 @@ pub fn gt(gt_count: u16) -> String {
     )
 }
 
-pub fn jump_zero(dest: String) -> String {
+pub fn jump_if_zero(dest: String) -> String {
     format!(
         "{}{}{}@{}\n{}",
-        "@SP\n",
-        "AM=M-1\n",
-        "D=M\n",
-        dest,
-        "D;JNE\n"
+        "@SP\n", "AM=M-1\n", "D=M\n", dest, "D;JNE\n"
     )
+}
+
+pub fn jump_uncond(dest: String) -> String {
+    format!("@{dest}\n0;JMP\n")
 }
 
 // Drop-in instructions for use in compound statements
@@ -174,11 +174,19 @@ pub fn set_a_ptr(loc: &Segment) -> String {
 /// sets A to `ind` offset of `loc` pointer's base address
 pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
     // for the idiomatic "R0-R15" virtual registers
-    if *loc == Segment::Temp {
-        let off = ind.parse::<u16>().unwrap() + 5;
-        format!("@{}{off}\n", *loc)
-    } else {
-        format!("@{ind}\nD=A\n@{}\nA=D+M\n", *loc)
+    match *loc {
+        Segment::Temp => {
+            let off = ind.parse::<u16>().unwrap() + 5;
+            format!("@{loc}{off}\n")
+        }
+        Segment::Pointer => {
+            if ind == "0" {
+                format!("@THIS\n")
+            } else {
+                format!("@THAT\n")
+            }
+        }
+        _ => format!("@{ind}\nD=A\n@{loc}\nA=D+M\n"),
     }
 }
 
@@ -199,12 +207,12 @@ pub fn set_d_const(val: &str) -> String {
 
 /// leaves A as the post-incr memory location
 pub fn incr_ptr(loc: &Segment) -> String {
-    format!("@{}\nAM=M+1\n", *loc)
+    format!("@{loc}\nAM=M+1\n")
 }
 
 /// leaves A as the post-decr memory location
 pub fn decr_ptr(loc: &Segment) -> String {
-    format!("@{}\nAM=M-1\n", *loc)
+    format!("@{loc}\nAM=M-1\n")
 }
 
 /// sets stack pointer to 256 and calls Sys.Init

@@ -12,10 +12,7 @@ M=D
 @SP
 AM=M+1
 //pop pointer 0
-@0
-D=A
-@pointer
-A=D+M
+@pointer5
 D=A
 @R13
 M=D
@@ -34,10 +31,7 @@ M=D
 @SP
 AM=M+1
 //pop pointer 1
-@1
-D=A
-@pointer
-A=D+M
+@pointer6
 D=A
 @R13
 M=D
@@ -92,10 +86,7 @@ D=M
 A=M
 M=D
 //push pointer 0
-@0
-D=A
-@pointer
-A=D+M
+@pointer5
 D=M
 @SP
 A=M
@@ -103,10 +94,7 @@ M=D
 @SP
 AM=M+1
 //push pointer 1
-@1
-D=A
-@pointer
-A=D+M
+@pointer6
 D=M
 @SP
 A=M

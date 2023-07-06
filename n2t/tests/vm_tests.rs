@@ -92,9 +92,6 @@ fn test_pointertest() {
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
-    cpu.ram[16] = 3; // "pointer" pointer
-
-    cpu.ram[16] = 3; // initializing "pointer" variable as is presumably done in the official test file.
 
     while cpu.execute(false, false) {}
 
@@ -295,7 +292,7 @@ fn test_fibseries() {
     cpu.ram[400] = 6;
     cpu.ram[401] = 3000;
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, true) {}
 
     assert_eq!(cpu.ram[3000..=3005], [0, 1, 1, 2, 3, 5])
 }

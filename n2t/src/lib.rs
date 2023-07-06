@@ -74,7 +74,6 @@ pub mod utils {
                     .unwrap()
                     .to_owned(),
             ));
-            let mut out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
         }
         if files.len() == 0 {
             panic! {"No files with extension {} in directory '{:?}'", ext, path}

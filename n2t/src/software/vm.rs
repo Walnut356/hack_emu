@@ -50,7 +50,8 @@ pub enum Segment {
     #[strum(to_string = "R")]
     #[strum(serialize = "temp")]
     Temp,
-    // None,
+    #[strum(serialize = "pointer")]
+    Pointer,
     #[strum(default)]
     Static(String),
 }
@@ -137,7 +138,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         )
                         .unwrap(); // the default should mean this never fails
                         let val = temp.next().unwrap();
-
+                        println!("{target}");
                         output.push_str(&push(target, val))
                     }
                     Add => output.push_str(&add()),
@@ -169,16 +170,25 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         );
                         output.push_str(&format!("({}.{})\n", f_name, l_name));
                     }
-                    Goto => todo!(), // label + file name
-                    IfGoto => {
-                        // label + file name
-                        let l_name = temp.next().expect("Label instruction with no label name");
+                    Goto => {
+                        let l_name = temp.next().expect("Jump instruction with no label");
                         assert!(
                             !l_name.chars().nth(0).unwrap().is_ascii_digit(),
                             "Labels must not start with a digit. Got: {}",
                             l_name
                         );
-                        output.push_str(&jump_zero(format!("{}.{}", f_name, l_name)));
+
+                        output.push_str(&jump_uncond(format!("{}.{}", f_name, l_name)))
+                    } // label + file name
+                    IfGoto => {
+                        // label + file name
+                        let l_name = temp.next().expect("Jump instruction with no label name");
+                        assert!(
+                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                            "Labels must not start with a digit. Got: {}",
+                            l_name
+                        );
+                        output.push_str(&jump_if_zero(format!("{}.{}", f_name, l_name)));
                     }
                     Function => todo!(), // function name + nVars
                     Call => todo!(),     // function name + nArgs
