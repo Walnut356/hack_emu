@@ -292,7 +292,29 @@ fn test_fibseries() {
     cpu.ram[400] = 6;
     cpu.ram[401] = 3000;
 
-    while cpu.execute(false, true) {}
+    while cpu.execute(false, false) {}
 
     assert_eq!(cpu.ram[3000..=3005], [0, 1, 1, 2, 3, 5])
+}
+
+#[test]
+fn test_simplefunction() {
+    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/SimpleFunction/SimpleFunction.vm");
+    cpu.ram[0] = 317;
+    cpu.ram[1] = 317;
+    cpu.ram[2] = 310;
+    cpu.ram[3] = 3000;
+    cpu.ram[4] = 4000;
+    cpu.ram[310] = 1234;
+    cpu.ram[311] = 37;
+    cpu.ram[312] = 1000;
+    cpu.ram[313] = 305;
+    cpu.ram[314] = 300;
+    cpu.ram[315] = 3010;
+    cpu.ram[316] = 4010;
+
+    while cpu.execute(false, false) {}
+
+    assert_eq!(cpu.ram[0..=4], [311, 305, 300, 3010, 4010]);
+    assert_eq!(cpu.ram[310], 1196);
 }

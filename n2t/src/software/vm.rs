@@ -138,7 +138,6 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         )
                         .unwrap(); // the default should mean this never fails
                         let val = temp.next().unwrap();
-                        println!("{target}");
                         output.push_str(&push(target, val))
                     }
                     Add => output.push_str(&add()),
@@ -190,9 +189,27 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         );
                         output.push_str(&jump_if_zero(format!("{}.{}", f_name, l_name)));
                     }
-                    Function => todo!(), // function name + nVars
-                    Call => todo!(),     // function name + nArgs
-                    Return => todo!(),   // 0 tokens
+                    Function => {
+                        // function name + nVars
+                        let l_name = temp.next().expect("Function definition with no name");
+                        assert!(
+                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                            "Function name must not start with a digit. Got: {}",
+                            l_name
+                        );
+                        output.push_str(&format!("({}.{})\n", f_name, l_name));
+                        let n_vars: usize = temp
+                            .next()
+                            .expect("Function definition without nVars")
+                            .parse()
+                            .unwrap();
+
+                        for _ in 0..n_vars {
+                            output.push_str(&push(Segment::Constant, "0"))
+                        }
+                    }
+                    Call => todo!(),   // function name + nArgs
+                    Return => todo!(), // 0 tokens
                 }
             }
         }
