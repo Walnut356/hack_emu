@@ -322,14 +322,27 @@ fn test_simplefunction() {
         if cpu.pc == 5 {
             cpu.ram[0] = 317 // force override bootstrap code
         }
-        if cpu.time == 85 { // return statement beginning
+        if cpu.time == 85 {
+            // return statement beginning
             assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
         }
-        if cpu.pc == 137 { // since there's nowhere to return to, we break just before the return
+        if cpu.pc == 137 {
+            // since there's nowhere to return to, we break just before the return
             break;
         }
     }
 
     assert_eq!(cpu.ram[0..=4], [311, 305, 300, 3010, 4010]);
     assert_eq!(cpu.ram[310], 1196);
+}
+
+#[test]
+fn test_fibelement() {
+    let mut cpu =
+        get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/FibonacciElement.vm");
+
+    while cpu.execute(false, false) {}
+
+    assert_eq!(cpu.ram[0], 262);
+    assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 3);
 }
