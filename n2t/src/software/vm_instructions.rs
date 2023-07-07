@@ -164,6 +164,51 @@ pub fn jump_uncond(dest: String) -> String {
     format!("@{dest}\n0;JMP\n")
 }
 
+pub fn func_return(func_label: &String) -> String {
+    format!(
+        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+        // store frame memory loc in R[14]
+        "@LCL\n",
+        "D=M\n",
+        "@R14\n",
+        "M=D\n",
+        // store return address (RAM[frame-5]) in R15
+        "@5\n",
+        "D=A\n",
+        "@R14\n",
+        "A=M-D\n",
+        // pop stack to RAM[arg.0]
+        pop(Segment::Argument, Some("0")),
+        // set stack to RAM[arg + 1]
+        "@ARG\n",
+        "D=M+1\n",
+        "@SP\n",
+        "M=D\n",
+        // Restore THAT
+        "@R14\n",
+        "A=M-1\n",
+        "D=M\n",
+        "@THAT\n",
+        "M=D\n",
+        // Restore THIS
+        "@2\nD=A\n@R14\nA=M-D\n",
+        "D=M\n",
+        "@THIS\n",
+        "M=D\n",
+        // Restore ARG
+        "@3\nD=A\n@R14\nA=M-D\n",
+        "D=M\n",
+        "@ARG\n",
+        "M=D\n",
+        // Restore LCL
+        "@4\nD=A\n@R14\nA=M-D\n",
+        "D=M\n",
+        "@LCL\n",
+        "M=D\n",
+        jump_uncond(func_label.to_owned()),
+    )
+}
+
 // Drop-in instructions for use in compound statements
 
 /// sets A to a pointer's base address
@@ -173,13 +218,14 @@ pub fn set_a_ptr(loc: &Segment) -> String {
 
 /// sets A to `ind` offset of `loc` pointer's base address
 pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
-    // for the idiomatic "R0-R15" virtual registers
     match *loc {
         Segment::Temp => {
+            // for the idiomatic "R0-R15" virtual registers
             let off = ind.parse::<u16>().unwrap() + 5;
             format!("@{loc}{off}\n")
         }
         Segment::Pointer => {
+            // pointer "segment" is just THIS and THAT registers
             if ind == "0" {
                 format!("@THIS\n")
             } else {

@@ -96,6 +96,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     let mut eq_count = 0;
     let mut lt_count = 0;
     let mut gt_count = 0;
+    let mut ret_counts: HashMap<String, usize> = HashMap::new();
 
     // Iterate over
     for (file, f_name) in files {
@@ -104,6 +105,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         // Managing this with global state is easier (lol) than passing it around a bunch, especially when many funcs
         // don't need it. I don't plan on multithreading, so it shouldn't be a problem.
         let file_name = f_name.to_owned();
+        let mut func_label = "".to_owned();
 
         while let Some(Ok(line)) = lines.next() {
             if line.starts_with("//") | line.is_empty() {
@@ -132,6 +134,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         output.push_str(&pop(target, val))
                     }
                     Push => {
+                        // TODO do statics get a unique name?
                         // 2 tokens: pointer and offset (or "constant" and value)
                         let target = Segment::from_str(
                             temp.next().expect("Push instruction with no location"),
@@ -167,7 +170,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             "Labels must not start with a digit. Got: {}",
                             l_name
                         );
-                        output.push_str(&format!("({}.{})\n", f_name, l_name));
+                        output.push_str(&format!("({})\n", l_name));
                     }
                     Goto => {
                         let l_name = temp.next().expect("Jump instruction with no label");
@@ -177,7 +180,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             l_name
                         );
 
-                        output.push_str(&jump_uncond(format!("{}.{}", f_name, l_name)))
+                        output.push_str(&jump_uncond(format!("{}", l_name)))
                     } // label + file name
                     IfGoto => {
                         // label + file name
@@ -187,7 +190,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             "Labels must not start with a digit. Got: {}",
                             l_name
                         );
-                        output.push_str(&jump_if_zero(format!("{}.{}", f_name, l_name)));
+                        output.push_str(&jump_if_zero(format!("{}", l_name)));
                     }
                     Function => {
                         // function name + nVars
@@ -197,7 +200,9 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             "Function name must not start with a digit. Got: {}",
                             l_name
                         );
-                        output.push_str(&format!("({}.{})\n", f_name, l_name));
+                        let func_name = format!("{l_name}");
+                        func_label = func_name.clone();
+                        output.push_str(&format!("({})\n", l_name));
                         let n_vars: usize = temp
                             .next()
                             .expect("Function definition without nVars")
@@ -208,8 +213,13 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             output.push_str(&push(Segment::Constant, "0"))
                         }
                     }
-                    Call => todo!(),   // function name + nArgs
-                    Return => todo!(), // 0 tokens
+                    Call => todo!(), // function name + nArgs
+                    Return => {
+                        let mut zero = 0;
+                        let mut c = ret_counts.get_mut(&func_label).unwrap_or(&mut zero);
+                        output.push_str(&func_return(&format!("{func_label}$ret{}", *c)));
+                        *c += 1;
+                    } // 0 tokens
                 }
             }
         }

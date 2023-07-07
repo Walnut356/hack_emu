@@ -1,4 +1,8 @@
-use std::path::Path;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+    path::Path,
+};
 
 use n2t::{
     hardware::native::cpu::Computer,
@@ -300,6 +304,7 @@ fn test_fibseries() {
 #[test]
 fn test_simplefunction() {
     let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/SimpleFunction/SimpleFunction.vm");
+
     cpu.ram[0] = 317;
     cpu.ram[1] = 317;
     cpu.ram[2] = 310;
@@ -307,13 +312,23 @@ fn test_simplefunction() {
     cpu.ram[4] = 4000;
     cpu.ram[310] = 1234;
     cpu.ram[311] = 37;
-    cpu.ram[312] = 1000;
+    cpu.ram[312] = 9;
     cpu.ram[313] = 305;
     cpu.ram[314] = 300;
     cpu.ram[315] = 3010;
     cpu.ram[316] = 4010;
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 5 {
+            cpu.ram[0] = 317 // force override bootstrap code
+        }
+        if cpu.time == 85 { // return statement beginning
+            assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
+        }
+        if cpu.pc == 137 { // since there's nowhere to return to, we break just before the return
+            break;
+        }
+    }
 
     assert_eq!(cpu.ram[0..=4], [311, 305, 300, 3010, 4010]);
     assert_eq!(cpu.ram[310], 1196);
