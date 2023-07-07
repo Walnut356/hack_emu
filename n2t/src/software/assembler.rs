@@ -24,7 +24,6 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
     symbol_table.insert("ARG".to_string(), 2);
     symbol_table.insert("THIS".to_string(), 3);
     symbol_table.insert("THAT".to_string(), 4);
-    symbol_table.insert("pointer".to_string(), 3);
     symbol_table.insert("SCREEN".to_string(), 16384);
     symbol_table.insert("KBD".to_string(), 24576);
 
@@ -99,7 +98,7 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
                 // the binary file parser in me is sad though
                 code = val;
             } else {
-                code = instr[1..].parse().unwrap();
+                code = u16::from_ne_bytes(instr[1..].parse::<i16>().unwrap().to_ne_bytes());
             }
             output.push_str(format!("{code:016b}\n").as_str());
             continue;

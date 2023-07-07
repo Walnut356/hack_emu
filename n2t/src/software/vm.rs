@@ -82,7 +82,13 @@ pub enum Instruction {
 
 /// Accepts a Path to a ".vm" file, returns a Path to the generated ".asm"
 pub fn vm_to_asm(path: &Path) -> PathBuf {
-    let mut out_path = PathBuf::from(path);
+    let mut out_path;
+
+    if path.is_file() {
+        out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
+    } else {
+        out_path = Path::new(path).join(path.file_stem().unwrap());
+    }
 
     let mut files = get_file_buffers(path, "vm");
 
@@ -226,7 +232,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     }
 
     // force infinite loop to "terminate" program
-    output.push_str(finalize_program());
+    output.push_str(infinite_loop());
     write!(out_file, "{output}").unwrap();
     out_file.flush().unwrap();
 

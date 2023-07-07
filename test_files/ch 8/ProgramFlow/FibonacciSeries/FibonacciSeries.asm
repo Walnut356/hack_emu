@@ -3,6 +3,13 @@
 D=A
 @SP
 M=D
+//call Sys.init
+@Sys.init
+0;JMP
+(Sys.init$ret0)
+(INFINITE_LOOP)
+@INFINITE_LOOP
+0;JMP
 //push argument 1
 @1
 D=A

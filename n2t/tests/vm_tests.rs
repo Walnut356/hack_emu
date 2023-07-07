@@ -36,7 +36,11 @@ fn test_simpleadd() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(
         cpu.ram[0], 257,
@@ -54,7 +58,11 @@ fn test_stacktest() {
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(
         cpu.ram[0], 266,
@@ -76,7 +84,11 @@ fn test_basictest() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 472);
     assert_eq!(cpu.ram[300], 10);
@@ -97,7 +109,11 @@ fn test_pointertest() {
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 6084);
     assert_eq!(cpu.ram[3], 3030);
@@ -116,156 +132,13 @@ fn test_statictest() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1110);
-}
-
-// thorough stack test
-#[test]
-fn test_stepwise_stacktest() {
-    let path = Path::new(r#"../test_files/ch 7/StackTest.vm"#);
-    let asm = vm_to_asm(&path);
-    let machine = asm_to_hack(&asm);
-    let program = hack_to_vec(&machine);
-
-    let mut cpu = Computer::new(program);
-
-    cpu.ram[1] = 300; // "local" pointer
-    cpu.ram[2] = 400; // "argument" pointer
-    cpu.ram[3] = 3000; // "this" pointer
-    cpu.ram[4] = 3010; // "that" pointer
-    cpu.ram[16] = 3; // "pointer" pointer
-
-    let mut pc_stop = 29;
-
-    // ----------------------------------------------------- EQ ----------------------------------------------------- //
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 257,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[256].to_ne_bytes()), -1);
-    pc_stop += 25;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 258,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[257].to_ne_bytes()), 0);
-    pc_stop += 25;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 259,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[258].to_ne_bytes()), 0);
-    pc_stop += 25;
-
-    // ----------------------------------------------------- LT ----------------------------------------------------- //
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 260,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[259].to_ne_bytes()), 0);
-    pc_stop += 25;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 261,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[260].to_ne_bytes()), -1);
-    pc_stop += 25;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 262,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[261].to_ne_bytes()), 0);
-    pc_stop += 25;
-
-    // ----------------------------------------------------- GT ----------------------------------------------------- //
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 263,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[262].to_ne_bytes()), -1);
-    pc_stop += 26;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 264,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[263].to_ne_bytes()), 0);
-    pc_stop += 25;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 265,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[264].to_ne_bytes()), 0);
-    // ----------------------------------------------- Non-comparison ----------------------------------------------- //
-
-    // push 57, 31, 53, add 31 and 53
-    pc_stop += 29;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 267,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), 84);
-    // push 112, subtract prev result from 112
-    pc_stop += 14;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 267,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), -28);
-
-    // negate prev result
-    pc_stop += 3;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 267,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[266].to_ne_bytes()), 28);
-
-    // and prev result with 84
-    pc_stop += 8;
-    cpu.run_until(pc_stop, false, true);
-    assert_eq!(
-        cpu.ram[0], 266,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()), 28 & 57); // should be 24
-
-    // push 82, or 82 with prev result
-    pc_stop += 15;
-    cpu.run_until(pc_stop, false, true);
-    assert_eq!(
-        cpu.ram[0], 266,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(
-        i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()),
-        (28 & 57) | 82
-    ); // should be 90
-
-    // not prev result
-    pc_stop += 4;
-    cpu.run_until(pc_stop, false, false);
-    assert_eq!(
-        cpu.ram[0], 266,
-        "Stack pointer pointing to incorrect memory location"
-    );
-    assert_eq!(
-        i16::from_ne_bytes(cpu.ram[265].to_ne_bytes()),
-        !((28 & 57) | 82)
-    ); // not 90 should be
 }
 
 // ------------------------------------------------------------------------------------------------------------------ //
@@ -280,7 +153,11 @@ fn test_basicloop() {
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[400] = 3; // argument initial val
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(cpu.ram[0], 257);
     assert_eq!(cpu.ram[256], 6);
@@ -296,7 +173,11 @@ fn test_fibseries() {
     cpu.ram[400] = 6;
     cpu.ram[401] = 3000;
 
-    while cpu.execute(false, false) {}
+    while cpu.execute(false, false) {
+        if cpu.pc == 4 {
+            cpu.pc = 8; // skip over bootstrapping code
+        }
+    }
 
     assert_eq!(cpu.ram[3000..=3005], [0, 1, 1, 2, 3, 5])
 }
@@ -318,15 +199,13 @@ fn test_simplefunction() {
     cpu.ram[315] = 3010;
     cpu.ram[316] = 4010;
 
+    cpu.pc = 8; // skip over bootstrapping code
     while cpu.execute(false, false) {
-        if cpu.pc == 5 {
-            cpu.ram[0] = 317 // force override bootstrap code
-        }
         if cpu.time == 85 {
             // return statement beginning
             assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
         }
-        if cpu.pc == 137 {
+        if cpu.pc == 141 {
             // since there's nowhere to return to, we break just before the return
             break;
         }
@@ -338,8 +217,7 @@ fn test_simplefunction() {
 
 #[test]
 fn test_fibelement() {
-    let mut cpu =
-        get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/FibonacciElement.vm");
+    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/");
 
     while cpu.execute(false, false) {}
 

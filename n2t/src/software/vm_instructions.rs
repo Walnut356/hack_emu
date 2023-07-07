@@ -263,11 +263,16 @@ pub fn decr_ptr(loc: &Segment) -> String {
 
 /// sets stack pointer to 256 and calls Sys.Init
 pub fn init_program() -> String {
-    format!("{}", "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",)
+    format!(
+        "{}{}{}",
+        "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",
+        "//call Sys.init\n@Sys.init\n0;JMP\n(Sys.init$ret0)\n",
+        infinite_loop(),
+    )
     // TODO call Sys.Init
 }
 
 /// calls an infinite loop at the end of the program
-pub fn finalize_program() -> &'static str {
-    "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP"
+pub fn infinite_loop() -> &'static str {
+    "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP\n"
 }
