@@ -32,6 +32,10 @@ pub mod utils {
         path::Path,
     };
 
+    pub fn u16_from_i16(val: i16) -> u16 {
+        u16::from_ne_bytes(val.to_ne_bytes())
+    }
+
     fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
         assert_eq!(
             path.extension().unwrap(),

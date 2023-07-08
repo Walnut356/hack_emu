@@ -34,7 +34,7 @@ const FILE_NAME: Mutex<String> = Mutex::new(String::new());
 pub enum Segment {
     #[strum(to_string = "SP")]
     #[strum(serialize = "constant")]
-    Constant,
+    Stack,
     #[strum(to_string = "LCL")]
     #[strum(serialize = "local")]
     Local,
@@ -96,7 +96,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     out_path.set_extension("asm");
     let mut out_file = File::create(out_path.clone()).unwrap();
     let mut output = String::new();
-    output.push_str(init_program().as_str());
+    output.push_str(BOOTSTRAP.as_str());
 
     // helper variables for unique labels
     let mut eq_count = 0;
@@ -146,11 +146,11 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             temp.next().expect("Push instruction with no location"),
                         )
                         .unwrap(); // the default should mean this never fails
-                        let val = temp.next().unwrap();
+                        let val = temp.next();
                         output.push_str(&push(target, val))
                     }
-                    Add => output.push_str(&add()),
-                    Sub => output.push_str(&sub()),
+                    Add => output.push_str(&ADD),
+                    Sub => output.push_str(&SUB),
                     Eq => {
                         output.push_str(&eq(eq_count));
                         eq_count += 1;
@@ -163,10 +163,10 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                         output.push_str(&gt(gt_count));
                         gt_count += 1;
                     }
-                    Neg => output.push_str(&neg()),
-                    Not => output.push_str(&not()),
-                    And => output.push_str(&and()),
-                    Or => output.push_str(or().as_str()),
+                    Neg => output.push_str(&NEG),
+                    Not => output.push_str(&NOT),
+                    And => output.push_str(&AND),
+                    Or => output.push_str(&OR),
                     // Flow control
                     Label => {
                         // label + file name
@@ -206,8 +206,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             "Function name must not start with a digit. Got: {}",
                             l_name
                         );
-                        let func_name = format!("{l_name}");
-                        func_label = func_name.clone();
+
                         output.push_str(&format!("({})\n", l_name));
                         let n_vars: usize = temp
                             .next()
@@ -216,15 +215,29 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             .unwrap();
 
                         for _ in 0..n_vars {
-                            output.push_str(&push(Segment::Constant, "0"))
+                            output.push_str(&push(Segment::Stack, Some("0")))
                         }
                     }
-                    Call => todo!(), // function name + nArgs
-                    Return => {
-                        let mut zero = 0;
-                        let mut c = ret_counts.get_mut(&func_label).unwrap_or(&mut zero);
-                        output.push_str(&func_return(&format!("{func_label}$ret{}", *c)));
+                    Call => {
+                        // function name + nArgs
+                        let l_name = temp.next().expect("Function call with no name");
+                        assert!(
+                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                            "Function name must not start with a digit. Got: {}",
+                            l_name
+                        );
+                        let func_name = format!("{l_name}");
+                        func_label = func_name.clone();
+
+                        let n_args = temp.next().expect("Function Call with no Arg count");
+
+                        let c = ret_counts.entry(func_label.clone()).or_default();
+                        let return_addr = format!("{func_label}$ret{c}");
+                        output.push_str(&func_call(&func_label, &return_addr, n_args));
                         *c += 1;
+                    }
+                    Return => {
+                        output.push_str(&func_return());
                     } // 0 tokens
                 }
             }
@@ -232,7 +245,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     }
 
     // force infinite loop to "terminate" program
-    output.push_str(infinite_loop());
+    output.push_str(INFINITE_LOOP);
     write!(out_file, "{output}").unwrap();
     out_file.flush().unwrap();
 

@@ -7,7 +7,7 @@ use std::{
 use n2t::{
     hardware::native::cpu::Computer,
     software::{assembler::asm_to_hack, vm::vm_to_asm},
-    utils::hack_to_vec,
+    utils::{hack_to_vec, u16_from_i16},
 };
 
 fn get_computer(file_path: &str) -> Computer {
@@ -155,7 +155,10 @@ fn test_basicloop() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 55; // skip over bootstrapping code
+        }
+        if cpu.time > 600 {
+            break;
         }
     }
 
@@ -175,7 +178,7 @@ fn test_fibseries() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 55; // skip over bootstrapping code
         }
     }
 
@@ -199,13 +202,13 @@ fn test_simplefunction() {
     cpu.ram[315] = 3010;
     cpu.ram[316] = 4010;
 
-    cpu.pc = 8; // skip over bootstrapping code
+    cpu.pc = 55; // skip over bootstrapping code
     while cpu.execute(false, false) {
         if cpu.time == 85 {
             // return statement beginning
             assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
         }
-        if cpu.pc == 141 {
+        if cpu.pc == 185 {
             // since there's nowhere to return to, we break just before the return
             break;
         }
@@ -213,6 +216,75 @@ fn test_simplefunction() {
 
     assert_eq!(cpu.ram[0..=4], [311, 305, 300, 3010, 4010]);
     assert_eq!(cpu.ram[310], 1196);
+}
+
+#[test]
+fn test_nestedcall() {
+    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/NestedCall/");
+
+    cpu.ram[0] = 261;
+    cpu.ram[1] = 261;
+    cpu.ram[2] = 256;
+    cpu.ram[3] = u16_from_i16(-3);
+    cpu.ram[4] = u16_from_i16(-4);
+    cpu.ram[5] = u16_from_i16(-1); // test results
+    cpu.ram[6] = u16_from_i16(-1);
+    cpu.ram[256] = 1234; // fake stack frame from call Sys.init
+    cpu.ram[257] = u16_from_i16(-1);
+    cpu.ram[258] = u16_from_i16(-2);
+    cpu.ram[259] = u16_from_i16(-3);
+    cpu.ram[260] = u16_from_i16(-4);
+
+    cpu.ram[261] = u16_from_i16(-1); // Initialize stack to check for local segment
+    cpu.ram[262] = u16_from_i16(-1); // being cleared to zero.
+    cpu.ram[263] = u16_from_i16(-1);
+    cpu.ram[264] = u16_from_i16(-1);
+    cpu.ram[265] = u16_from_i16(-1);
+    cpu.ram[266] = u16_from_i16(-1);
+    cpu.ram[267] = u16_from_i16(-1);
+    cpu.ram[268] = u16_from_i16(-1);
+    cpu.ram[269] = u16_from_i16(-1);
+    cpu.ram[270] = u16_from_i16(-1);
+    cpu.ram[271] = u16_from_i16(-1);
+    cpu.ram[272] = u16_from_i16(-1);
+    cpu.ram[273] = u16_from_i16(-1);
+    cpu.ram[274] = u16_from_i16(-1);
+    cpu.ram[275] = u16_from_i16(-1);
+    cpu.ram[276] = u16_from_i16(-1);
+    cpu.ram[277] = u16_from_i16(-1);
+    cpu.ram[278] = u16_from_i16(-1);
+    cpu.ram[279] = u16_from_i16(-1);
+    cpu.ram[280] = u16_from_i16(-1);
+    cpu.ram[281] = u16_from_i16(-1);
+    cpu.ram[282] = u16_from_i16(-1);
+    cpu.ram[283] = u16_from_i16(-1);
+    cpu.ram[284] = u16_from_i16(-1);
+    cpu.ram[285] = u16_from_i16(-1);
+    cpu.ram[286] = u16_from_i16(-1);
+    cpu.ram[287] = u16_from_i16(-1);
+    cpu.ram[288] = u16_from_i16(-1);
+    cpu.ram[289] = u16_from_i16(-1);
+    cpu.ram[290] = u16_from_i16(-1);
+    cpu.ram[291] = u16_from_i16(-1);
+    cpu.ram[292] = u16_from_i16(-1);
+    cpu.ram[293] = u16_from_i16(-1);
+    cpu.ram[294] = u16_from_i16(-1);
+    cpu.ram[295] = u16_from_i16(-1);
+    cpu.ram[296] = u16_from_i16(-1);
+    cpu.ram[297] = u16_from_i16(-1);
+    cpu.ram[298] = u16_from_i16(-1);
+    cpu.ram[299] = u16_from_i16(-1);
+
+    while cpu.execute(false, true) {
+        if cpu.pc == 4 {
+            cpu.ram[0] = 261;
+        }
+        if cpu.time > 4000 {
+            break;
+        }
+    }
+
+    assert_eq!(cpu.ram[0..=6], [261, 261, 256, 4000, 5000, 135, 246])
 }
 
 #[test]
