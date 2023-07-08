@@ -54,6 +54,7 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
+//Sys.init should never return, but just in case it does, here's another loop trap
 @INFINITE_LOOP
 0;JMP
 //push constant 0    

@@ -7,6 +7,7 @@ M=D
 @Sys.init$ret0
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -53,6 +54,9 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
+//Sys.init should never return, but just in case it does, here's another loop trap
+@INFINITE_LOOP
+0;JMP
 //function Main.fibonacci 0
 (Main.fibonacci)
 //push argument 0
@@ -62,6 +66,7 @@ D=A
 A=D+M
 D=M
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -69,6 +74,7 @@ AM=M+1
 @2
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -103,6 +109,7 @@ D=A
 A=D+M
 D=M
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -172,6 +179,7 @@ D=A
 A=D+M
 D=M
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -179,6 +187,7 @@ AM=M+1
 @2
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -193,6 +202,7 @@ M=M-D
 @Main.fibonacci$ret0
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -246,6 +256,7 @@ D=A
 A=D+M
 D=M
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -253,6 +264,7 @@ AM=M+1
 @1
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -267,6 +279,7 @@ M=M-D
 @Main.fibonacci$ret1
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -383,6 +396,7 @@ A=M
 @4
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1
@@ -390,6 +404,7 @@ AM=M+1
 @Main.fibonacci$ret2
 D=A
 @SP
+A=M
 M=D
 @SP
 AM=M+1

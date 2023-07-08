@@ -4,10 +4,57 @@ D=A
 @SP
 M=D
 //call Sys.init
+@Sys.init$ret0
+D=A
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+AM=M+1
+@0
+D=A
+@5
+D=A-D
+@SP
+D=M-D
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
-(INFINITE_LOOP)
+//Sys.init should never return, but just in case it does, here's another loop trap
 @INFINITE_LOOP
 0;JMP
 //push constant 10
@@ -188,10 +235,8 @@ AM=M+1
 AM=M-1
 D=M
 @SP
-AM=M-1
+A=M-1
 M=D+M
-@SP
-AM=M+1
 //push argument 1
 @1
 D=A
@@ -208,10 +253,8 @@ AM=M+1
 AM=M-1
 D=M
 @SP
-AM=M-1
+A=M-1
 M=M-D
-@SP
-AM=M+1
 //push this 6
 @6
 D=A
@@ -239,19 +282,15 @@ AM=M+1
 AM=M-1
 D=M
 @SP
-AM=M-1
+A=M-1
 M=D+M
-@SP
-AM=M+1
 //sub
 @SP
 AM=M-1
 D=M
 @SP
-AM=M-1
+A=M-1
 M=M-D
-@SP
-AM=M+1
 //push temp 6
 @R11
 D=M
@@ -265,10 +304,8 @@ AM=M+1
 AM=M-1
 D=M
 @SP
-AM=M-1
+A=M-1
 M=D+M
-@SP
-AM=M+1
 (INFINITE_LOOP)
 @INFINITE_LOOP
 0;JMP
