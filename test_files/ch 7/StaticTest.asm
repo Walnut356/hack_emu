@@ -12,28 +12,28 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=A
+D=M
 @SP
 A=M
 M=D
@@ -79,10 +79,10 @@ M=D
 @SP
 AM=M+1
 //pop static 8
-@8
-D=A
 @static
-A=D+M
+D=M
+@8
+A=D+A
 D=A
 @R13
 M=D
@@ -93,10 +93,10 @@ D=M
 A=M
 M=D
 //pop static 3
-@3
-D=A
 @static
-A=D+M
+D=M
+@3
+A=D+A
 D=A
 @R13
 M=D
@@ -107,10 +107,10 @@ D=M
 A=M
 M=D
 //pop static 1
-@1
-D=A
 @static
-A=D+M
+D=M
+@1
+A=D+A
 D=A
 @R13
 M=D
@@ -121,10 +121,10 @@ D=M
 A=M
 M=D
 //push static 3
-@3
-D=A
 @static
-A=D+M
+D=M
+@3
+A=D+A
 D=M
 @SP
 A=M
@@ -132,10 +132,10 @@ M=D
 @SP
 AM=M+1
 //push static 1
-@1
-D=A
 @static
-A=D+M
+D=M
+@1
+A=D+A
 D=M
 @SP
 A=M
@@ -150,10 +150,10 @@ D=M
 A=M-1
 M=M-D
 //push static 8
-@8
-D=A
 @static
-A=D+M
+D=M
+@8
+A=D+A
 D=M
 @SP
 A=M

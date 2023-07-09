@@ -28,11 +28,12 @@ pub const POP_STACK: &str = "@SP\nAM=M-1\nD=M\n";
 pub const SET_STACK_D: &str = "@SP\nA=M\nM=D\n";
 /// Assumes that A is set to a pointer, sets A to the memory address pointed to by A
 pub const DEREF_A: &str = "A=M\n";
+/// Pushes D to the stack, increments stack pointer
 pub const PUSH_D_STACK: &str = "@SP\nA=M\nM=D\n@SP\nAM=M+1\n";
 pub const JUMP_UNCOND: &str = "0;JMP\n";
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "{dest}={src}\n"
 /// ```
 pub fn load(dest: Reg, src: &str) -> String {
@@ -40,7 +41,7 @@ pub fn load(dest: Reg, src: &str) -> String {
 }
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "@{val}\n"
 /// ```
 pub fn load_const<d: Display>(val: d) -> String {
@@ -48,7 +49,7 @@ pub fn load_const<d: Display>(val: d) -> String {
 }
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "({val})\n"
 /// ```
 pub fn label(val: &str) -> String {
@@ -56,7 +57,7 @@ pub fn label(val: &str) -> String {
 }
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "{comp};JEQ\n"
 /// ```
 pub fn jeq(comp: &str) -> String {
@@ -64,7 +65,7 @@ pub fn jeq(comp: &str) -> String {
 }
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "{comp};JLT\n"
 /// ```
 pub fn jlt(comp: &str) -> String {
@@ -72,17 +73,25 @@ pub fn jlt(comp: &str) -> String {
 }
 
 /// Returns:
-/// ```
+/// ```no_test
 ///  "{comp};JGT\n"
 /// ```
 pub fn jgt(comp: &str) -> String {
     format!("{comp};JGT\n")
 }
 
+/// Returns:
+/// ```no_test
+///  "{comp};JNE\n"
+/// ```
 pub fn jne(comp: &str) -> String {
     format!("{comp};JNE\n")
 }
 
+/// Returns:
+/// ```no_test
+///  "@{dest}\n{JUMP_UNCOND}\n"
+/// ```
 pub fn jump(dest: String) -> String {
     format!("@{dest}\n{JUMP_UNCOND}\n")
 }
@@ -167,10 +176,10 @@ pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
         }
         _ => format!(
             "{}{}{}{}",
-            load_const(ind),
-            load(Reg::D, "A"),
             load_const(loc.to_string().as_str()),
-            load(Reg::A, "D+M"),
+            load(Reg::D, "M"),
+            load_const(ind),
+            load(Reg::A, "D+A"),
         ),
     }
 }
@@ -297,7 +306,7 @@ pub fn jump_if_zero(dest: String) -> String {
 
 pub fn func_return() -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
         // store frame memory loc in R[15]
         load_const("LCL"),
         load(Reg::D, "M"),
@@ -306,7 +315,8 @@ pub fn func_return() -> String {
         // store return address (RAM[frame-5]) in R14
         // D=RAM[R13] due to prev instruction
         load_const(5),
-        load(Reg::D, "D-A"),
+        load(Reg::A, "D-A"),
+        load(Reg::D, "M"),
         load_const("R14"),
         load(Reg::M, "D"),
         // pop stack to RAM[arg.0]
@@ -318,7 +328,9 @@ pub fn func_return() -> String {
         load(Reg::M, "D"),
         // Restore THAT
         load_const("R15"),
-        load(Reg::A, "M-1"),
+        load(Reg::D, "M"),
+        load_const(1),
+        load(Reg::A, "D-A"),
         load(Reg::D, "M"),
         load_const("THAT"),
         load(Reg::M, "D"),
@@ -355,12 +367,20 @@ pub fn func_return() -> String {
 
 pub fn func_call(func_label: &String, return_addr: &String, n_args: &str) -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
         push(Segment::Stack, Some(return_addr)),
-        push(Segment::Stack, Some("LCL")),
-        push(Segment::Stack, Some("ARG")),
-        push(Segment::Stack, Some("THIS")),
-        push(Segment::Stack, Some("THAT")),
+        load_const("LCL"),
+        load(Reg::D, "M"),
+        PUSH_D_STACK,
+        load_const("ARG"),
+        load(Reg::D, "M"),
+        PUSH_D_STACK,
+        load_const("THIS"),
+        load(Reg::D, "M"),
+        PUSH_D_STACK,
+        load_const("THAT"),
+        load(Reg::D, "M"),
+        PUSH_D_STACK,
         // Set ARG to SP-5-n_args
         load_const("SP",),
         load(Reg::D, "M"),

@@ -12,28 +12,28 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=A
+D=M
 @SP
 A=M
 M=D
@@ -63,10 +63,10 @@ M=D
 @SP
 AM=M+1
 //pop local 0         // initializes sum = 0
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -79,10 +79,10 @@ M=D
 //label LOOP_START
 (LOOP_START)
 //push argument 0    
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -90,10 +90,10 @@ M=D
 @SP
 AM=M+1
 //push local 0
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -108,10 +108,10 @@ D=M
 A=M-1
 M=D+M
 //pop local 0	        // sum = sum + counter
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -122,10 +122,10 @@ D=M
 A=M
 M=D
 //push argument 0
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -148,10 +148,10 @@ D=M
 A=M-1
 M=M-D
 //pop argument 0      // counter--
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -162,10 +162,10 @@ D=M
 A=M
 M=D
 //push argument 0
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -179,10 +179,10 @@ D=M
 @LOOP_START
 D;JNE
 //push local 0
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M

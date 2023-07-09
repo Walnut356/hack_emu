@@ -207,7 +207,7 @@ pub mod utils {
                 13 => "@R13".to_owned(),
                 14 => "@R14".to_owned(),
                 15 => "@R15".to_owned(),
-                _ => "@{val}".to_owned(),
+                _ => format!("@{val}"),
             };
         }
         let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {

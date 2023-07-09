@@ -12,28 +12,28 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=A
+D=M
 @SP
 A=M
 M=D
@@ -91,10 +91,10 @@ M=D
 @SP
 AM=M+1
 //pop this 2
-@2
-D=A
 @THIS
-A=D+M
+D=M
+@2
+A=D+A
 D=A
 @R13
 M=D
@@ -113,10 +113,10 @@ M=D
 @SP
 AM=M+1
 //pop that 6
-@6
-D=A
 @THAT
-A=D+M
+D=M
+@6
+A=D+A
 D=A
 @R13
 M=D
@@ -150,10 +150,10 @@ D=M
 A=M-1
 M=D+M
 //push this 2
-@2
-D=A
 @THIS
-A=D+M
+D=M
+@2
+A=D+A
 D=M
 @SP
 A=M
@@ -168,10 +168,10 @@ D=M
 A=M-1
 M=M-D
 //push that 6
-@6
-D=A
 @THAT
-A=D+M
+D=M
+@6
+A=D+A
 D=M
 @SP
 A=M

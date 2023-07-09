@@ -12,28 +12,28 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=A
+D=M
 @SP
 A=M
 M=D
@@ -55,10 +55,10 @@ M=D
 0;JMP
 (Sys.init$ret0)
 //push argument 1
-@1
-D=A
 @ARG
-A=D+M
+D=M
+@1
+A=D+A
 D=M
 @SP
 A=M
@@ -80,10 +80,10 @@ M=D
 @SP
 AM=M+1
 //pop that 0              // first element in the series = 0
-@0
-D=A
 @THAT
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -102,10 +102,10 @@ M=D
 @SP
 AM=M+1
 //pop that 1              // second element in the series = 1
-@1
-D=A
 @THAT
-A=D+M
+D=M
+@1
+A=D+A
 D=A
 @R13
 M=D
@@ -116,10 +116,10 @@ D=M
 A=M
 M=D
 //push argument 0
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -142,10 +142,10 @@ D=M
 A=M-1
 M=M-D
 //pop argument 0          // num_of_elements -= 2 (first 2 elements are set)
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -158,10 +158,10 @@ M=D
 //label MAIN_LOOP_START
 (MAIN_LOOP_START)
 //push argument 0
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -181,10 +181,10 @@ D;JNE
 //label COMPUTE_ELEMENT
 (COMPUTE_ELEMENT)
 //push that 0
-@0
-D=A
 @THAT
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -192,10 +192,10 @@ M=D
 @SP
 AM=M+1
 //push that 1
-@1
-D=A
 @THAT
-A=D+M
+D=M
+@1
+A=D+A
 D=M
 @SP
 A=M
@@ -210,10 +210,10 @@ D=M
 A=M-1
 M=D+M
 //pop that 2              // that[2] = that[0] + that[1]
-@2
-D=A
 @THAT
-A=D+M
+D=M
+@2
+A=D+A
 D=A
 @R13
 M=D
@@ -253,10 +253,10 @@ D=M
 @THAT
 M=D
 //push argument 0
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -279,10 +279,10 @@ D=M
 A=M-1
 M=M-D
 //pop argument 0          // num_of_elements--
-@0
-D=A
 @ARG
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D

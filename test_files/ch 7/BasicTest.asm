@@ -12,28 +12,28 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=A
+D=M
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=A
+D=M
 @SP
 A=M
 M=D
@@ -63,10 +63,10 @@ M=D
 @SP
 AM=M+1
 //pop local 0
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=A
 @R13
 M=D
@@ -93,10 +93,10 @@ M=D
 @SP
 AM=M+1
 //pop argument 2
-@2
-D=A
 @ARG
-A=D+M
+D=M
+@2
+A=D+A
 D=A
 @R13
 M=D
@@ -107,10 +107,10 @@ D=M
 A=M
 M=D
 //pop argument 1
-@1
-D=A
 @ARG
-A=D+M
+D=M
+@1
+A=D+A
 D=A
 @R13
 M=D
@@ -129,10 +129,10 @@ M=D
 @SP
 AM=M+1
 //pop this 6
-@6
-D=A
 @THIS
-A=D+M
+D=M
+@6
+A=D+A
 D=A
 @R13
 M=D
@@ -159,10 +159,10 @@ M=D
 @SP
 AM=M+1
 //pop that 5
-@5
-D=A
 @THAT
-A=D+M
+D=M
+@5
+A=D+A
 D=A
 @R13
 M=D
@@ -173,10 +173,10 @@ D=M
 A=M
 M=D
 //pop that 2
-@2
-D=A
 @THAT
-A=D+M
+D=M
+@2
+A=D+A
 D=A
 @R13
 M=D
@@ -206,10 +206,10 @@ D=M
 A=M
 M=D
 //push local 0
-@0
-D=A
 @LCL
-A=D+M
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M
@@ -217,10 +217,10 @@ M=D
 @SP
 AM=M+1
 //push that 5
-@5
-D=A
 @THAT
-A=D+M
+D=M
+@5
+A=D+A
 D=M
 @SP
 A=M
@@ -235,10 +235,10 @@ D=M
 A=M-1
 M=D+M
 //push argument 1
-@1
-D=A
 @ARG
-A=D+M
+D=M
+@1
+A=D+A
 D=M
 @SP
 A=M
@@ -253,10 +253,10 @@ D=M
 A=M-1
 M=M-D
 //push this 6
-@6
-D=A
 @THIS
-A=D+M
+D=M
+@6
+A=D+A
 D=M
 @SP
 A=M
@@ -264,10 +264,10 @@ M=D
 @SP
 AM=M+1
 //push this 6
-@6
-D=A
 @THIS
-A=D+M
+D=M
+@6
+A=D+A
 D=M
 @SP
 A=M

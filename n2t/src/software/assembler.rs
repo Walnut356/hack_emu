@@ -138,8 +138,16 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
             code |= 0b0001_0000_0000_0000;
         }
 
-        assert!(comp.len() <= 3, "Comparison {} longer than 3 characters", comp);
-        assert!(dest.len() <= 3, "Destination {} longer than 3 characters", dest);
+        assert!(
+            comp.len() <= 3,
+            "Comparison {} longer than 3 characters",
+            comp
+        );
+        assert!(
+            dest.len() <= 3,
+            "Destination {} longer than 3 characters",
+            dest
+        );
 
         match comp {
             "0" => code |= 0b0000_1010_1000_0000,
@@ -155,7 +163,7 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
             "A+1" | "M+1" => code |= 0b0000_1101_1100_0000,
             "D-1" => code |= 0b0000_0011_1000_0000,
             "A-1" | "M-1" => code |= 0b0000_1100_1000_0000,
-            "D+A" | "D+M" => code |= 0b0000_0000_1000_0000,
+            "D+A" | "D+M" | "A+D" | "M+D" => code |= 0b0000_0000_1000_0000,
             "D-A" | "D-M" => code |= 0b0000_0100_1100_0000,
             "A-D" | "M-D" => code |= 0b0000_0001_1100_0000,
             "D&A" | "D&M" => code |= 0b0000_0000_0000_0000,

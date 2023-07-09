@@ -87,13 +87,13 @@ impl Computer {
                     "RAM[THAT]"
                 ],
                 [
-                    self.ram[self.a as usize],
-                    self.ram[self.d as usize],
-                    self.ram[self.ram[0] as usize],
-                    self.ram[self.ram[1] as usize],
-                    self.ram[self.ram[2] as usize],
-                    self.ram[self.ram[3] as usize],
-                    self.ram[self.ram[4] as usize],
+                    self.ram.get(self.a as usize).unwrap_or(&0),
+                    self.ram.get(self.d as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[0] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[1] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[2] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[3] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[4] as usize).unwrap_or(&0),
                 ]
             );
 
