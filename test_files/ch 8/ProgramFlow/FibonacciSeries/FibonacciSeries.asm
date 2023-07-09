@@ -12,39 +12,39 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-@0
-D=A
-@5
-D=A-D
 @SP
-D=M-D
+D=M
+@5
+D=D-A
+@0
+D=D-A
 @ARG
 M=D
 @SP
@@ -54,9 +54,6 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
-//Sys.init should never return, but just in case it does, here's another loop trap
-@INFINITE_LOOP
-0;JMP
 //push argument 1
 @1
 D=A
@@ -69,15 +66,10 @@ M=D
 @SP
 AM=M+1
 //pop pointer 1           // that = argument[1]
-@THAT
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@THAT
 M=D
 //push constant 0
 @0
@@ -185,6 +177,7 @@ D;JNE
 //goto END_PROGRAM        // otherwise, goto END_PROGRAM
 @END_PROGRAM
 0;JMP
+
 //label COMPUTE_ELEMENT
 (COMPUTE_ELEMENT)
 //push that 0
@@ -254,15 +247,10 @@ D=M
 A=M-1
 M=D+M
 //pop pointer 1           // that += 1
-@THAT
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@THAT
 M=D
 //push argument 0
 @0
@@ -307,8 +295,6 @@ M=D
 //goto MAIN_LOOP_START
 @MAIN_LOOP_START
 0;JMP
+
 //label END_PROGRAM
 (END_PROGRAM)
-(INFINITE_LOOP)
-@INFINITE_LOOP
-0;JMP

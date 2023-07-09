@@ -1,28 +1,102 @@
+use std::fmt::Display;
+
 use crate::{software::vm::Segment, utils::u16_from_i16};
 use lazy_static::lazy_static;
+use strum_macros::EnumString;
+
+#[derive(Debug, Clone, PartialEq, EnumString, strum_macros::Display)]
+pub enum Reg {
+    A,
+    D,
+    M,
+    AD,
+    AM,
+    DM,
+    ADM,
+}
 
 /// calls an infinite loop at the end of the program
-pub static INFINITE_LOOP: &str = "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP\n";
-pub static INCR_STACK: &str = "@SP\nAM=M+1\n";
-pub static DECR_STACK: &str = "@SP\nAM=M-1\n";
+pub const INFINITE_LOOP: &str = "(INFINITE_LOOP)\n@INFINITE_LOOP\n0;JMP\n";
+pub const INCR_STACK: &str = "@SP\nAM=M+1\n";
+pub const DECR_STACK: &str = "@SP\nAM=M-1\n";
 /// sets `A` to the memory location of the top value on the stack (`RAM[SP - 1]`) WITHOUT modifying the stack pointer
-pub static SET_A_STACK_TOP: &str = "@SP\nA=M-1\n";
+pub const SET_A_STACK_TOP: &str = "@SP\nA=M-1\n";
 /// Pops the top value from the stack and stores it in `D`
-pub static POP_STACK: &str = "@SP\nAM=M-1\nD=M\n";
+pub const POP_STACK: &str = "@SP\nAM=M-1\nD=M\n";
 /// Assumes `D` is set to value to be pushed, **does not modify the stack pointer**. `A` is set to the address the SP is
 /// pointing to.
-pub static SET_STACK_D: &str = "@SP\nA=M\nM=D\n";
+pub const SET_STACK_D: &str = "@SP\nA=M\nM=D\n";
 /// Assumes that A is set to a pointer, sets A to the memory address pointed to by A
-pub static DEREF_A: &str = "A=M\n";
+pub const DEREF_A: &str = "A=M\n";
+pub const PUSH_D_STACK: &str = "@SP\nA=M\nM=D\n@SP\nAM=M+1\n";
+pub const JUMP_UNCOND: &str = "0;JMP\n";
+
+/// Returns:
+/// ```
+///  "{dest}={src}\n"
+/// ```
+pub fn load(dest: Reg, src: &str) -> String {
+    format!("{dest}={src}\n")
+}
+
+/// Returns:
+/// ```
+///  "@{val}\n"
+/// ```
+pub fn load_const<d: Display>(val: d) -> String {
+    format!("@{val}\n")
+}
+
+/// Returns:
+/// ```
+///  "({val})\n"
+/// ```
+pub fn label(val: &str) -> String {
+    format!("({val})\n")
+}
+
+/// Returns:
+/// ```
+///  "{comp};JEQ\n"
+/// ```
+pub fn jeq(comp: &str) -> String {
+    format!("{comp};JEQ\n")
+}
+
+/// Returns:
+/// ```
+///  "{comp};JLT\n"
+/// ```
+pub fn jlt(comp: &str) -> String {
+    format!("{comp};JLT\n")
+}
+
+/// Returns:
+/// ```
+///  "{comp};JGT\n"
+/// ```
+pub fn jgt(comp: &str) -> String {
+    format!("{comp};JGT\n")
+}
+
+pub fn jne(comp: &str) -> String {
+    format!("{comp};JNE\n")
+}
+
+pub fn jump(dest: String) -> String {
+    format!("@{dest}\n{JUMP_UNCOND}\n")
+}
 
 lazy_static! {
+
+    /// Initializes the stack pointer and calls Sys.init, takes 53 instructions
+    ///
+    ///
     pub static ref BOOTSTRAP: String = format!(
-        "{}{}{}{}{}",
+        "{}{}{}",
         "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",
         "//call Sys.init\n",
         func_call(&"Sys.init".to_owned(), &"Sys.init$ret0".to_owned(), "0"),
-        "//Sys.init should never return, but just in case it does, here's another loop trap\n",
-        "@INFINITE_LOOP\n0;JMP\n",
     );
 
     /// Consumes the top 2 values of the stack, bitwise ANDs them together, and stores the result on the new top of the
@@ -75,58 +149,30 @@ lazy_static! {
 
 }
 
-pub fn set_a(val: &str) -> String {
-    format!("@{val}\n")
-}
-
-/// sets A to a pointer's base address
-pub fn set_a_ptr(loc: &Segment) -> String {
-    format!("@{loc}\n",)
-}
-
 /// sets A to `ind` offset of `loc` pointer's base address
 pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
     match *loc {
         Segment::Temp => {
             // for the Temp segment (registers R5-R12)
             let off = u16_from_i16(ind.parse::<i16>().unwrap() + 5);
-            format!("@{loc}{off}\n")
+            format!("@R{off}\n")
         }
         Segment::Pointer => {
             // pointer "segment" is just THIS and THAT registers
             if ind == "0" {
-                format!("@THIS\n")
+                load_const("THIS")
             } else {
-                format!("@THAT\n")
+                load_const("THAT")
             }
         }
-        _ => format!("@{ind}\nD=A\n@{loc}\nA=D+M\n"),
+        _ => format!(
+            "{}{}{}{}",
+            load_const(ind),
+            load(Reg::D, "A"),
+            load_const(loc.to_string().as_str()),
+            load(Reg::A, "D+M"),
+        ),
     }
-}
-
-/// sets `RAM[loc]` to the value stored in `D`
-pub fn set_mem_d(loc: &Segment) -> String {
-    format!("{}M=D\n", set_a_ptr(loc))
-}
-
-/// sets `D` to the value in `RAM[loc]`
-pub fn set_d_mem(loc: &Segment) -> String {
-    format!("{}D=M\n", set_a_ptr(loc))
-}
-
-/// Sets `D` to the value that the `loc` pointer is pointing to
-pub fn set_d_deref(loc: &Segment) -> String {
-    format!("{}{}{}", set_a_ptr(loc), DEREF_A, "D=M\n")
-}
-
-/// Sets the value `loc` is pointing to to `D`
-pub fn set_deref_d(loc: &Segment) -> String {
-    format!("{}{}{}", set_a_ptr(loc), DEREF_A, "M=D\n")
-}
-
-/// sets `D` to `val`
-pub fn set_d_const(val: &str) -> String {
-    format!("@{val}\nD=A\n")
 }
 
 /// Pushes a value to the stack.
@@ -140,7 +186,7 @@ pub fn push<'a>(loc: Segment, val: Option<&str>) -> String {
     match loc {
         Stack => {
             if let Some(i) = val {
-                format!("{}{}{}", set_d_const(i), set_deref_d(&loc), INCR_STACK)
+                format!("{}{}{}", load_const(i), load(Reg::D, "A"), PUSH_D_STACK,)
             } else {
                 panic!("Got instruction to push constant with no value");
             }
@@ -148,19 +194,17 @@ pub fn push<'a>(loc: Segment, val: Option<&str>) -> String {
         _ => {
             if let Some(i) = val {
                 format!(
-                    "{}{}{}{}",
+                    "{}{}{}",
                     set_a_offset(&loc, i),
-                    "D=M\n",
-                    set_deref_d(&Segment::Stack),
-                    INCR_STACK,
+                    load(Reg::D, "M"),
+                    PUSH_D_STACK,
                 )
             } else {
                 format!(
-                    "{}{}{}{}",
-                    set_a_ptr(&loc),
-                    "D=A\n",
-                    SET_STACK_D,
-                    INCR_STACK,
+                    "{}{}{}",
+                    load_const(loc.to_string().as_str()),
+                    load(Reg::D, "A"),
+                    PUSH_D_STACK,
                 )
             }
         }
@@ -169,154 +213,170 @@ pub fn push<'a>(loc: Segment, val: Option<&str>) -> String {
 
 /// Pops a value off of the stack and stores it in D if val = None, otherwise stores it in RAM[loc+val]
 pub fn pop(loc: Segment, val: Option<&str>) -> String {
-    if loc == Segment::Stack {
-        format!("{}{}", DECR_STACK, "D=M\n")
-    } else {
-        let ind = val.unwrap();
-        format!(
-            "{}{}{}{}{}{}{}",
-            set_a_offset(&loc, ind), // e.g. set A local[0]'s address
-            "D=A\n",                 // set D to local[0]'s address
-            set_mem_d(&Segment::Static("R13".to_owned())), // store local[0]'s address in R13
-            POP_STACK,               // pop stack into D
-            set_a("R13"),
-            DEREF_A, // Access local[0]'s address from R13
-            "M=D\n"  // set RAM[local[0]] to popped value
-        )
+    match loc {
+        Segment::Stack => POP_STACK.to_owned(),
+        Segment::Pointer => {
+            let ind = val.unwrap();
+            format!(
+                "{}{}{}",
+                POP_STACK,
+                set_a_offset(&loc, ind),
+                load(Reg::M, "D"),
+            )
+        }
+        _ => {
+            let ind = val.unwrap();
+            format!(
+                "{}{}{}{}{}{}{}{}",
+                set_a_offset(&loc, ind), // e.g. set A local[0]'s address
+                load(Reg::D, "A"),       // set D to local[0]'s address
+                load_const("R13"),       // store local[0]'s address in R13
+                load(Reg::M, "D"),
+                POP_STACK, // pop stack into D
+                load_const("R13"),
+                DEREF_A,           // Access local[0]'s address from R13
+                load(Reg::M, "D")  // set RAM[local[0]] to popped value
+            )
+        }
     }
 }
 
 // comparisons
 pub fn eq(eq_count: u16) -> String {
+    let lab = format!("EQ_{eq_count}");
     format!(
-        "{}{}{}{}{}{}{}{}{}({}{})\n",
-        pop(Segment::Stack, None),
-        "A=A-1\n",
-        "D=M-D\n",
-        "M=-1\n",
-        "@EQ_",
-        eq_count,
-        "\nD;JEQ\n",
+        "{}{}{}{}{}{}{}{}{}",
+        POP_STACK,
+        load(Reg::A, "A-1"),
+        load(Reg::D, "M-D"),
+        load(Reg::M, "-1"),
+        load_const(&lab),
+        jeq("D"),
         SET_A_STACK_TOP,
-        "M=0\n",
-        "EQ_",
-        eq_count,
+        load(Reg::M, "0"),
+        label(&lab),
     )
 }
 
 pub fn lt(lt_count: u16) -> String {
+    let lab = format!("LT_{lt_count}");
     format!(
-        "{}{}{}{}{}{}{}{}{}({}{})\n",
-        pop(Segment::Stack, None),
-        "A=A-1\n",
-        "D=M-D\n",
-        "M=-1\n", // init push to true
-        "@LT_",
-        lt_count,
-        "\nD;JLT\n", // if M-D is positive, leave as true, otherwise set to false
+        "{}{}{}{}{}{}{}{}{}",
+        POP_STACK,
+        load(Reg::A, "A-1"),
+        load(Reg::D, "M-D"),
+        load(Reg::M, "-1"),
+        load_const(&lab),
+        jlt("D"),
         SET_A_STACK_TOP,
-        "M=0\n",
-        "LT_",
-        lt_count,
+        load(Reg::M, "0"),
+        label(&lab),
     )
 }
 
 /// compares the top 2 values on the stack, pushes -1 if
 pub fn gt(gt_count: u16) -> String {
+    let lab = format!("GT_{gt_count}");
     format!(
-        "{}{}{}{}{}{}{}{}{}({}{})\n",
-        pop(Segment::Stack, None),
-        "A=A-1\n",
-        "D=M-D\n",
-        "M=-1\n",
-        "@GT_",
-        gt_count,
-        "\nD;JGT\n", // jump if M-D is negative, i.e. M is greater than D
+        "{}{}{}{}{}{}{}{}{}",
+        POP_STACK,
+        load(Reg::A, "A-1"),
+        load(Reg::D, "M-D"),
+        load(Reg::M, "-1"),
+        load_const(&lab),
+        jgt("D"),
         SET_A_STACK_TOP,
-        "M=0\n",
-        "GT_",
-        gt_count,
+        load(Reg::M, "0"),
+        label(&lab),
     )
 }
 
 pub fn jump_if_zero(dest: String) -> String {
-    format!("{}@{}\n{}", POP_STACK, dest, "D;JNE\n")
-}
-
-pub fn jump_uncond(dest: String) -> String {
-    format!("@{dest}\n0;JMP\n")
+    format!("{}{}{}", POP_STACK, load_const(&dest), jne("D"))
 }
 
 pub fn func_return() -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
-        // store frame memory loc in R[14]
-        set_d_mem(&Segment::Local),
-        set_mem_d(&Segment::Static("R14".to_owned())),
-        // store return address (RAM[frame-5]) in R15
-        set_a("5"),
-        "D=A\n",
-        set_a("R14"),
-        "D=M-D\n",
-        set_mem_d(&Segment::Static("R15".to_owned())),
+        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+        // store frame memory loc in R[15]
+        load_const("LCL"),
+        load(Reg::D, "M"),
+        load_const("R15"),
+        load(Reg::M, "D"),
+        // store return address (RAM[frame-5]) in R14
+        // D=RAM[R13] due to prev instruction
+        load_const(5),
+        load(Reg::D, "D-A"),
+        load_const("R14"),
+        load(Reg::M, "D"),
         // pop stack to RAM[arg.0]
         pop(Segment::Argument, Some("0")),
         // set stack to RAM[arg + 1]
-        set_a("ARG"),
-        "D=M+1\n",
-        set_mem_d(&Segment::Stack),
+        load_const("ARG"),
+        load(Reg::D, "M+1"),
+        load_const("SP"),
+        load(Reg::M, "D"),
         // Restore THAT
-        "@R14\nA=M-1\n",
-        "D=M\n",
-        set_mem_d(&Segment::That),
+        load_const("R15"),
+        load(Reg::A, "M-1"),
+        load(Reg::D, "M"),
+        load_const("THAT"),
+        load(Reg::M, "D"),
         // Restore THIS
-        "@2\nD=A\n@R14\nA=M-D\n",
-        "D=M\n",
-        set_mem_d(&Segment::This),
+        load_const("R15"),
+        load(Reg::D, "M"),
+        load_const(2),
+        load(Reg::A, "D-A"),
+        load(Reg::D, "M"),
+        load_const("THIS"),
+        load(Reg::M, "D"),
         // Restore ARG
-        "@3\nD=A\n@R14\nA=M-D\n",
-        "D=M\n",
-        set_mem_d(&Segment::Argument),
+        load_const("R15"),
+        load(Reg::D, "M"),
+        load_const(3),
+        load(Reg::A, "D-A"),
+        load(Reg::D, "M"),
+        load_const("ARG"),
+        load(Reg::M, "D"),
         // Restore LCL
-        "@4\nD=A\n@R14\nA=M-D\n",
-        "D=M\n",
-        set_mem_d(&Segment::Local),
-        set_a("R15"),
+        load_const("R15"),
+        load(Reg::D, "M"),
+        load_const(4),
+        load(Reg::A, "D-A"),
+        load(Reg::D, "M"),
+        load_const("LCL"),
+        load(Reg::M, "D"),
+        // jump to return addr
+        load_const("R14"),
         DEREF_A,
-        "0;JMP\n",
+        JUMP_UNCOND,
     )
 }
 
 pub fn func_call(func_label: &String, return_addr: &String, n_args: &str) -> String {
     format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}@{}\n{}({})\n",
+        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
         push(Segment::Stack, Some(return_addr)),
-        // this is kindof a hack but i'd have to rework quite a few things to get this to work "properly"
-        set_d_mem(&Segment::Local),
-        SET_STACK_D,
-        INCR_STACK,
-        set_d_mem(&Segment::Argument),
-        SET_STACK_D,
-        INCR_STACK,
-        set_d_mem(&Segment::This),
-        SET_STACK_D,
-        INCR_STACK,
-        set_d_mem(&Segment::That),
-        SET_STACK_D,
-        INCR_STACK,
+        push(Segment::Stack, Some("LCL")),
+        push(Segment::Stack, Some("ARG")),
+        push(Segment::Stack, Some("THIS")),
+        push(Segment::Stack, Some("THAT")),
         // Set ARG to SP-5-n_args
-        set_a(n_args),
-        "D=A\n",
-        "@5\n",
-        "D=A-D\n",
-        "@SP\n",
-        "D=M-D\n",
-        set_mem_d(&Segment::Argument),
+        load_const("SP",),
+        load(Reg::D, "M"),
+        load_const(5),
+        load(Reg::D, "D-A"), // D = SP - 5
+        load_const(n_args),
+        load(Reg::D, "D-A"), // D = (SP - 5) - n_args
+        load_const("ARG"),
+        load(Reg::M, "D"),
         // Set LCL to SP
-        set_d_mem(&Segment::Stack),
-        set_mem_d(&Segment::Local),
-        func_label,
+        load_const("SP"),
+        load(Reg::D, "M"),
+        load_const("LCL"),
+        load(Reg::M, "D"),
+        load_const(func_label),
         "0;JMP\n",
-        return_addr,
+        label(return_addr),
     )
 }

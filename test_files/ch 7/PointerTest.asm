@@ -12,39 +12,39 @@ M=D
 @SP
 AM=M+1
 @LCL
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @ARG
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THIS
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
 @THAT
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 AM=M+1
-@0
-D=A
-@5
-D=A-D
 @SP
-D=M-D
+D=M
+@5
+D=D-A
+@0
+D=D-A
 @ARG
 M=D
 @SP
@@ -54,9 +54,6 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
-//Sys.init should never return, but just in case it does, here's another loop trap
-@INFINITE_LOOP
-0;JMP
 //push constant 3030
 @3030
 D=A
@@ -66,15 +63,10 @@ M=D
 @SP
 AM=M+1
 //pop pointer 0
-@THIS
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@THIS
 M=D
 //push constant 3040
 @3040
@@ -85,15 +77,10 @@ M=D
 @SP
 AM=M+1
 //pop pointer 1
-@THAT
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@THAT
 M=D
 //push constant 32
 @32
@@ -198,6 +185,3 @@ D=M
 @SP
 A=M-1
 M=D+M
-(INFINITE_LOOP)
-@INFINITE_LOOP
-0;JMP

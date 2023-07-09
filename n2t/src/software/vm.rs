@@ -53,7 +53,7 @@ pub enum Segment {
     #[strum(serialize = "pointer")]
     Pointer,
     #[strum(default)]
-    Static(String),
+    Literal(String),
 }
 
 #[derive(Debug, Clone, PartialEq, EnumString)]
@@ -111,7 +111,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         // Managing this with global state is easier (lol) than passing it around a bunch, especially when many funcs
         // don't need it. I don't plan on multithreading, so it shouldn't be a problem.
         let file_name = f_name.to_owned();
-        let mut func_label = "".to_owned();
+        // let mut func_label = Vec::new();
 
         while let Some(Ok(line)) = lines.next() {
             if line.starts_with("//") | line.is_empty() {
@@ -186,7 +186,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             l_name
                         );
 
-                        output.push_str(&jump_uncond(format!("{}", l_name)))
+                        output.push_str(&jump(format!("{}", l_name)))
                     } // label + file name
                     IfGoto => {
                         // label + file name
@@ -207,7 +207,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             l_name
                         );
 
-                        output.push_str(&format!("({})\n", l_name));
+                        output.push_str(&label(l_name));
                         let n_vars: usize = temp
                             .next()
                             .expect("Function definition without nVars")
@@ -227,13 +227,12 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
                             l_name
                         );
                         let func_name = format!("{l_name}");
-                        func_label = func_name.clone();
 
                         let n_args = temp.next().expect("Function Call with no Arg count");
 
-                        let c = ret_counts.entry(func_label.clone()).or_default();
-                        let return_addr = format!("{func_label}$ret{c}");
-                        output.push_str(&func_call(&func_label, &return_addr, n_args));
+                        let c = ret_counts.entry(func_name.clone()).or_default();
+                        let return_addr = format!("{func_name}$ret{c}");
+                        output.push_str(&func_call(&func_name, &return_addr, n_args));
                         *c += 1;
                     }
                     Return => {
@@ -244,8 +243,6 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         }
     }
 
-    // force infinite loop to "terminate" program
-    output.push_str(INFINITE_LOOP);
     write!(out_file, "{output}").unwrap();
     out_file.flush().unwrap();
 
