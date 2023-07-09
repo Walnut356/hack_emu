@@ -138,8 +138,8 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
             code |= 0b0001_0000_0000_0000;
         }
 
-        assert!(comp.len() <= 3, "Comparison longer than 3 characters");
-        assert!(dest.len() <= 3, "Destination longer than 3 characters");
+        assert!(comp.len() <= 3, "Comparison {} longer than 3 characters", comp);
+        assert!(dest.len() <= 3, "Destination {} longer than 3 characters", dest);
 
         match comp {
             "0" => code |= 0b0000_1010_1000_0000,

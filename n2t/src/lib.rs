@@ -187,30 +187,28 @@ pub mod utils {
         println!("{a_or_c}: {a_or_m}, compute '{cmp}' and store the value in {store_in}. {jump} jump to ROM[A].")
     }
 
-    pub fn decode_instr(instr: u16, vars: &[u16]) {
+    pub fn decode_instr(instr: u16, vars: &[u16]) -> String {
         if instr & 0b1000_0000_0000_0000 == 0 {
             let val = instr & 0b0111_1111_1111_1111;
-            match val {
-                0 => println!("@SP"),
-                1 => println!("@LCL"),
-                2 => println!("@ARG"),
-                3 => println!("@THIS"),
-                4 => println!("@THAT"),
-                5 => println!("@R5"),
-                6 => println!("@R6"),
-                7 => println!("@R7"),
-                8 => println!("@R8"),
-                9 => println!("@R9"),
-                10 => println!("@R10"),
-                11 => println!("@R11"),
-                12 => println!("@R12"),
-                13 => println!("@R13"),
-                14 => println!("@R14"),
-                15 => println!("@R15"),
-                _ => println!("@{val}"),
-            }
-
-            return;
+            return match val {
+                0 => "@SP".to_owned(),
+                1 => "@LCL".to_owned(),
+                2 => "@ARG".to_owned(),
+                3 => "@THIS".to_owned(),
+                4 => "@THAT".to_owned(),
+                5 => "@R5".to_owned(),
+                6 => "@R6".to_owned(),
+                7 => "@R7".to_owned(),
+                8 => "@R8".to_owned(),
+                9 => "@R9".to_owned(),
+                10 => "@R10".to_owned(),
+                11 => "@R11".to_owned(),
+                12 => "@R12".to_owned(),
+                13 => "@R13".to_owned(),
+                14 => "@R14".to_owned(),
+                15 => "@R15".to_owned(),
+                _ => "@{val}".to_owned(),
+            };
         }
         let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {
             false => "A",
@@ -267,8 +265,8 @@ pub mod utils {
         temp_out = temp_out.replace("D", &vars[1].to_string());
         temp_out = temp_out.replace("M", &vars[2].to_string());
 
-        let out2 = format!("{store_in}{temp_out}");
+        let out2 = format!("{out} | {store_in}{temp_out}");
 
-        println!("{out} | {out2}")
+        out2
     }
 }

@@ -1,8 +1,7 @@
-use enumflags2::{bitflags, BitFlags};
-
-use crate::utils::decode_instr;
-
 use super::alu::ALU;
+use crate::utils::decode_instr;
+use enumflags2::{bitflags, BitFlags};
+use prettytable::ptable;
 
 #[derive(Debug, PartialEq)]
 pub enum InstrType {
@@ -42,12 +41,13 @@ pub struct Computer {
 }
 
 impl Computer {
-    pub fn new(program: Vec<u16>) -> Self {
+    pub fn new(mut program: Vec<u16>) -> Self {
+        program.resize(32768, 0);
         Computer {
             d: 0,
             a: 0,
             pc: 0,
-            ram: vec![0; 32786],
+            ram: vec![0; 32768],
             rom: program,
             flags: BitFlags::default(),
             time: 0,
@@ -66,21 +66,50 @@ impl Computer {
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
 
         if log {
-            println!(
-                "\na register: {}, d register: {}, alu_out: {}, out_m: {}\nRAM[A]: {}, Stack Ptr: {}, RAM[Stack Ptr]: {}\n",
-                self.a, self.d, self.alu_out, self.m_in, self.ram[self.a as usize], self.ram[0], self.ram[self.ram[0] as usize]
+            let mem = ptable!(
+                ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
+                [
+                    self.a,
+                    self.d,
+                    self.ram[0],
+                    self.ram[1],
+                    self.ram[2],
+                    self.ram[3],
+                    self.ram[4],
+                ],
+                [
+                    "RAM[A]",
+                    "RAM[D]",
+                    "RAM[SP]",
+                    "RAM[LCL]",
+                    "RAM[ARG]",
+                    "RAM[THIS]",
+                    "RAM[THAT]"
+                ],
+                [
+                    self.ram[self.a as usize],
+                    self.ram[self.d as usize],
+                    self.ram[self.ram[0] as usize],
+                    self.ram[self.ram[1] as usize],
+                    self.ram[self.ram[2] as usize],
+                    self.ram[self.ram[3] as usize],
+                    self.ram[self.ram[4] as usize],
+                ]
             );
-            println!(
-                "Cycle: {}, PC: {}, inst: {:016b}",
-                self.time, self.pc, instr
+
+            let timing = ptable!(
+                ["PC", self.pc],
+                ["Time", self.time],
+                [
+                    "Instr",
+                    decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
+                ] // , ["Binary", format!("{:016b}", instr)]
             );
-            decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]]);
         }
 
         if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
             return false;
         };
-
 
         let out_bits = self.flags.bits() & 0b0000_0011;
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;
@@ -130,14 +159,14 @@ impl Computer {
             let neg = self.flags.contains(ControlBits::Neg);
             let zero = self.flags.contains(ControlBits::Zero);
             should_jump = match instr & 0b0000_0000_0000_0111 {
-                0 => false, // Never jump
+                0 => false,        // Never jump
                 1 => !neg & !zero, // If comp > 0 (JGT)
-                2 => zero, // If comp = 0 (JEQ)
-                3 => !neg, // If comp >= 0 (JGE)
-                4 => neg & !zero, // If comp < 0 (JLT)
-                5 => !zero, // If comp != 0 (JNE)
-                6 => neg, // If comp <= 0 (JLE)
-                7 => true, // Unconditional jump
+                2 => zero,         // If comp = 0 (JEQ)
+                3 => !neg,         // If comp >= 0 (JGE)
+                4 => neg & !zero,  // If comp < 0 (JLT)
+                5 => !zero,        // If comp != 0 (JNE)
+                6 => neg,          // If comp <= 0 (JLE)
+                7 => true,         // Unconditional jump
                 _ => panic!("somehow got a number higher than 7 on a bitwise AND with 7"),
             }
         }

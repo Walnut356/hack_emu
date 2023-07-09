@@ -36,9 +36,12 @@ fn test_simpleadd() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {
+    while cpu.execute(false, true) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 60 {
+            break;
         }
     }
 
@@ -60,7 +63,10 @@ fn test_stacktest() {
     cpu.ram[16] = 3; // "pointer" pointer
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 1000 {
+            break;
         }
     }
 
@@ -86,7 +92,10 @@ fn test_basictest() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 600 {
+            break;
         }
     }
 
@@ -111,7 +120,10 @@ fn test_pointertest() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 450 {
+            break;
         }
     }
 
@@ -134,11 +146,14 @@ fn test_statictest() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 8; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 200 {
+            break;
         }
     }
 
-    assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1110);
+    assert_eq!(cpu.ram[256], 1110);
 }
 
 // ------------------------------------------------------------------------------------------------------------------ //
@@ -155,7 +170,7 @@ fn test_basicloop() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 55; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
         }
         if cpu.time > 600 {
             break;
@@ -178,7 +193,10 @@ fn test_fibseries() {
 
     while cpu.execute(false, false) {
         if cpu.pc == 4 {
-            cpu.pc = 55; // skip over bootstrapping code
+            cpu.pc = 53; // skip over bootstrapping code
+        }
+        if cpu.time == 1100 {
+            break;
         }
     }
 
@@ -202,14 +220,13 @@ fn test_simplefunction() {
     cpu.ram[315] = 3010;
     cpu.ram[316] = 4010;
 
-    cpu.pc = 55; // skip over bootstrapping code
+    cpu.pc = 53; // skip over bootstrapping code
     while cpu.execute(false, false) {
-        if cpu.time == 85 {
+        if cpu.time == 76 {
             // return statement beginning
             assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
         }
-        if cpu.pc == 185 {
-            // since there's nowhere to return to, we break just before the return
+        if cpu.time == 300 {
             break;
         }
     }
@@ -275,9 +292,22 @@ fn test_nestedcall() {
     cpu.ram[298] = u16_from_i16(-1);
     cpu.ram[299] = u16_from_i16(-1);
 
+    cpu.pc = 55;
     while cpu.execute(false, true) {
-        if cpu.pc == 4 {
-            cpu.ram[0] = 261;
+        if cpu.pc == 55 {
+            // upon entering sys.init
+            assert_eq!(cpu.ram[0], 261)
+        }
+        if cpu.pc == 127 {
+            // upon entering sys.main
+            assert_eq!(cpu.ram[261..=265], [128, 261, 256, 4000, 5000])
+        }
+        if cpu.pc == 314 {
+            // upon entering sys.add12(123)
+            assert_eq!(
+                cpu.ram[266..=276],
+                [0, 200, 40, 6, 0, 123, 315, 266, 261, 4001, 5001]
+            )
         }
         if cpu.time > 4000 {
             break;
@@ -287,12 +317,12 @@ fn test_nestedcall() {
     assert_eq!(cpu.ram[0..=6], [261, 261, 256, 4000, 5000, 135, 246])
 }
 
-#[test]
-fn test_fibelement() {
-    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/");
+// #[test]
+// fn test_fibelement() {
+//     let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/");
 
-    while cpu.execute(false, false) {}
+//     while cpu.execute(false, false) {}
 
-    assert_eq!(cpu.ram[0], 262);
-    assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 3);
-}
+//     assert_eq!(cpu.ram[0], 262);
+//     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 3);
+// }

@@ -4,6 +4,7 @@ use n2t::hardware::native::cpu::Computer;
 use n2t::software::assembler::*;
 use n2t::software::vm::*;
 use n2t::utils::*;
+use prettytable::ptable;
 use std::io::stdin;
 use std::path::Path;
 use std::str::FromStr;
@@ -20,7 +21,5 @@ fn main() {
     // while cpu.execute(false, true) {}
 
     // println!("{:?}", cpu.a);
-    let thing = Segment::from_str("local").unwrap();
 
-    println!("{}", thing)
 }
