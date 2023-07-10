@@ -6,4 +6,5 @@ Contains:
 
 * logic gate and native-rust cpu implementations
 * assembler
-* vm
+* VM
+* Jack to Hack compiler
