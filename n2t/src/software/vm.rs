@@ -12,20 +12,6 @@ use std::sync::Mutex;
 use std::{clone, fmt};
 use strum_macros::EnumString;
 
-const STACK_START: usize = 256;
-const STACK_MAX: usize = 2047;
-
-const STACK_POINTER: usize = 0;
-const LCL: usize = 1;
-const ARG: usize = 2;
-const THIS: usize = 3;
-const THAT: usize = 4;
-const TEMP_START: usize = 5;
-const TEMP_MAX: usize = 12;
-const VAR_START: usize = 13;
-const VAR_MAX: usize = 15;
-const STATIC_START: usize = 16;
-const STATIC_MAX: usize = 255;
 const FILE_NAME: Mutex<String> = Mutex::new(String::new());
 
 // TODO use box str instead of String?
@@ -109,12 +95,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
     // helper variables for unique labels
     let mut counts = LabelCount::default();
-    // let mut eq_count = 0;
-    // let mut lt_count = 0;
-    // let mut gt_count = 0;
-    // let mut ret_counts: HashMap<String, usize> = HashMap::new();
 
-    // Iterate over
     for (file, f_name) in files {
         let mut lines = file.lines();
 
