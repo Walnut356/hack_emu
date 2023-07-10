@@ -1,18 +1,11 @@
-#![allow(unused)]
-
 use crate::software::vm_instructions::*;
 use crate::utils::get_file_buffers;
 use std::collections::HashMap;
-use std::ffi::OsStr;
 use std::fs::File;
-use std::io::{prelude::*, BufReader};
+use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
-use std::sync::Mutex;
-use std::{clone, fmt};
 use strum_macros::EnumString;
-
-const FILE_NAME: Mutex<String> = Mutex::new(String::new());
 
 // TODO use box str instead of String?
 
@@ -85,7 +78,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         out_path = Path::new(path).join(path.file_stem().unwrap());
     }
 
-    let mut files = get_file_buffers(path, "vm");
+    let files = get_file_buffers(path, "vm");
 
     // Init output .asm file
     out_path.set_extension("asm");
@@ -96,12 +89,8 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     // helper variables for unique labels
     let mut counts = LabelCount::default();
 
-    for (file, f_name) in files {
+    for (file, _f_name) in files {
         let mut lines = file.lines();
-
-        // Managing this with global state is easier (lol) than passing it around a bunch, especially when many funcs
-        // don't need it. I don't plan on multithreading, so it shouldn't be a problem.
-        let file_name = f_name.to_owned();
 
         while let Some(Ok(line)) = lines.next() {
             // record vm instruction as comment for debug purposes

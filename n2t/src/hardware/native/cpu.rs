@@ -66,7 +66,7 @@ impl Computer {
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
 
         if log {
-            let mem = ptable!(
+            let _mem = ptable!(
                 ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
                 [
                     self.a,
@@ -97,7 +97,7 @@ impl Computer {
                 ]
             );
 
-            let timing = ptable!(
+            let _timing = ptable!(
                 ["PC", self.pc],
                 ["Time", self.time],
                 [
