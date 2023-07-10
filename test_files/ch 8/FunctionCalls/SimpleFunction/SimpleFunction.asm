@@ -54,7 +54,13 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
-//function SimpleFunction.test 2
+// // This file is part of www.nand2tetris.org
+// // and the book "The Elements of Computing Systems"
+// // by Nisan and Schocken, MIT Press.
+// // File name: projects/08/FunctionCalls/SimpleFunction/SimpleFunction.vm
+// 
+// // Performs a simple calculation and returns the result.
+// function SimpleFunction.test 2
 (SimpleFunction.test)
 @0
 D=A
@@ -70,7 +76,7 @@ A=M
 M=D
 @SP
 AM=M+1
-//push local 0
+// push local 0
 @LCL
 D=M
 @0
@@ -81,7 +87,7 @@ A=M
 M=D
 @SP
 AM=M+1
-//push local 1
+// push local 1
 @LCL
 D=M
 @1
@@ -92,18 +98,18 @@ A=M
 M=D
 @SP
 AM=M+1
-//add
+// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-//not
+// not
 @SP
 A=M-1
 M=!M
-//push argument 0
+// push argument 0
 @ARG
 D=M
 @0
@@ -114,14 +120,14 @@ A=M
 M=D
 @SP
 AM=M+1
-//add
+// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-//push argument 1
+// push argument 1
 @ARG
 D=M
 @1
@@ -132,14 +138,14 @@ A=M
 M=D
 @SP
 AM=M+1
-//sub
+// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-//return
+// return
 @LCL
 D=M
 @R15

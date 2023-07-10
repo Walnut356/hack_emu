@@ -80,7 +80,16 @@ pub enum Instruction {
     Return,
 }
 
-/// Accepts a Path to a ".vm" file, returns a Path to the generated ".asm"
+#[derive(Debug, Clone, PartialEq, Default)]
+pub struct LabelCount {
+    eq: usize,
+    lt: usize,
+    gt: usize,
+    ret: HashMap<String, usize>,
+}
+
+/// Accepts a Path to a `.vm` file or folder containing multiple `.vm` files, translates the instructions to Hack
+/// assembly file (`.asm`) in the same directory and returns a Path to it
 pub fn vm_to_asm(path: &Path) -> PathBuf {
     let mut out_path;
 
@@ -99,10 +108,11 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     output.push_str(BOOTSTRAP.as_str());
 
     // helper variables for unique labels
-    let mut eq_count = 0;
-    let mut lt_count = 0;
-    let mut gt_count = 0;
-    let mut ret_counts: HashMap<String, usize> = HashMap::new();
+    let mut counts = LabelCount::default();
+    // let mut eq_count = 0;
+    // let mut lt_count = 0;
+    // let mut gt_count = 0;
+    // let mut ret_counts: HashMap<String, usize> = HashMap::new();
 
     // Iterate over
     for (file, f_name) in files {
@@ -111,135 +121,16 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
         // Managing this with global state is easier (lol) than passing it around a bunch, especially when many funcs
         // don't need it. I don't plan on multithreading, so it shouldn't be a problem.
         let file_name = f_name.to_owned();
-        // let mut func_label = Vec::new();
 
         while let Some(Ok(line)) = lines.next() {
+            // record vm instruction as comment for debug purposes
+            output.push_str(format!("// {line}\n").as_str());
+
             if line.starts_with("//") | line.is_empty() {
                 continue;
             }
 
-            // record vm instruction as comment for debug purposes
-            output.push_str(format!("//{line}\n").as_str());
-
-            let mut temp = line.split_whitespace();
-            let instr = Instruction::from_str(temp.next().unwrap())
-                .expect(format!("Invalid instruction: {}", line).as_str());
-
-            {
-                use Instruction::*;
-
-                match instr {
-                    Pop => {
-                        // 2 tokens: pointer and offset
-                        let target = Segment::from_str(
-                            temp.next().expect("Pop instruction with no location"),
-                        )
-                        .unwrap(); // the default should mean this never fails
-                        let val = temp.next();
-
-                        output.push_str(&pop(target, val))
-                    }
-                    Push => {
-                        // TODO do statics get a unique name?
-                        // 2 tokens: pointer and offset (or "constant" and value)
-                        let target = Segment::from_str(
-                            temp.next().expect("Push instruction with no location"),
-                        )
-                        .unwrap(); // the default should mean this never fails
-                        let val = temp.next();
-                        output.push_str(&push(target, val))
-                    }
-                    Add => output.push_str(&ADD),
-                    Sub => output.push_str(&SUB),
-                    Eq => {
-                        output.push_str(&eq(eq_count));
-                        eq_count += 1;
-                    }
-                    Lt => {
-                        output.push_str(&lt(lt_count));
-                        lt_count += 1;
-                    }
-                    Gt => {
-                        output.push_str(&gt(gt_count));
-                        gt_count += 1;
-                    }
-                    Neg => output.push_str(&NEG),
-                    Not => output.push_str(&NOT),
-                    And => output.push_str(&AND),
-                    Or => output.push_str(&OR),
-                    // Flow control
-                    Label => {
-                        // label + file name
-                        let l_name = temp.next().expect("Label instruction with no label name");
-                        assert!(
-                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
-                            "Labels must not start with a digit. Got: {}",
-                            l_name
-                        );
-                        output.push_str(&format!("({})\n", l_name));
-                    }
-                    Goto => {
-                        let l_name = temp.next().expect("Jump instruction with no label");
-                        assert!(
-                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
-                            "Labels must not start with a digit. Got: {}",
-                            l_name
-                        );
-
-                        output.push_str(&jump(format!("{}", l_name)))
-                    } // label + file name
-                    IfGoto => {
-                        // label + file name
-                        let l_name = temp.next().expect("Jump instruction with no label name");
-                        assert!(
-                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
-                            "Labels must not start with a digit. Got: {}",
-                            l_name
-                        );
-                        output.push_str(&jump_if_zero(format!("{}", l_name)));
-                    }
-                    Function => {
-                        // function name + nVars
-                        let l_name = temp.next().expect("Function definition with no name");
-                        assert!(
-                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
-                            "Function name must not start with a digit. Got: {}",
-                            l_name
-                        );
-
-                        output.push_str(&label(l_name));
-                        let n_vars: usize = temp
-                            .next()
-                            .expect("Function definition without nVars")
-                            .parse()
-                            .unwrap();
-
-                        for _ in 0..n_vars {
-                            output.push_str(&push(Segment::Stack, Some("0")))
-                        }
-                    }
-                    Call => {
-                        // function name + nArgs
-                        let l_name = temp.next().expect("Function call with no name");
-                        assert!(
-                            !l_name.chars().nth(0).unwrap().is_ascii_digit(),
-                            "Function name must not start with a digit. Got: {}",
-                            l_name
-                        );
-                        let func_name = format!("{l_name}");
-
-                        let n_args = temp.next().expect("Function Call with no Arg count");
-
-                        let c = ret_counts.entry(func_name.clone()).or_default();
-                        let return_addr = format!("{func_name}$ret{c}");
-                        output.push_str(&func_call(&func_name, &return_addr, n_args));
-                        *c += 1;
-                    }
-                    Return => {
-                        output.push_str(&func_return());
-                    } // 0 tokens
-                }
-            }
+            output.push_str(&parse_line(line, &mut counts));
         }
     }
 
@@ -247,4 +138,122 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     out_file.flush().unwrap();
 
     out_path
+}
+
+/// Parses an individual line of Hack VM code to Hack Assembly code. The resultant String is pushed to the end of the
+/// supplied `output` String
+pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
+    use Instruction::*;
+    let mut temp = line.split_whitespace();
+    let instr = Instruction::from_str(temp.next().unwrap())
+        .expect(format!("Invalid instruction: {}", line).as_str());
+
+    match instr {
+        Pop => {
+            // 2 tokens: pointer and offset
+            let target =
+                Segment::from_str(temp.next().expect("Pop instruction with no location")).unwrap(); // the default should mean this never fails
+            let val = temp.next();
+
+            pop(target, val).into()
+        }
+        Push => {
+            // TODO do statics get a unique name?
+            // 2 tokens: pointer and offset (or "constant" and value)
+            let target =
+                Segment::from_str(temp.next().expect("Push instruction with no location")).unwrap(); // the default should mean this never fails
+            let val = temp.next();
+
+            push(target, val).into()
+        }
+        Add => ADD.to_string().into(),
+        Sub => SUB.to_string().into(),
+        Eq => {
+            counts.eq += 1;
+            eq(counts.eq).into()
+        }
+        Lt => {
+            counts.lt += 1;
+            lt(counts.lt).into()
+        }
+        Gt => {
+            counts.gt += 1;
+            gt(counts.gt).into()
+        }
+        Neg => NEG.to_string().into(),
+        Not => NOT.to_string().into(),
+        And => AND.to_string().into(),
+        Or => OR.to_string().into(),
+        // Flow control
+        Label => {
+            // label + file name
+            let l_name = temp.next().expect("Label instruction with no label name");
+            assert!(
+                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                "Labels must not start with a digit. Got: {}",
+                l_name
+            );
+            format!("({l_name})\n").into()
+        }
+        Goto => {
+            let l_name = temp.next().expect("Jump instruction with no label");
+            assert!(
+                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                "Labels must not start with a digit. Got: {}",
+                l_name
+            );
+
+            jump(format!("{l_name}")).into()
+        } // label + file name
+        IfGoto => {
+            // label + file name
+            let l_name = temp.next().expect("Jump instruction with no label name");
+            assert!(
+                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                "Labels must not start with a digit. Got: {}",
+                l_name
+            );
+            jump_if_zero(format!("{l_name}")).into()
+        }
+        Function => {
+            // function name + nVars
+            let l_name = temp.next().expect("Function definition with no name");
+            assert!(
+                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                "Function name must not start with a digit. Got: {}",
+                l_name
+            );
+            let mut result = label(l_name);
+            let n_vars: usize = temp
+                .next()
+                .expect("Function definition without nVars")
+                .parse()
+                .unwrap();
+
+            for _ in 0..n_vars {
+                result.push_str(&push(Segment::Stack, Some("0")))
+            }
+            result.into()
+        }
+        Call => {
+            // function name + nArgs
+            let l_name = temp.next().expect("Function call with no name");
+            assert!(
+                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                "Function name must not start with a digit. Got: {}",
+                l_name
+            );
+            let func_name = format!("{l_name}");
+
+            let n_args = temp.next().expect("Function Call with no Arg count");
+
+            let c = counts.ret.entry(func_name.clone()).or_default();
+            let return_addr = format!("{func_name}$ret{c}");
+            let result = func_call(&func_name, &return_addr, n_args);
+            *c += 1;
+
+            result.into()
+        }
+        Return => func_return().into(), // 0 tokens
+    }
 }

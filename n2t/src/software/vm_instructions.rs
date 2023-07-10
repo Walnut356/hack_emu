@@ -251,7 +251,7 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
 }
 
 // comparisons
-pub fn eq(eq_count: u16) -> String {
+pub fn eq(eq_count: usize) -> String {
     let lab = format!("EQ_{eq_count}");
     format!(
         "{}{}{}{}{}{}{}{}{}",
@@ -267,7 +267,7 @@ pub fn eq(eq_count: u16) -> String {
     )
 }
 
-pub fn lt(lt_count: u16) -> String {
+pub fn lt(lt_count: usize) -> String {
     let lab = format!("LT_{lt_count}");
     format!(
         "{}{}{}{}{}{}{}{}{}",
@@ -284,7 +284,7 @@ pub fn lt(lt_count: u16) -> String {
 }
 
 /// compares the top 2 values on the stack, pushes -1 if
-pub fn gt(gt_count: u16) -> String {
+pub fn gt(gt_count: usize) -> String {
     let lab = format!("GT_{gt_count}");
     format!(
         "{}{}{}{}{}{}{}{}{}",
