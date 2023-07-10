@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::prelude::*;
+use std::io::{prelude::*, BufWriter};
 use std::path::{Path, PathBuf};
 
 use crate::utils::get_file_buffers;
@@ -45,20 +45,16 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
         }
     }
 
-    let mut output = String::new();
-
-    for instr in second_pass {
-        output.push_str(&translate_instruction(instr, &symbol_table))
-    }
-
-    output.pop(); // removes trailing newline
-
     let mut out_path = Path::new(path.parent().unwrap()).join(path.file_stem().unwrap());
     out_path.set_extension("hack");
-    let mut out_file = File::create(out_path.clone()).unwrap();
+    let out_file = File::create(out_path.clone()).unwrap();
+    let mut output = BufWriter::new(out_file);
 
-    write!(out_file, "{output}").unwrap();
-    out_file.flush().unwrap();
+    for instr in second_pass {
+        write!(output, "{}", translate_instruction(instr, &symbol_table)).unwrap();
+    }
+
+    output.flush().unwrap();
 
     out_path
 }

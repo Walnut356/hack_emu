@@ -2,7 +2,7 @@ use crate::software::vm_instructions::*;
 use crate::utils::get_file_buffers;
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::prelude::*;
+use std::io::{prelude::*, BufWriter};
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use strum_macros::EnumString;
@@ -82,9 +82,9 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
     // Init output .asm file
     out_path.set_extension("asm");
-    let mut out_file = File::create(out_path.clone()).unwrap();
-    let mut output = String::new();
-    output.push_str(BOOTSTRAP.as_str());
+    let out_file = File::create(out_path.clone()).unwrap();
+    let mut output = BufWriter::new(out_file);
+    write!(output, "{}", BOOTSTRAP.as_str()).unwrap();
 
     // helper variables for unique labels
     let mut counts = LabelCount::default();
@@ -94,18 +94,17 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
         while let Some(Ok(line)) = lines.next() {
             // record vm instruction as comment for debug purposes
-            output.push_str(format!("// {line}\n").as_str());
+            write!(output, "// {line}\n").unwrap();
 
             if line.starts_with("//") | line.is_empty() {
                 continue;
             }
 
-            output.push_str(&parse_line(line, &mut counts));
+            write!(output, "{}", parse_line(line, &mut counts)).unwrap();
         }
     }
 
-    write!(out_file, "{output}").unwrap();
-    out_file.flush().unwrap();
+    output.flush().unwrap();
 
     out_path
 }
