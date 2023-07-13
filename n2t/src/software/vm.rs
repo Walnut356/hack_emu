@@ -96,7 +96,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
             // record vm instruction as comment for debug purposes
             write!(output, "// {line}\n").unwrap();
 
-            if line.starts_with("//") | line.is_empty() {
+            if line.starts_with("//") || line.is_empty() {
                 continue;
             }
 

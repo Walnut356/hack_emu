@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use crate::{software::vm::Segment, utils::u16_from_i16};
+use concat_string::concat_string;
 use lazy_static::lazy_static;
 use strum_macros::EnumString;
 
@@ -37,15 +38,15 @@ pub const JUMP_UNCOND: &str = "0;JMP\n";
 ///  "{dest}={src}\n"
 /// ```
 pub fn load(dest: Reg, src: &str) -> String {
-    format!("{dest}={src}\n")
+    concat_string!(dest.to_string(), "=", src, "\n")
 }
 
 /// Returns:
 /// ```no_test
 ///  "@{val}\n"
 /// ```
-pub fn load_const<d: Display>(val: d) -> String {
-    format!("@{val}\n")
+pub fn load_const<D: Display>(val: D) -> String {
+    concat_string!("@", val.to_string(), "\n")
 }
 
 /// Returns:
@@ -53,7 +54,7 @@ pub fn load_const<d: Display>(val: d) -> String {
 ///  "({val})\n"
 /// ```
 pub fn label(val: &str) -> String {
-    format!("({val})\n")
+    concat_string!("(", val, ")\n")
 }
 
 /// Returns:
@@ -61,7 +62,7 @@ pub fn label(val: &str) -> String {
 ///  "{comp};JEQ\n"
 /// ```
 pub fn jeq(comp: &str) -> String {
-    format!("{comp};JEQ\n")
+    concat_string!(comp, ";JEQ\n")
 }
 
 /// Returns:
@@ -69,7 +70,7 @@ pub fn jeq(comp: &str) -> String {
 ///  "{comp};JLT\n"
 /// ```
 pub fn jlt(comp: &str) -> String {
-    format!("{comp};JLT\n")
+    concat_string!(comp, ";JLT\n")
 }
 
 /// Returns:
@@ -77,7 +78,7 @@ pub fn jlt(comp: &str) -> String {
 ///  "{comp};JGT\n"
 /// ```
 pub fn jgt(comp: &str) -> String {
-    format!("{comp};JGT\n")
+    concat_string!(comp, ";JGT\n")
 }
 
 /// Returns:
@@ -85,7 +86,7 @@ pub fn jgt(comp: &str) -> String {
 ///  "{comp};JNE\n"
 /// ```
 pub fn jne(comp: &str) -> String {
-    format!("{comp};JNE\n")
+    concat_string!(comp, ";JNE\n")
 }
 
 /// Returns:
@@ -93,7 +94,7 @@ pub fn jne(comp: &str) -> String {
 ///  "@{dest}\n{JUMP_UNCOND}\n"
 /// ```
 pub fn jump(dest: String) -> String {
-    format!("@{dest}\n{JUMP_UNCOND}\n")
+    concat_string!("@", dest, "\n", JUMP_UNCOND, "\n")
 }
 
 lazy_static! {
@@ -101,60 +102,55 @@ lazy_static! {
     /// Initializes the stack pointer and calls Sys.init, takes 53 instructions
     ///
     ///
-    pub static ref BOOTSTRAP: String = format!(
-        "{}{}{}",
+    pub static ref BOOTSTRAP: String = concat_string!(
         "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",
         "//call Sys.init\n",
-        func_call(&"Sys.init".to_owned(), &"Sys.init$ret0".to_owned(), "0"),
+        func_call(&"Sys.init".to_owned(), &"Sys.init$ret0".to_owned(), "0")
     );
 
     /// Consumes the top 2 values of the stack, bitwise ANDs them together, and stores the result on the new top of the
     /// stack.
     ///
     /// Registers upon exit: SP=SP-1, A=SP, D=RAM\[SP]
-    pub static ref ADD: String = format!(
-        "{}{}{}",
+    pub static ref ADD: String = concat_string!(
         pop(Segment::Stack, None),
         SET_A_STACK_TOP,
-        "M=D+M\n",
+        "M=D+M\n"
     );
 
     /// Subracts the top value of the stack from the second-to-top value of the stack and stores the result on the new top
     /// of the stack.
     ///
     /// Registers upon exit: SP=SP-1, A=SP, D=RAM\[SP]
-    pub static ref SUB: String = format!(
-        "{}{}{}",
+    pub static ref SUB: String = concat_string!(
         pop(Segment::Stack, None),
         SET_A_STACK_TOP,
-        "M=M-D\n",
+        "M=M-D\n"
     );
 
     /// Consumes the top 2 values of the stack, bitwise ANDs them together, and stores the result on the new top of the
     /// stack.
     ///
     /// Registers upon exit: SP=SP-1, A=SP, D=RAM\[SP]
-    pub static ref AND: String =format!(
-        "{}{}{}",
+    pub static ref AND: String = concat_string!(
         pop(Segment::Stack, None),
         SET_A_STACK_TOP,
-        "M=D&M\n",
+        "M=D&M\n"
     );
 
     /// Consumes the top 2 values of the stack, bitwise ORs them together, and stores the result on the new top of the
     /// stack.
     ///
     /// Registers upon exit: SP=SP-1, A=SP, D=RAM\[SP]
-    pub static ref OR: String =format!(
-        "{}{}{}",
+    pub static ref OR: String = concat_string!(
         pop(Segment::Stack, None),
         SET_A_STACK_TOP,
-        "M=D|M\n",
+        "M=D|M\n"
     );
 
-    pub static ref NOT: String = format!("{SET_A_STACK_TOP}M=!M\n");
+    pub static ref NOT: String = concat_string!(SET_A_STACK_TOP, "M=!M\n");
 
-    pub static ref NEG: String = format!("{SET_A_STACK_TOP}M=-M\n");
+    pub static ref NEG: String = concat_string!(SET_A_STACK_TOP, "M=-M\n");
 
 }
 
@@ -164,7 +160,7 @@ pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
         Segment::Temp => {
             // for the Temp segment (registers R5-R12)
             let off = u16_from_i16(ind.parse::<i16>().unwrap() + 5);
-            format!("@R{off}\n")
+            concat_string!("@R", off.to_string(), "\n")
         }
         Segment::Pointer => {
             // pointer "segment" is just THIS and THAT registers
@@ -174,12 +170,11 @@ pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
                 load_const("THAT")
             }
         }
-        _ => format!(
-            "{}{}{}{}",
+        _ => concat_string!(
             load_const(loc.to_string().as_str()),
             load(Reg::D, "M"),
             load_const(ind),
-            load(Reg::A, "D+A"),
+            load(Reg::A, "D+A")
         ),
     }
 }
@@ -195,25 +190,19 @@ pub fn push<'a>(loc: Segment, val: Option<&str>) -> String {
     match loc {
         Stack => {
             if let Some(i) = val {
-                format!("{}{}{}", load_const(i), load(Reg::D, "A"), PUSH_D_STACK,)
+                concat_string!(load_const(i), load(Reg::D, "A"), PUSH_D_STACK)
             } else {
                 panic!("Got instruction to push constant with no value");
             }
         }
         _ => {
             if let Some(i) = val {
-                format!(
-                    "{}{}{}",
-                    set_a_offset(&loc, i),
-                    load(Reg::D, "M"),
-                    PUSH_D_STACK,
-                )
+                concat_string!(set_a_offset(&loc, i), load(Reg::D, "M"), PUSH_D_STACK)
             } else {
-                format!(
-                    "{}{}{}",
+                concat_string!(
                     load_const(loc.to_string().as_str()),
                     load(Reg::D, "A"),
-                    PUSH_D_STACK,
+                    PUSH_D_STACK
                 )
             }
         }
@@ -226,17 +215,11 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
         Segment::Stack => POP_STACK.to_owned(),
         Segment::Pointer => {
             let ind = val.unwrap();
-            format!(
-                "{}{}{}",
-                POP_STACK,
-                set_a_offset(&loc, ind),
-                load(Reg::M, "D"),
-            )
+            concat_string!(POP_STACK, set_a_offset(&loc, ind), load(Reg::M, "D"))
         }
         _ => {
             let ind = val.unwrap();
-            format!(
-                "{}{}{}{}{}{}{}{}",
+            concat_string!(
                 set_a_offset(&loc, ind), // e.g. set A local[0]'s address
                 load(Reg::D, "A"),       // set D to local[0]'s address
                 load_const("R13"),       // store local[0]'s address in R13
@@ -252,9 +235,8 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
 
 // comparisons
 pub fn eq(eq_count: usize) -> String {
-    let lab = format!("EQ_{eq_count}");
-    format!(
-        "{}{}{}{}{}{}{}{}{}",
+    let lab = concat_string!("EQ_", eq_count.to_string());
+    concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
         load(Reg::D, "M-D"),
@@ -263,14 +245,13 @@ pub fn eq(eq_count: usize) -> String {
         jeq("D"),
         SET_A_STACK_TOP,
         load(Reg::M, "0"),
-        label(&lab),
+        label(&lab)
     )
 }
 
 pub fn lt(lt_count: usize) -> String {
-    let lab = format!("LT_{lt_count}");
-    format!(
-        "{}{}{}{}{}{}{}{}{}",
+    let lab = concat_string!("LT_", lt_count.to_string());
+    concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
         load(Reg::D, "M-D"),
@@ -279,15 +260,14 @@ pub fn lt(lt_count: usize) -> String {
         jlt("D"),
         SET_A_STACK_TOP,
         load(Reg::M, "0"),
-        label(&lab),
+        label(&lab)
     )
 }
 
 /// compares the top 2 values on the stack, pushes -1 if
 pub fn gt(gt_count: usize) -> String {
-    let lab = format!("GT_{gt_count}");
-    format!(
-        "{}{}{}{}{}{}{}{}{}",
+    let lab = concat_string!("GT_", gt_count.to_string());
+    concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
         load(Reg::D, "M-D"),
@@ -296,17 +276,16 @@ pub fn gt(gt_count: usize) -> String {
         jgt("D"),
         SET_A_STACK_TOP,
         load(Reg::M, "0"),
-        label(&lab),
+        label(&lab)
     )
 }
 
 pub fn jump_if_zero(dest: String) -> String {
-    format!("{}{}{}", POP_STACK, load_const(&dest), jne("D"))
+    concat_string!(POP_STACK, load_const(&dest), jne("D"))
 }
 
 pub fn func_return() -> String {
-    format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+    concat_string!(
         // store frame memory loc in R[15]
         load_const("LCL"),
         load(Reg::D, "M"),
@@ -361,13 +340,12 @@ pub fn func_return() -> String {
         // jump to return addr
         load_const("R14"),
         DEREF_A,
-        JUMP_UNCOND,
+        JUMP_UNCOND
     )
 }
 
 pub fn func_call(func_label: &String, return_addr: &String, n_args: &str) -> String {
-    format!(
-        "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}",
+    concat_string!(
         push(Segment::Stack, Some(return_addr)),
         load_const("LCL"),
         load(Reg::D, "M"),
@@ -397,6 +375,6 @@ pub fn func_call(func_label: &String, return_addr: &String, n_args: &str) -> Str
         load(Reg::M, "D"),
         load_const(func_label),
         "0;JMP\n",
-        label(return_addr),
+        label(return_addr)
     )
 }

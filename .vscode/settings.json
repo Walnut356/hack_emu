@@ -2,5 +2,8 @@
     "lldb.displayFormat": "auto",
     "lldb.showDisassembly": "auto",
     "lldb.dereferencePointers": true,
-    "lldb.consoleMode": "evaluate"
+    "lldb.consoleMode": "evaluate",
+    "rust-analyzer.runnableEnv": {
+        "ENV_ROOT_DIR": "${workspaceFolder}"
+    }
 }

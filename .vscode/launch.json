@@ -8,11 +8,11 @@
                 "args": [
                     "build",
                     "--bin=n2t",
-                    "--manifest-path=${workspaceFolder}/n2t/Cargo.toml"
+                    "--manifest-path=${workspaceFolder}/Cargo.toml"
                 ]
             },
             "args": [],
-            "cwd": "${workspaceFolder}/n2t"
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
