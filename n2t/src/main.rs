@@ -5,21 +5,25 @@ use n2t::software::assembler::*;
 use n2t::software::vm::*;
 use n2t::utils::*;
 use prettytable::ptable;
+use std::fs::File;
 use std::io::stdin;
+use std::io::Read;
+use std::iter::zip;
 use std::path::Path;
 use std::str::FromStr;
 use std::time::Instant;
 
 fn main() {
-    // let path = Path::new(r#"..\test_files\ch 7\PointerTest.vm"#);
-    // let asm = vm_to_asm(&path);
-    // let machine = asm_to_hack(&asm);
-    // let program = hack_to_vec(&machine);
+    let path1 = Path::new("./test_files/ch 10/ExpressionLessSquare/SquareGame.xml");
+    let mut file1 = File::open(path1).unwrap();
+    let mut t_1 = String::new();
+    file1.read_to_string(&mut t_1).unwrap();
+    let path2 = Path::new("./test_files/ch 10/ExpressionLessSquare/SquareGameTExample.xml");
+    let mut file2 = File::open(path2).unwrap();
+    let mut t_2 = String::new();
+    file2.read_to_string(&mut t_2).unwrap();
 
-    // let mut cpu = Computer::new(program);
-
-    // while cpu.execute(false, true) {}
-
-    // println!("{:?}", cpu.a);
-
+    for (a, b) in zip(t_1.lines(), t_2.lines()) {
+        assert_eq!(a, b)
+    }
 }
