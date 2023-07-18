@@ -21,7 +21,7 @@ pub mod hardware {
 pub mod software {
     pub mod assembler;
     pub mod compiler;
-    pub mod compiler_enums;
+    pub mod compiler_utils;
     pub mod vm;
     pub mod vm_instructions;
 }
