@@ -1,10 +1,15 @@
-use crate::{software::compiler_utils::*, utils::get_file_buffers};
+use crate::{
+    software::compiler_utils::{get_next_token, xml_token, Keyword::*, Symbol::*, Token},
+    utils::get_file_buffers,
+};
 use std::{
     fs::File,
     io::{BufWriter, Cursor, Read, Write},
     path::{Path, PathBuf},
     str::FromStr,
 };
+
+use super::compiler_utils::skip_comment;
 
 pub fn jack_to_vm(path: &Path) -> PathBuf {
     let mut out_path;
@@ -49,162 +54,134 @@ pub fn jack_to_vm(path: &Path) -> PathBuf {
 pub fn tokenize(mut stream: Cursor<String>, output: &mut BufWriter<File>) {
     // i attempted to parse by .lines() and by .split_whitespace(), but both lacked a bit of granularity that i felt i needed
     // so i don't mind doing it byte-by-byte
-    let mut buff = String::new();
+    let mut buff = Token::None;
     let mut err_counter = 0;
 
-    while buff != "class" {
+    while buff != Token::Keyword(Class) {
         buff = get_next_token(&mut stream).unwrap();
         err_counter += 1;
-        if err_counter >= 10000 || buff.is_empty() {
+        if err_counter >= 10000 {
             // 10k seems like a good enough number of iterations to panic on just in case i mess something up.
             panic!("unable to find identifier 'class'")
         }
     }
 
-    write!(output, "{}", xml_token(&Token::Keyword("class".to_owned()))).unwrap();
+    write!(output, "{}", xml_token(&buff)).unwrap();
 
     let identifier = get_next_token(&mut stream).unwrap();
     let bracket = get_next_token(&mut stream).unwrap();
 
-    write!(output, "{}", xml_token(&Token::Identifier(identifier))).unwrap();
-    write!(output, "{}", xml_token(&Token::Symbol(bracket))).unwrap();
+    write!(output, "{}", xml_token(&identifier)).unwrap();
+
+    assert_eq!(bracket, Token::Symbol(BracketOp));
+    write!(output, "{}", xml_token(&bracket)).unwrap();
 
     while let Ok(token) = get_next_token(&mut stream) {
-        if token == "}" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        if token == Token::Symbol(BraceCl) {
+            write!(output, "{}", xml_token(&token)).unwrap();
             break;
         }
         keyword_dispatch(token, &mut stream, output);
     }
 }
 
-pub fn keyword_dispatch(token: String, stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let keyword = Keyword::from_str(&token).expect(&format!("Invalid keyword '{}'", token));
+pub fn keyword_dispatch(token: Token, stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
+    if let Token::Keyword(keyword) = token {
+        if keyword != Comment && keyword != MComment && keyword != APIComment {
+            write!(output, "{}", xml_token(&Token::Keyword(keyword))).unwrap();
+        }
 
-    if keyword != Keyword::Comment && keyword != Keyword::MComment && keyword != Keyword::APIComment
-    {
-        write!(output, "{}", xml_token(&Token::Keyword(token))).unwrap();
-    }
-
-    match keyword {
-        Keyword::Comment | Keyword::MComment | Keyword::APIComment => skip_comment(keyword, stream),
-        Keyword::Static | Keyword::Var | Keyword::Field => {
-            compile_decl(stream, output);
+        match keyword {
+            Comment | MComment | APIComment => skip_comment(keyword, stream),
+            Static | Var | Field => {
+                compile_decl(stream, output);
+            }
+            Function | Method | Constructor => {
+                compile_func(stream, output);
+            }
+            Let => {
+                compile_let(stream, output);
+            }
+            Do => compile_do(stream, output),
+            Return => {
+                compile_return(stream, output);
+            }
+            If => compile_if(stream, output),
+            Else => compile_else(stream, output),
+            While => compile_while(stream, output),
+            t => panic!("Invalid statement keyword: {:?}", t),
         }
-        Keyword::Function | Keyword::Method | Keyword::Constructor => {
-            compile_func(stream, output);
-        }
-        Keyword::Let => {
-            compile_let(stream, output);
-        }
-        Keyword::Do => compile_do(stream, output),
-        Keyword::Return => {
-            compile_return(stream, output);
-        }
-        Keyword::If => compile_if(stream, output),
-        Keyword::Else => compile_else(stream, output),
-        Keyword::While => compile_while(stream, output),
-        _ => todo!(),
+    } else {
+        panic!();
     }
 }
 
 pub fn compile_return(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-
     let token = get_next_token(stream).unwrap();
 
-    if token == ";" {
-        let semicolon = Token::Symbol(token);
-        result.push_str(&xml_token(&semicolon));
-    } else {
-        let token = Token::Identifier(token);
-        result.push_str(&xml_token(&token));
+    write!(output, "{}", &xml_token(&token)).unwrap();
 
+    if token != Token::Symbol(SemiColon) {
         let semicolon = get_next_token(stream).unwrap();
-        assert_eq!(semicolon, ";");
-        let semicolon = Token::Symbol(semicolon);
-        result.push_str(&xml_token(&semicolon));
+        assert_eq!(semicolon, Token::Symbol(SemiColon));
+
+        write!(output, "{}", &xml_token(&semicolon)).unwrap();
     }
 
     let close_brac = get_next_token(stream).unwrap();
-    assert_eq!(close_brac, "}");
-    let close_brac = Token::Symbol(close_brac);
-    result.push_str(&xml_token(&close_brac));
+    assert_eq!(close_brac, Token::Symbol(BracketCl));
 
-    write!(output, "{}", result).unwrap();
+    write!(output, "{}", &xml_token(&close_brac)).unwrap();
 }
 
 pub fn compile_decl(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let result = String::new();
+    let dtype = get_next_token(stream).unwrap();
 
-    let dtype = DType::from_str(&get_next_token(stream).unwrap()).unwrap(); // can't fail due to strum default
-
-    match dtype {
-        DType::UserDef(user_type) => {
-            write!(
-                output,
-                "{}",
-                xml_token(&Token::Identifier(user_type.clone()))
-            )
-            .unwrap();
-        }
-        _ => write!(output, "{}", xml_token(&Token::Keyword(dtype.to_string()))).unwrap(),
-    }
+    write!(output, "{}", &xml_token(&dtype)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == ";" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        write!(output, "{}", xml_token(&token)).unwrap();
+        if token == Token::Symbol(SemiColon) {
             break;
         }
-        let token = get_token_type(&token);
-        write!(output, "{}", xml_token(&token)).unwrap();
     }
 }
 
 pub fn compile_func(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-    let ret_type = DType::from_str(&get_next_token(stream).unwrap()).unwrap();
+    let ret_type = get_next_token(stream).unwrap();
 
-    // can beeither an identifier or a keyword
-    match ret_type {
-        DType::UserDef(t) => result.push_str(&xml_token(&Token::Identifier(t))),
-        _ => result.push_str(&xml_token(&Token::Keyword(ret_type.to_string()))),
-    }
+    write!(output, "{}", xml_token(&ret_type)).unwrap();
 
-    let func_name = Token::Identifier(get_next_token(stream).unwrap());
-    result.push_str(&xml_token(&func_name));
+    let func_name = get_next_token(stream).unwrap();
+    write!(output, "{}", xml_token(&func_name)).unwrap();
 
     let open_paren = get_next_token(stream).unwrap();
-    assert_eq!(open_paren, "(");
-    let open_paren = Token::Symbol(open_paren);
-    result.push_str(&xml_token(&open_paren));
+    assert_eq!(open_paren, Token::Symbol(ParenOp));
+    write!(output, "{}", xml_token(&open_paren)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == ")" {
-            result.push_str(&xml_token(&Token::Symbol(token)));
+        write!(output, "{}", xml_token(&token)).unwrap();
+
+        if token == Token::Symbol(ParenCl) {
             break;
         }
-        if token == "," {
-            result.push_str(&xml_token(&Token::Symbol(token)));
+
+        if token == Token::Symbol(Comma) {
             continue;
         }
-        let dtype = get_token_type(&token);
-        result.push_str(&xml_token(&dtype));
 
-        let name = Token::Identifier(get_next_token(stream).unwrap());
-        result.push_str(&xml_token(&name));
+        // if we're past the conditionals, the token was a dtype, so the next token must be the arg's name
+        let name = get_next_token(stream).unwrap();
+        write!(output, "{}", xml_token(&name)).unwrap();
     }
 
     let open_brac = get_next_token(stream).unwrap();
-    assert_eq!(open_brac, "{");
-    let open_brac = Token::Symbol(open_brac);
-    result.push_str(&xml_token(&open_brac));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(open_brac, Token::Symbol(BracketOp));
+    write!(output, "{}", xml_token(&open_brac)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == "}" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        if token == Token::Symbol(BracketCl) {
+            write!(output, "{}", xml_token(&(token))).unwrap();
             break;
         }
         keyword_dispatch(token, stream, output);
@@ -212,102 +189,79 @@ pub fn compile_func(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
 }
 
 pub fn compile_let(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-    let id = Token::Identifier(get_next_token(stream).unwrap());
-    result.push_str(&xml_token(&id));
+    let id = get_next_token(stream).unwrap();
+    write!(output, "{}", xml_token(&id)).unwrap();
 
     let eq = get_next_token(stream).unwrap();
-    assert_eq!(eq, "=");
-    let eq = Token::Symbol(eq);
-
-    result.push_str(&xml_token(&eq));
+    assert_eq!(eq, Token::Symbol(Equals));
+    write!(output, "{}", xml_token(&eq)).unwrap();
 
     // Eventually: compile_expression()
     // which will loop until hitting a semicolon
-    let expr = get_token_type(&get_next_token(stream).unwrap());
+    let expr = get_next_token(stream).unwrap();
 
-    result.push_str(&xml_token(&expr));
+    write!(output, "{}", xml_token(&expr)).unwrap();
 
     let delim = get_next_token(stream).unwrap();
-    assert_eq!(delim, ";");
-    let delim = Token::Symbol(delim);
-    result.push_str(&xml_token(&delim));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(delim, Token::Symbol(SemiColon));
+    write!(output, "{}", xml_token(&delim)).unwrap();
 }
 
 pub fn compile_do(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-
-    let class_name = Token::Identifier(get_next_token(stream).unwrap());
-    result.push_str(&xml_token(&class_name));
+    let class_name = get_next_token(stream).unwrap();
+    write!(output, "{}", xml_token(&class_name)).unwrap();
 
     let mut token = get_next_token(stream).unwrap();
 
-    if token == "." {
-        let dot = Token::Symbol(token.clone());
-        result.push_str(&xml_token(&dot));
+    if token == Token::Symbol(Period) {
+        write!(output, "{}", xml_token(&token)).unwrap();
 
-        let func_name = Token::Identifier(get_next_token(stream).unwrap());
-        result.push_str(&xml_token(&func_name));
+        let func_name = get_next_token(stream).unwrap();
+        write!(output, "{}", xml_token(&func_name)).unwrap();
 
         token = get_next_token(stream).unwrap();
     }
 
-    assert_eq!(token, "(");
-    let open_paren = Token::Symbol(token);
-    result.push_str(&xml_token(&open_paren));
+    assert_eq!(token, Token::Symbol(ParenOp));
+    write!(output, "{}", xml_token(&token)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == ")" {
-            result.push_str(&xml_token(&Token::Symbol(token)));
+        write!(output, "{}", xml_token(&token)).unwrap();
+        if token == Token::Symbol(ParenCl) {
             break;
         }
-        if token == "," {
-            result.push_str(&xml_token(&Token::Symbol(token)));
+        if token == Token::Symbol(Comma) {
             continue;
         }
-        let arg = get_token_type(&token);
-        result.push_str(&xml_token(&arg));
     }
 
     let delim = get_next_token(stream).unwrap();
-    assert_eq!(delim, ";");
-    let delim = Token::Symbol(delim);
-    result.push_str(&xml_token(&delim));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(delim, Token::Symbol(SemiColon));
+    write!(output, "{}", xml_token(&delim)).unwrap();
 }
 
 pub fn compile_if(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-
     let open_paren = get_next_token(stream).unwrap();
-    assert_eq!(open_paren, "(");
-    let open_paren = Token::Symbol(open_paren);
-    result.push_str(&xml_token(&open_paren));
+    assert_eq!(open_paren, Token::Symbol(ParenOp));
+    write!(output, "{}", xml_token(&open_paren)).unwrap();
 
     // todo compile_expression
 
-    let token = get_token_type(&get_next_token(stream).unwrap());
+    let token = get_next_token(stream).unwrap();
 
-    result.push_str(&xml_token(&token));
+    write!(output, "{}", xml_token(&token)).unwrap();
 
     let close_paren = get_next_token(stream).unwrap();
-    assert_eq!(close_paren, ")");
-    let close_paren = Token::Symbol(close_paren);
-    result.push_str(&xml_token(&close_paren));
+    assert_eq!(close_paren, Token::Symbol(ParenCl));
+    write!(output, "{}", xml_token(&close_paren)).unwrap();
 
     let open_brac = get_next_token(stream).unwrap();
-    assert_eq!(open_brac, "{");
-    let open_brac = Token::Symbol(open_brac);
-    result.push_str(&xml_token(&open_brac));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(open_brac, Token::Symbol(BracketOp));
+    write!(output, "{}", xml_token(&open_brac)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == "}" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        if token == Token::Symbol(BracketCl) {
+            write!(output, "{}", xml_token(&token)).unwrap();
             break;
         }
         keyword_dispatch(token, stream, output)
@@ -315,18 +269,13 @@ pub fn compile_if(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
 }
 
 pub fn compile_else(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-
     let open_brac = get_next_token(stream).unwrap();
-    assert_eq!(open_brac, "{");
-    let open_brac = Token::Symbol(open_brac);
-    result.push_str(&xml_token(&open_brac));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(open_brac, Token::Symbol(BracketOp));
+    write!(output, "{}", xml_token(&open_brac)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == "}" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        if token == Token::Symbol(BracketCl) {
+            write!(output, "{}", xml_token(&token)).unwrap();
             break;
         }
         keyword_dispatch(token, stream, output)
@@ -334,34 +283,26 @@ pub fn compile_else(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
 }
 
 pub fn compile_while(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let mut result = String::new();
-
     let open_paren = get_next_token(stream).unwrap();
-    assert_eq!(open_paren, "(");
-    let open_paren = Token::Symbol(open_paren);
-    result.push_str(&xml_token(&open_paren));
+    assert_eq!(open_paren, Token::Symbol(ParenOp));
+    write!(output, "{}", xml_token(&open_paren)).unwrap();
 
     // TODO compile_expression
 
     let token = get_next_token(stream).unwrap();
-    let token = get_token_type(&token);
-    result.push_str(&xml_token(&token));
+    write!(output, "{}", xml_token(&token)).unwrap();
 
     let close_paren = get_next_token(stream).unwrap();
-    assert_eq!(close_paren, ")");
-    let close_paren = Token::Symbol(close_paren);
-    result.push_str(&xml_token(&close_paren));
+    assert_eq!(close_paren, Token::Symbol(ParenCl));
+    write!(output, "{}", xml_token(&close_paren)).unwrap();
 
     let open_brac = get_next_token(stream).unwrap();
-    assert_eq!(open_brac, "{");
-    let open_brac = Token::Symbol(open_brac);
-    result.push_str(&xml_token(&open_brac));
-
-    write!(output, "{}", result).unwrap();
+    assert_eq!(open_brac, Token::Symbol(BracketOp));
+    write!(output, "{}", xml_token(&open_brac)).unwrap();
 
     while let Ok(token) = get_next_token(stream) {
-        if token == "}" {
-            write!(output, "{}", xml_token(&Token::Symbol(token))).unwrap();
+        if token == Token::Symbol(BracketCl) {
+            write!(output, "{}", xml_token(&token)).unwrap();
             break;
         }
         keyword_dispatch(token, stream, output)

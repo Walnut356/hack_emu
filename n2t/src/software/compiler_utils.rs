@@ -1,8 +1,9 @@
 use concat_string::concat_string;
-use std::io::Cursor;
+use std::fmt::Display;
+use std::io::{BufRead, Cursor};
 use std::{error, io::Read, str::FromStr};
 
-use strum_macros::{Display, EnumString};
+use strum_macros::EnumString;
 
 type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
@@ -16,8 +17,9 @@ const NEWLINE: u8 = 0x0a;
 const C_RETURN: u8 = 0x0d; // thanks windows
 const PAREN_OPEN: u8 = "(".as_bytes()[0];
 const PAREN_CLOSE: u8 = ")".as_bytes()[0];
+const DBL_QUOTE: u8 = "\"".as_bytes()[0];
 
-#[derive(Debug, EnumString, Display, PartialEq)]
+#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq)]
 #[strum(serialize_all = "lowercase")]
 pub enum Keyword {
     Class,
@@ -47,9 +49,11 @@ pub enum Keyword {
     MComment,
     #[strum(serialize = "/**")]
     APIComment,
+    #[strum(serialize = "*/")]
+    CommentEnd,
 }
 
-#[derive(Debug, EnumString, Display, PartialEq)]
+#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq)]
 pub enum Symbol {
     #[strum(serialize = "{")]
     BracketOp,
@@ -97,24 +101,14 @@ pub enum Symbol {
     DblQuote,
 }
 
-#[derive(Debug, EnumString, Display, PartialEq)]
-#[strum(serialize_all = "lowercase")]
-pub enum DType {
-    Int,
-    Boolean,
-    Char,
-    Void,
-    #[strum(default)]
-    UserDef(String),
-}
-
-#[derive(Debug, EnumString, Display, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Token {
-    Keyword(String),
-    Symbol(String),
+    Keyword(Keyword),
+    Symbol(Symbol),
     Identifier(String),
     ConstString(String),
     ConstInt(i16),
+    None,
 }
 
 pub fn peek(stream: &mut Cursor<String>) -> Result<[u8; 1]> {
@@ -198,7 +192,7 @@ pub fn skip_comment(com_type: Keyword, stream: &mut Cursor<String>) {
 
 /// Accepts a stream, reads characters until a space is found, returns a String containing the characters read WITHOUT
 /// a trailing space
-pub fn get_next_token(stream: &mut Cursor<String>) -> Result<String> {
+pub fn get_next_token(stream: &mut Cursor<String>) -> Result<Token> {
     let mut character = skip_whitespace(stream)?;
     let mut token = Vec::new();
 
@@ -212,21 +206,35 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<String> {
             // and the next byte is a symbol
             if let Ok(next_symbol) = next_res {
                 // and the next symbol is forward slash or astersik, return "//" or "/*"
+                // this is kindof a hack due to ignoring API comments
                 if curr_symbol == Symbol::FwdSlash
                     || curr_symbol == Symbol::Asterisk
                         && (next_symbol == Symbol::FwdSlash || next_symbol == Symbol::Asterisk)
                 {
                     read_byte(stream).unwrap();
-                    return Ok(concat_string!(
-                        curr_symbol.to_string(),
-                        next_symbol.to_string()
+                    return Ok(Token::Keyword(
+                        Keyword::from_str(&concat_string!(
+                            curr_symbol.to_string(),
+                            next_symbol.to_string()
+                        ))
+                        .unwrap(),
                     ));
                 } else {
-                    return Ok(curr_symbol.to_string());
+                    return Ok(Token::Symbol(curr_symbol));
                 }
             }
+            if curr_symbol == Symbol::DblQuote {
+                // string constants, treats the whole constant as 1 token
+                let mut buff = Vec::new();
+                buff.push(DBL_QUOTE);
+                stream.read_until(DBL_QUOTE, &mut buff).unwrap();
+
+                let const_string = std::string::String::from_utf8(buff).unwrap();
+
+                return Ok(Token::ConstString(const_string));
+            }
             // if the next byte is not a symbol, return the current byte
-            return Ok(curr_symbol.to_string());
+            return Ok(Token::Symbol(curr_symbol));
         }
 
         token.push(character[0]);
@@ -238,7 +246,18 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<String> {
         stream.read_exact(&mut character)?;
     }
 
-    Ok(std::str::from_utf8(&token).unwrap().to_owned())
+    Ok(get_token_type(std::str::from_utf8(&token).unwrap()))
+}
+
+/// Tries to match Token::Keyword or Token::ConstInt, then falls back to Token::Identifier
+pub fn get_token_type(token: &str) -> Token {
+    if let Ok(t) = Keyword::from_str(token) {
+        return Token::Keyword(t);
+    }
+    if token.chars().nth(0).unwrap().is_numeric() {
+        return Token::ConstInt(token.parse().unwrap());
+    }
+    Token::Identifier(token.to_owned())
 }
 
 pub fn expect_bytes(expected: &str, got: &[u8]) {
@@ -249,33 +268,13 @@ pub fn expect_bytes(expected: &str, got: &[u8]) {
 
 pub fn xml_token(token: &Token) -> String {
     match token {
-        Token::Keyword(t) => concat_string!("<keyword> ", t, " </keyword>\n"),
-        Token::Symbol(t) => concat_string!("<symbol> ", t, " </symbol>\n"),
+        Token::Keyword(t) => concat_string!("<keyword> ", t.to_string(), " </keyword>\n"),
+        Token::Symbol(t) => concat_string!("<symbol> ", t.to_string(), " </symbol>\n"),
         Token::Identifier(t) => concat_string!("<identifier> ", t, " </identifier>\n"),
-        Token::ConstString(t) => concat_string!("<constant> ", t, " </constant>\n"),
-        Token::ConstInt(t) => concat_string!("<constant> ", t.to_string(), " </constant>\n"),
+        Token::ConstString(t) => concat_string!("<stringConstant> ", t, " </stringConstant>\n"),
+        Token::ConstInt(t) => {
+            concat_string!("<integerConstant> ", t.to_string(), " </integerConstant>\n")
+        }
+        Token::None => panic!("Cannot create xml token for Token::None"),
     }
-}
-
-pub fn get_token_type(token: &str) -> Token {
-    if let Ok(t) = Symbol::from_str(token) {
-        return Token::Symbol(t.to_string());
-    }
-    if let Ok(t) = Keyword::from_str(token) {
-        return Token::Keyword(t.to_string());
-    }
-    if token.chars().nth(0).unwrap().is_numeric() {
-        return Token::ConstInt(token.parse().unwrap());
-    }
-    if token.starts_with('"') && token.ends_with('"') {
-        return Token::ConstString(
-            token
-                .strip_prefix('"')
-                .unwrap()
-                .strip_suffix('"')
-                .unwrap()
-                .to_owned(),
-        );
-    }
-    Token::Identifier(token.to_owned())
 }
