@@ -9,7 +9,7 @@ use std::{
     str::FromStr,
 };
 
-use super::compiler_utils::skip_comment;
+use super::compiler_utils::{skip_comment, DELIM_MAP};
 
 pub fn jack_to_vm(path: &Path) -> PathBuf {
     let mut out_path;
@@ -77,7 +77,7 @@ pub fn tokenize(mut stream: Cursor<String>, output: &mut BufWriter<File>) {
     write!(output, "{}", xml_token(&bracket)).unwrap();
 
     while let Ok(token) = get_next_token(&mut stream) {
-        if token == Token::Symbol(BraceCl) {
+        if token == Token::Symbol(BracketCl) {
             write!(output, "{}", xml_token(&token)).unwrap();
             break;
         }
@@ -112,26 +112,17 @@ pub fn keyword_dispatch(token: Token, stream: &mut Cursor<String>, output: &mut 
             t => panic!("Invalid statement keyword: {:?}", t),
         }
     } else {
-        panic!();
+        panic!("Invalid token: {:?}", token);
     }
 }
 
 pub fn compile_return(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
-    let token = get_next_token(stream).unwrap();
+    compile_expression(&Token::Symbol(SemiColon), stream, output);
 
-    write!(output, "{}", &xml_token(&token)).unwrap();
+    // let close_brac = get_next_token(stream).unwrap();
+    // assert_eq!(close_brac, Token::Symbol(BracketCl));
 
-    if token != Token::Symbol(SemiColon) {
-        let semicolon = get_next_token(stream).unwrap();
-        assert_eq!(semicolon, Token::Symbol(SemiColon));
-
-        write!(output, "{}", &xml_token(&semicolon)).unwrap();
-    }
-
-    let close_brac = get_next_token(stream).unwrap();
-    assert_eq!(close_brac, Token::Symbol(BracketCl));
-
-    write!(output, "{}", &xml_token(&close_brac)).unwrap();
+    // write!(output, "{}", &xml_token(&close_brac)).unwrap();
 }
 
 pub fn compile_decl(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
@@ -192,19 +183,17 @@ pub fn compile_let(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
     let id = get_next_token(stream).unwrap();
     write!(output, "{}", xml_token(&id)).unwrap();
 
-    let eq = get_next_token(stream).unwrap();
-    assert_eq!(eq, Token::Symbol(Equals));
-    write!(output, "{}", xml_token(&eq)).unwrap();
+    while let Ok(token) = get_next_token(stream) {
+        write!(output, "{}", xml_token(&token)).unwrap();
+        if token == Token::Symbol(Equals) {
+            break;
+        }
+        if token == Token::Symbol(BracketOp) {
+            compile_expression(&Token::Symbol(BracketCl), stream, output);
+        }
+    }
 
-    // Eventually: compile_expression()
-    // which will loop until hitting a semicolon
-    let expr = get_next_token(stream).unwrap();
-
-    write!(output, "{}", xml_token(&expr)).unwrap();
-
-    let delim = get_next_token(stream).unwrap();
-    assert_eq!(delim, Token::Symbol(SemiColon));
-    write!(output, "{}", xml_token(&delim)).unwrap();
+    compile_expression(&Token::Symbol(SemiColon), stream, output);
 }
 
 pub fn compile_do(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
@@ -225,15 +214,17 @@ pub fn compile_do(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
     assert_eq!(token, Token::Symbol(ParenOp));
     write!(output, "{}", xml_token(&token)).unwrap();
 
-    while let Ok(token) = get_next_token(stream) {
-        write!(output, "{}", xml_token(&token)).unwrap();
-        if token == Token::Symbol(ParenCl) {
-            break;
-        }
-        if token == Token::Symbol(Comma) {
-            continue;
-        }
-    }
+    compile_expression(&Token::Symbol(ParenCl), stream, output);
+    // while let Ok(token) = get_next_token(stream) {
+    //     write!(output, "{}", xml_token(&token)).unwrap();
+    //     if token == Token::Symbol(ParenCl) {
+    //         break;
+    //     }
+    //     if token == Token::Symbol(Comma) {
+    //         continue;
+    //     }
+
+    // }
 
     let delim = get_next_token(stream).unwrap();
     assert_eq!(delim, Token::Symbol(SemiColon));
@@ -245,15 +236,7 @@ pub fn compile_if(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {
     assert_eq!(open_paren, Token::Symbol(ParenOp));
     write!(output, "{}", xml_token(&open_paren)).unwrap();
 
-    // todo compile_expression
-
-    let token = get_next_token(stream).unwrap();
-
-    write!(output, "{}", xml_token(&token)).unwrap();
-
-    let close_paren = get_next_token(stream).unwrap();
-    assert_eq!(close_paren, Token::Symbol(ParenCl));
-    write!(output, "{}", xml_token(&close_paren)).unwrap();
+    compile_expression(&Token::Symbol(ParenCl), stream, output);
 
     let open_brac = get_next_token(stream).unwrap();
     assert_eq!(open_brac, Token::Symbol(BracketOp));
@@ -287,14 +270,7 @@ pub fn compile_while(stream: &mut Cursor<String>, output: &mut BufWriter<File>) 
     assert_eq!(open_paren, Token::Symbol(ParenOp));
     write!(output, "{}", xml_token(&open_paren)).unwrap();
 
-    // TODO compile_expression
-
-    let token = get_next_token(stream).unwrap();
-    write!(output, "{}", xml_token(&token)).unwrap();
-
-    let close_paren = get_next_token(stream).unwrap();
-    assert_eq!(close_paren, Token::Symbol(ParenCl));
-    write!(output, "{}", xml_token(&close_paren)).unwrap();
+    compile_expression(&Token::Symbol(ParenCl), stream, output);
 
     let open_brac = get_next_token(stream).unwrap();
     assert_eq!(open_brac, Token::Symbol(BracketOp));
@@ -309,4 +285,21 @@ pub fn compile_while(stream: &mut Cursor<String>, output: &mut BufWriter<File>) 
     }
 }
 
-pub fn compile_expression(stream: &mut Cursor<String>, output: &mut BufWriter<File>) {}
+pub fn compile_expression(
+    delim: &Token,
+    stream: &mut Cursor<String>,
+    output: &mut BufWriter<File>,
+) {
+    while let Ok(token) = get_next_token(stream) {
+        write!(output, "{}", xml_token(&token)).unwrap();
+        if token == *delim {
+            break;
+        }
+        // if we have some sort of delimiter (e.g. '(', '[') we've got a sub-expression so we can do a recursive call
+        // with the matching closing delimiter
+        if DELIM_MAP.contains_key(&token) {
+            compile_expression(DELIM_MAP.get(&token).unwrap(), stream, output);
+            continue;
+        }
+    }
+}

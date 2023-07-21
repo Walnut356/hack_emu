@@ -1,4 +1,9 @@
-use std::path::{Path, PathBuf};
+use std::{
+    fs::File,
+    io::Read,
+    iter::zip,
+    path::{Path, PathBuf},
+};
 
 use n2t::{
     hardware::native::cpu::Computer,
@@ -28,7 +33,19 @@ pub fn test_data_path(file_path: &str) -> PathBuf {
 
 #[test]
 fn test_noexpression_square() {
-    let path = test_data_path("./test_files/ch 10/ExpressionLessSquare/SquareGame.jack");
+    let path = test_data_path("./test_files/ch 10/Square/SquareGame.jack");
     let _vm = jack_to_vm(&path);
 
+    let path1 = test_data_path("./test_files/ch 10/Square/SquareGame.xml");
+    let mut file1 = File::open(path1).unwrap();
+    let mut t_1 = String::new();
+    file1.read_to_string(&mut t_1).unwrap();
+    let path2 = test_data_path("./test_files/ch 10/Square/SquareGameTExample.xml");
+    let mut file2 = File::open(path2).unwrap();
+    let mut t_2 = String::new();
+    file2.read_to_string(&mut t_2).unwrap();
+
+    for (a, b) in zip(t_1.lines(), t_2.lines()) {
+        assert_eq!(a, b)
+    }
 }

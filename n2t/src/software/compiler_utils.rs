@@ -1,5 +1,6 @@
 use concat_string::concat_string;
-use std::fmt::Display;
+use lazy_static::lazy_static;
+use std::collections::HashMap;
 use std::io::{BufRead, Cursor};
 use std::{error, io::Read, str::FromStr};
 
@@ -13,13 +14,25 @@ const API_COMMENT_OPEN: &str = "/**";
 const COMMENT_CLOSE: &str = "*/";
 // ASCII encodings
 const SPACE: u8 = 0x20;
+const TAB: u8 = 0x09;
 const NEWLINE: u8 = 0x0a;
 const C_RETURN: u8 = 0x0d; // thanks windows
 const PAREN_OPEN: u8 = "(".as_bytes()[0];
 const PAREN_CLOSE: u8 = ")".as_bytes()[0];
 const DBL_QUOTE: u8 = "\"".as_bytes()[0];
+lazy_static! {
+    pub static ref DELIM_MAP: HashMap<Token, Token> = {
+        use Symbol::*;
+        let mut temp = HashMap::new();
+        temp.insert(Token::Symbol(BracketOp), Token::Symbol(BracketCl));
+        temp.insert(Token::Symbol(ParenOp), Token::Symbol(ParenCl));
+        temp.insert(Token::Symbol(BraceOp), Token::Symbol(BraceCl));
 
-#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq)]
+        temp
+    };
+}
+
+#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq, Eq, Hash)]
 #[strum(serialize_all = "lowercase")]
 pub enum Keyword {
     Class,
@@ -53,7 +66,7 @@ pub enum Keyword {
     CommentEnd,
 }
 
-#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq)]
+#[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq, Eq, Hash)]
 pub enum Symbol {
     #[strum(serialize = "{")]
     BracketOp,
@@ -101,7 +114,7 @@ pub enum Symbol {
     DblQuote,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum Token {
     Keyword(Keyword),
     Symbol(Symbol),
@@ -161,7 +174,11 @@ pub fn skip_to_newline(stream: &mut Cursor<String>) {
 /// found. Returns that character.
 pub fn skip_whitespace(stream: &mut Cursor<String>) -> Result<[u8; 1]> {
     let mut character = [SPACE];
-    while character == [SPACE] || character == [NEWLINE] || character == [C_RETURN] {
+    while character == [SPACE]
+        || character == [NEWLINE]
+        || character == [C_RETURN]
+        || character == [TAB]
+    {
         stream.read_exact(&mut character)?;
     }
 
@@ -171,15 +188,10 @@ pub fn skip_whitespace(stream: &mut Cursor<String>) -> Result<[u8; 1]> {
 pub fn skip_to_comment_end(stream: &mut Cursor<String>) {
     let mut character = [0];
 
-    loop {
-        while character != ["*".as_bytes()[0]] {
-            stream.read_exact(&mut character).unwrap();
-        }
-        if peek_eq("/", stream).unwrap() {
-            read_byte(stream).unwrap();
-            break;
-        }
+    while !(character == ["*".as_bytes()[0]] && peek_eq("/", stream).unwrap()) {
+        stream.read_exact(&mut character).unwrap();
     }
+    read_byte(stream).unwrap(); // consume the peeked '/' character
 }
 
 pub fn skip_comment(com_type: Keyword, stream: &mut Cursor<String>) {
@@ -226,8 +238,8 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<Token> {
             if curr_symbol == Symbol::DblQuote {
                 // string constants, treats the whole constant as 1 token
                 let mut buff = Vec::new();
-                buff.push(DBL_QUOTE);
                 stream.read_until(DBL_QUOTE, &mut buff).unwrap();
+                buff.pop(); // remove trailing quote
 
                 let const_string = std::string::String::from_utf8(buff).unwrap();
 
