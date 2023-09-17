@@ -7,11 +7,9 @@ use std::{
 
 use n2t::{
     hardware::native::cpu::Computer,
-    software::{assembler::asm_to_hack, compiler::jack_to_vm, vm::vm_to_asm},
+    software::{assembler::asm_to_hack, compiler::*, vm::vm_to_asm},
     utils::hack_to_vec,
 };
-
-use serial_test::serial;
 
 fn get_computer(file_path: &str) -> Computer {
     let path = Path::new(file_path);
@@ -34,7 +32,6 @@ pub fn test_data_path(file_path: &str) -> PathBuf {
 }
 
 #[test]
-#[serial]
 fn test_square() {
     let paths = [
         (
@@ -56,7 +53,7 @@ fn test_square() {
 
     for (jack, xml, example) in paths {
         let path = test_data_path(jack);
-        let _vm = jack_to_vm(&path);
+        let _vm = JackCompiler::compile(&path);
 
         let xml_path = test_data_path(xml);
         let mut xml_out = File::open(xml_path).unwrap();
@@ -76,7 +73,6 @@ fn test_square() {
 }
 
 #[test]
-#[serial]
 fn test_array() {
     let paths = [
         (
@@ -88,7 +84,7 @@ fn test_array() {
 
     for (jack, xml, example) in paths {
         let path = test_data_path(jack);
-        let _vm = jack_to_vm(&path);
+        let _vm = JackCompiler::compile(&path);
 
         let xml_path = test_data_path(xml);
         let mut xml_out = File::open(xml_path).unwrap();

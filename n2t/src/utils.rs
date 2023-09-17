@@ -24,8 +24,9 @@ fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
     stream
 }
 
-/// Accepts a path and an extension. If the path is a directory, the returned Vec will contain multiple elements, if
-/// it is a file, it will contain 1.
+/// Accepts a path and an extension. Returns a tuple of the file reader and the file's name (no
+/// file extension or full path) .If the path is a directory, the returned Vec will contain multiple
+/// elements, if it is a file, it will contain 1.
 ///
 /// Panics if there are no files of the given extension
 pub fn get_file_buffers(path: &Path, ext: &str) -> Vec<(BufReader<File>, String)> {
