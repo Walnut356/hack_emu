@@ -1,17 +1,36 @@
+#![allow(non_camel_case_types)]
+
 use concat_string::concat_string;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
-use std::io::{BufRead, Cursor};
+use std::fs::File;
+use std::io::{BufRead, BufWriter, Cursor, Write};
+use std::sync::Mutex;
 use std::{error, io::Read, str::FromStr};
 
-use strum_macros::EnumString;
+use strum_macros::{EnumString, IntoStaticStr};
 
 type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
-const COMMENT: &str = "//";
-const COMMENT_OPEN: &str = "/*";
-const API_COMMENT_OPEN: &str = "/**";
-const COMMENT_CLOSE: &str = "*/";
+// ugly but oh well
+pub static INDENT_DEPTH: Mutex<usize> = Mutex::new(0);
+
+fn incr_depth() {
+    *INDENT_DEPTH.lock().unwrap() += 1;
+}
+
+fn decr_depth() {
+    *INDENT_DEPTH.lock().unwrap() -= 1;
+}
+
+pub fn reset_depth() {
+    *INDENT_DEPTH.lock().unwrap() == 0;
+}
+
+// const COMMENT: &str = "//";
+// const COMMENT_OPEN: &str = "/*";
+// const API_COMMENT_OPEN: &str = "/**";
+// const COMMENT_CLOSE: &str = "*/";
 // ASCII encodings
 const SPACE: u8 = 0x20;
 const TAB: u8 = 0x09;
@@ -124,6 +143,87 @@ pub enum Token {
     None,
 }
 
+impl Token {
+    pub fn is_operator(&self) -> bool {
+        match self {
+            Token::Symbol(s) => matches!(
+                s,
+                Symbol::Plus
+                    | Symbol::Minus
+                    | Symbol::Asterisk
+                    | Symbol::FwdSlash
+                    | Symbol::And
+                    | Symbol::Pipe
+                    | Symbol::GreaterThan
+                    | Symbol::LessThan
+                    | Symbol::Equals
+                    | Symbol::Tilde
+            ),
+            _ => false,
+        }
+    }
+    pub fn is_unary_operator(&self) -> bool {
+        match self {
+            Token::Symbol(s) => matches!(s, Symbol::Minus | Symbol::Tilde),
+            _ => false,
+        }
+    }
+
+    pub fn is_keyword_const(&self) -> bool {
+        use Keyword::*;
+        match self {
+            Token::Keyword(k) => matches!(k, True | False | Null | This),
+            _ => false,
+        }
+    }
+
+    pub fn is_identifier(&self) -> bool {
+        matches!(self, Token::Identifier(_))
+    }
+
+    pub fn is_comment(&self) -> bool {
+        use Keyword::*;
+        matches!(self, Token::Keyword(Comment))
+    }
+
+    pub fn is_long_comment(&self) -> bool {
+        use Keyword::*;
+        matches!(self, Token::Keyword(APIComment) | Token::Keyword(MComment))
+    }
+
+    pub fn is_type(&self) -> bool {
+        use Keyword::*;
+        matches!(
+            self,
+            Token::Identifier(_)
+                | Token::Keyword(Int)
+                | Token::Keyword(Char)
+                | Token::Keyword(Boolean)
+        )
+    }
+
+    pub fn is_statement(&self) -> bool {
+        use Keyword::*;
+        matches!(
+            self,
+            Token::Keyword(Let)
+                | Token::Keyword(If)
+                | Token::Keyword(While)
+                | Token::Keyword(Do)
+                | Token::Keyword(Return)
+        )
+    }
+
+    /// true if Self is `)` | `}` | `]`
+    pub fn is_closer(&self) -> bool {
+        use Symbol::*;
+        matches!(
+            self,
+            Token::Symbol(BracketCl) | Token::Symbol(BraceCl) | Token::Symbol(ParenCl)
+        )
+    }
+}
+
 pub fn peek(stream: &mut Cursor<String>) -> Result<[u8; 1]> {
     let mut buff = [0];
     stream.read_exact(&mut buff)?;
@@ -219,21 +319,16 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<Token> {
             if let Ok(next_symbol) = next_res {
                 // and the next symbol is forward slash or astersik, return "//" or "/*"
                 // this is kindof a hack due to ignoring API comments
-                if curr_symbol == Symbol::FwdSlash
-                    || curr_symbol == Symbol::Asterisk
-                        && (next_symbol == Symbol::FwdSlash || next_symbol == Symbol::Asterisk)
-                {
-                    read_byte(stream).unwrap();
-                    return Ok(Token::Keyword(
-                        Keyword::from_str(&concat_string!(
-                            curr_symbol.to_string(),
-                            next_symbol.to_string()
-                        ))
-                        .unwrap(),
-                    ));
-                } else {
-                    return Ok(Token::Symbol(curr_symbol));
+                if curr_symbol == Symbol::FwdSlash && next_symbol == Symbol::FwdSlash {
+                    skip_comment(Keyword::Comment, stream);
+                    return get_next_token(stream);
                 }
+                if curr_symbol == Symbol::FwdSlash && next_symbol == Symbol::Asterisk {
+                    skip_comment(Keyword::MComment, stream);
+                    return get_next_token(stream);
+                }
+                // and it's not a comment, return the symbol
+                return Ok(Token::Symbol(curr_symbol));
             }
             if curr_symbol == Symbol::DblQuote {
                 // string constants, treats the whole constant as 1 token
@@ -251,7 +346,7 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<Token> {
 
         token.push(character[0]);
 
-        if let Ok(_) = next_res {
+        if next_res.is_ok() {
             break;
         }
 
@@ -261,32 +356,130 @@ pub fn get_next_token(stream: &mut Cursor<String>) -> Result<Token> {
     Ok(get_token_type(std::str::from_utf8(&token).unwrap()))
 }
 
+/// Returns a Result containing a Tuple of the next **non-comment** Token, and the read position
+/// corresponding to the end of the peeked token. If the peeked token is used, calling
+/// `stream.set_position()` with the returned u64 will update the stream to the proper location
+/// without having to re-read the peeked token.
+pub fn peek_next_token(stream: &mut Cursor<String>) -> Result<(Token, u64)> {
+    let position = stream.position();
+
+    let mut next_token = get_next_token(stream)?;
+
+    use Keyword::*;
+    while next_token == Token::Keyword(Comment)
+        || next_token == Token::Keyword(MComment)
+        || next_token == Token::Keyword(APIComment)
+    {
+        if next_token == Token::Keyword(Comment) {
+            skip_to_newline(stream);
+        } else {
+            skip_to_comment_end(stream);
+        }
+        next_token = get_next_token(stream)?
+    }
+
+    let post_pos = stream.position();
+    stream.set_position(position);
+
+    Ok((next_token, post_pos))
+}
+
 /// Tries to match Token::Keyword or Token::ConstInt, then falls back to Token::Identifier
 pub fn get_token_type(token: &str) -> Token {
     if let Ok(t) = Keyword::from_str(token) {
         return Token::Keyword(t);
     }
-    if token.chars().nth(0).unwrap().is_numeric() {
+    if token.chars().next().unwrap().is_numeric() {
         return Token::ConstInt(token.parse().unwrap());
     }
     Token::Identifier(token.to_owned())
 }
 
+#[inline]
 pub fn expect_bytes(expected: &str, got: &[u8]) {
-    let got_str = std::str::from_utf8(&got).unwrap();
+    let got_str = std::str::from_utf8(got).unwrap();
 
     assert_eq!(got_str, expected);
 }
 
+// #[derive(Debug, Clone, Copy, EnumString, strum_macros::Display, PartialEq, Eq, Hash, IntoStaticStr)]
+// pub enum XML {
+//     class,
+//     classVarDec,
+//     varDec,
+//     subroutineDec,
+//     letStatement,
+//     parameterList,
+//     subroutineBody,
+//     statements,
+//     term,
+//     expression,
+//     expressionList,
+// }
+
 pub fn xml_token(token: &Token) -> String {
+    let indent = "  ".repeat(*INDENT_DEPTH.lock().unwrap());
     match token {
-        Token::Keyword(t) => concat_string!("<keyword> ", t.to_string(), " </keyword>\n"),
-        Token::Symbol(t) => concat_string!("<symbol> ", t.to_string(), " </symbol>\n"),
-        Token::Identifier(t) => concat_string!("<identifier> ", t, " </identifier>\n"),
-        Token::ConstString(t) => concat_string!("<stringConstant> ", t, " </stringConstant>\n"),
+        Token::Keyword(t) => concat_string!(indent, "<keyword> ", t.to_string(), " </keyword>\n"),
+        Token::Symbol(t) => concat_string!(indent, "<symbol> ", t.to_string(), " </symbol>\n"),
+        Token::Identifier(t) => concat_string!(indent, "<identifier> ", t, " </identifier>\n"),
+        Token::ConstString(t) => {
+            concat_string!(indent, "<stringConstant> ", t, " </stringConstant>\n")
+        }
         Token::ConstInt(t) => {
-            concat_string!("<integerConstant> ", t.to_string(), " </integerConstant>\n")
+            concat_string!(
+                indent,
+                "<integerConstant> ",
+                t.to_string(),
+                " </integerConstant>\n"
+            )
         }
         Token::None => panic!("Cannot create xml token for Token::None"),
+    }
+}
+
+/// returns a string opening an xml "group", also increments the indent depth
+#[inline]
+pub fn open_xml_group(group_name: &str) -> String {
+    let temp = concat_string!(
+        "  ".repeat(*INDENT_DEPTH.lock().unwrap()),
+        "<",
+        group_name,
+        ">\n"
+    );
+    incr_depth();
+
+    temp
+}
+
+/// returns a string closing an xml "group", also decrements the indent depth
+#[inline]
+pub fn close_xml_group(group_name: &str) -> String {
+    decr_depth();
+    concat_string!(
+        "  ".repeat(*INDENT_DEPTH.lock().unwrap()),
+        "</",
+        group_name,
+        ">\n"
+    )
+}
+
+#[inline]
+pub fn write_token(token: &Token, output: &mut BufWriter<File>) {
+    write!(output, "{}", xml_token(token)).unwrap();
+    #[cfg(debug_assertions)]
+    output.flush().unwrap();
+}
+
+#[inline]
+pub fn write_xml(name: &str, tag: bool, output: &mut BufWriter<File>) {
+    if tag {
+        write!(output, "{}", open_xml_group(name)).unwrap();
+        #[cfg(debug_assertions)]
+        output.flush().unwrap();
+    } else {
+        write!(output, "{}", close_xml_group(name)).unwrap();
+        #[cfg(debug_assertions)]
+        output.flush().unwrap();
     }
 }

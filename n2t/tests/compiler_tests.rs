@@ -11,9 +11,11 @@ use n2t::{
     utils::hack_to_vec,
 };
 
+use serial_test::serial;
+
 fn get_computer(file_path: &str) -> Computer {
     let path = Path::new(file_path);
-    let asm = vm_to_asm(&path);
+    let asm = vm_to_asm(path);
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
@@ -32,20 +34,75 @@ pub fn test_data_path(file_path: &str) -> PathBuf {
 }
 
 #[test]
-fn test_noexpression_square() {
-    let path = test_data_path("./test_files/ch 10/Square/SquareGame.jack");
-    let _vm = jack_to_vm(&path);
+#[serial]
+fn test_square() {
+    let paths = [
+        (
+            "./test_files/ch 10/Square/Main.jack",
+            "./test_files/ch 10/Square/Main.xml",
+            "./test_files/ch 10/Square/MainExample.xml",
+        ),
+        (
+            "./test_files/ch 10/Square/Square.jack",
+            "./test_files/ch 10/Square/Square.xml",
+            "./test_files/ch 10/Square/SquareExample.xml",
+        ),
+        (
+            "./test_files/ch 10/Square/SquareGame.jack",
+            "./test_files/ch 10/Square/SquareGame.xml",
+            "./test_files/ch 10/Square/SquareGameExample.xml",
+        ),
+    ];
 
-    let path1 = test_data_path("./test_files/ch 10/Square/SquareGame.xml");
-    let mut file1 = File::open(path1).unwrap();
-    let mut t_1 = String::new();
-    file1.read_to_string(&mut t_1).unwrap();
-    let path2 = test_data_path("./test_files/ch 10/Square/SquareGameTExample.xml");
-    let mut file2 = File::open(path2).unwrap();
-    let mut t_2 = String::new();
-    file2.read_to_string(&mut t_2).unwrap();
+    for (jack, xml, example) in paths {
+        let path = test_data_path(jack);
+        let _vm = jack_to_vm(&path);
 
-    for (a, b) in zip(t_1.lines(), t_2.lines()) {
-        assert_eq!(a, b)
+        let xml_path = test_data_path(xml);
+        let mut xml_out = File::open(xml_path).unwrap();
+        let mut output_text = String::new();
+        xml_out.read_to_string(&mut output_text).unwrap();
+
+        let example_path = test_data_path(example);
+        println!("{:?}", example_path);
+        let mut example_out = File::open(example_path).unwrap();
+        let mut example_text = String::new();
+        example_out.read_to_string(&mut example_text).unwrap();
+
+        for (a, b) in zip(output_text.lines(), example_text.lines()) {
+            assert_eq!(a, b)
+        }
+    }
+}
+
+#[test]
+#[serial]
+fn test_array() {
+    let paths = [
+        (
+            "./test_files/ch 10/ArrayTest/Main.jack",
+            "./test_files/ch 10/ArrayTest/Main.xml",
+            "./test_files/ch 10/ArrayTest/MainExample.xml",
+        ),
+    ];
+
+    for (jack, xml, example) in paths {
+        let path = test_data_path(jack);
+        let _vm = jack_to_vm(&path);
+
+        let xml_path = test_data_path(xml);
+        let mut xml_out = File::open(xml_path).unwrap();
+        let mut output_text = String::new();
+        xml_out.read_to_string(&mut output_text).unwrap();
+
+        let example_path = test_data_path(example);
+        println!("{:?}", example_path);
+        let mut example_out = File::open(example_path).unwrap();
+        let mut example_text = String::new();
+        example_out.read_to_string(&mut example_text).unwrap();
+
+        for (a, b) in zip(output_text.lines(), example_text.lines()) {
+            assert_eq!(a, b)
+        }
     }
 }

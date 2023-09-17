@@ -4,6 +4,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug Main",
+            "sourceLanguages": [
+                "rust"
+            ],
             "cargo": {
                 "args": [
                     "build",

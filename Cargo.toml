@@ -1,5 +1,6 @@
 [workspace]
+members = ["./n2t"]
+resolver = "2"
 
-members = [
-    "./n2t",
-]
+[profile.dev]
+opt-level = 3
