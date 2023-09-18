@@ -13,13 +13,11 @@ use n2t::{
     utils::hack_to_vec,
 };
 
-fn get_computer(file_path: &str) -> Computer {
+fn _get_computer(file_path: &str) -> Computer {
     let path = Path::new(file_path);
     let asm = vm_to_asm(path);
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
-
-
 
     Computer::new(program)
 }
