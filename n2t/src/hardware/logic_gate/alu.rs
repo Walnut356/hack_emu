@@ -6,7 +6,7 @@ use crate::hardware::logic_gate::arithmetic::*;
 use crate::hardware::logic_gate::gates::*;
 use crate::utils::*;
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Default)]
 pub struct ControlBits {
     // in
     pub zx: u8,
@@ -52,10 +52,10 @@ pub fn mux_ALU(mut x: Vec<u8>, mut y: Vec<u8>, control: &mut ControlBits) -> Vec
 }
 
 /// MUX_4 solution
-pub fn ALU(x: &Vec<u8>, y: &Vec<u8>, control: &mut ControlBits) -> Vec<u8> {
-    let not_x = &multi_NOT(&x);
-    let not_y = &multi_NOT(&y);
-    let zero = &multi_XOR(&x, &x);
+pub fn ALU(x: &[u8], y: &[u8], control: &mut ControlBits) -> Vec<u8> {
+    let not_x = &multi_NOT(x);
+    let not_y = &multi_NOT(y);
+    let zero = &multi_XOR(x, x);
     let not_zero = &multi_NOT(zero);
 
     let temp_x = multi_MUX_4(x, not_x, zero, not_zero, control.zx, control.nx);
@@ -97,7 +97,7 @@ pub fn bench_alu() {
     for _ in 0..10000 {
         val = ALU(
             &bitvec_from_int(17),
-            &vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            &[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
             &mut control,
         );
     }

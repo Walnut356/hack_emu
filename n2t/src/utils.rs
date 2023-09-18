@@ -19,9 +19,9 @@ fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
     );
 
     let file = File::open(path).unwrap();
-    let stream = BufReader::new(file);
 
-    stream
+
+    BufReader::new(file)
 }
 
 /// Accepts a path and an extension. Returns a tuple of the file reader and the file's name (no
@@ -36,7 +36,7 @@ pub fn get_file_buffers(path: &Path, ext: &str) -> Vec<(BufReader<File>, String)
         let mut file_list = path.read_dir().unwrap();
         while let Some(Ok(file)) = file_list.next() {
             let f_path = file.path();
-            if f_path.extension() == Some(&OsStr::new(ext)) {
+            if f_path.extension() == Some(OsStr::new(ext)) {
                 files.push((
                     get_file_buffer(&f_path, ext),
                     f_path.file_stem().unwrap().to_str().unwrap().to_owned(),
@@ -53,7 +53,7 @@ pub fn get_file_buffers(path: &Path, ext: &str) -> Vec<(BufReader<File>, String)
                 .to_owned(),
         ));
     }
-    if files.len() == 0 {
+    if files.is_empty() {
         panic! {"No files with extension {} in directory '{:?}'", ext, path}
     }
     files
@@ -76,17 +76,17 @@ pub fn bitvec_from_int(mut int: u16) -> Vec<u8> {
     let mut result = Vec::new();
     for _ in 0..16 {
         result.push((int & 0b0000_0000_0000_0001) as u8);
-        int = int >> 1;
+        int >>= 1;
     }
     result.into_iter().rev().collect()
 }
 
 pub fn int_from_bitvec(vec: &Vec<u8>) -> u16 {
     let mut result: u16 = 0;
-    for (i, j) in vec.into_iter().enumerate() {
+    for (i, j) in vec.iter().enumerate() {
         result |= (*j) as u16;
         if i < vec.len() - 1 {
-            result = result << 1;
+            result <<= 1;
         }
     }
     result
@@ -235,9 +235,9 @@ pub fn decode_instr(instr: u16, vars: &[u16]) -> String {
         _ => "Error",
     };
     let out = format!("{store_in}{cmp}{jump}");
-    let mut temp_out = cmp.replace("A", &vars[0].to_string());
-    temp_out = temp_out.replace("D", &vars[1].to_string());
-    temp_out = temp_out.replace("M", &vars[2].to_string());
+    let mut temp_out = cmp.replace('A', &vars[0].to_string());
+    temp_out = temp_out.replace('D', &vars[1].to_string());
+    temp_out = temp_out.replace('M', &vars[2].to_string());
 
     let out2 = format!("{out} | {store_in}{temp_out}");
 

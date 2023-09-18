@@ -9,7 +9,7 @@ use std::{
 #[test]
 pub fn test_max() {
     let path = Path::new(r#"../test_files/ch 6/test/Max.asm"#);
-    let output = asm_to_hack(&path);
+    let output = asm_to_hack(path);
 
     let out_file = File::open(output).unwrap();
     let mut buf1 = String::new();
@@ -30,7 +30,7 @@ pub fn test_max() {
 #[test]
 pub fn test_pong() {
     let path = Path::new(r#"../test_files/ch 6/test/Pong.asm"#);
-    let output = asm_to_hack(&path);
+    let output = asm_to_hack(path);
 
     let out_file = File::open(output).unwrap();
     let mut buf1 = String::new();
@@ -51,7 +51,7 @@ pub fn test_pong() {
 #[test]
 pub fn test_rect() {
     let path = Path::new(r#"../test_files/ch 6/test/Rect.asm"#);
-    let output = asm_to_hack(&path);
+    let output = asm_to_hack(path);
 
     let out_file = File::open(output).unwrap();
     let mut buf1 = String::new();
@@ -72,7 +72,7 @@ pub fn test_rect() {
 #[test]
 pub fn test_add() {
     let path = Path::new(r#"../test_files/ch 6/test/Add.asm"#);
-    let output = asm_to_hack(&path);
+    let output = asm_to_hack(path);
 
     let out_file = File::open(output).unwrap();
     let mut buf1 = String::new();

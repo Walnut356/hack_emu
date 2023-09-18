@@ -25,7 +25,7 @@ pub fn full_adder(a: u8, b: u8, c: u8) -> Add {
     }
 }
 
-pub fn adder(a: &Vec<u8>, b: &Vec<u8>) -> Vec<u8> {
+pub fn adder(a: &[u8], b: &[u8]) -> Vec<u8> {
     let mut result = Vec::with_capacity(a.len());
     let mut c = 0;
 
@@ -38,9 +38,8 @@ pub fn adder(a: &Vec<u8>, b: &Vec<u8>) -> Vec<u8> {
     result.into_iter().rev().collect()
 }
 
-pub fn incrementer(a: &Vec<u8>) -> Vec<u8> {
-    let mut one = Vec::with_capacity(a.len());
-    one.resize(a.len(), 0);
+pub fn incrementer(a: &[u8]) -> Vec<u8> {
+    let mut one = vec![0; a.len()];
     let last = one.last_mut().unwrap();
     *last = 1;
     let mut result = Vec::with_capacity(a.len());
@@ -54,8 +53,8 @@ pub fn incrementer(a: &Vec<u8>) -> Vec<u8> {
     result.into_iter().rev().collect()
 }
 
-pub fn is_zero(a: &Vec<u8>) -> u8 {
-    let mut temp = a.clone();
+pub fn is_zero(a: &[u8]) -> u8 {
+    let mut temp = a.to_vec();
 
     while temp.len() > 1 {
         for (i, (j, &k)) in zip(temp.clone(), temp.clone().iter().rev()).enumerate() {

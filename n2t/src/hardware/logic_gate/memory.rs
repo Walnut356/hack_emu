@@ -1,9 +1,11 @@
+#![allow(clippy::new_without_default, clippy::needless_range_loop)]
+
 use crate::hardware::logic_gate::arithmetic::incrementer;
 use crate::hardware::logic_gate::gates::*;
 
 // DFF is considered "fundamental", so while this is would realistically work, i'll just be using Vecs as the minimum
 // so i don't have to refactor all of the prior logic to work with DFFs.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Default)]
 pub struct DFF {
     pub data: u8,
 }
@@ -63,7 +65,7 @@ impl Register {
         Register { data: vec![0; 16] }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, load: u8) {
+    pub fn cycle(&mut self, input: &[u8], load: u8) {
         for i in 0..16 {
             self.data[i] = MUX(self.data[i], input[i], load);
         }
@@ -91,7 +93,7 @@ impl RAM8 {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 3], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 3], load: u8) -> Vec<u8> {
         let temp = DEMUX_8(load, address[0], address[1], address[2]);
         for i in 0..16 {
             self.reg[i].cycle(input, temp[i]);
@@ -133,7 +135,7 @@ impl RAM64 {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 6], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 6], load: u8) -> Vec<u8> {
         let temp = DEMUX_8(load, address[3], address[4], address[5]);
         let mut out = Vec::new();
         for i in 0..16 {
@@ -168,7 +170,7 @@ impl RAM512 {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 9], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 9], load: u8) -> Vec<u8> {
         let temp = DEMUX_8(load, address[6], address[7], address[8]);
         let mut out = Vec::new();
         for i in 0..16 {
@@ -203,7 +205,7 @@ impl RAM4K {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 12], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 12], load: u8) -> Vec<u8> {
         let temp = DEMUX_8(load, address[9], address[10], address[11]);
         let mut out = Vec::new();
         for i in 0..16 {
@@ -247,7 +249,7 @@ impl RAM16K {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 14], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 14], load: u8) -> Vec<u8> {
         let temp = DEMUX_4(load, address[12], address[13]);
         let mut out = Vec::new();
         for i in 0..16 {
@@ -270,7 +272,7 @@ impl RAM32K {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, address: &[u8; 15], load: u8) -> Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], address: &[u8; 15], load: u8) -> Vec<u8> {
         let temp = DEMUX(load, address[14]);
         let mut out = Vec::new();
         for i in 0..16 {
@@ -293,11 +295,11 @@ impl InstPtr {
         }
     }
 
-    pub fn cycle(&mut self, input: &Vec<u8>, load: u8, inc: u8, reset: u8) -> &Vec<u8> {
+    pub fn cycle(&mut self, input: &[u8], load: u8, inc: u8, reset: u8) -> &Vec<u8> {
         let plus_one = incrementer(&self.val.data);
         let temp1 = multi_MUX(&self.val.data, &plus_one, inc);
-        let temp2 = multi_MUX(&temp1, &input, load);
-        let out = multi_MUX(&temp2, &vec![0; 16], reset);
+        let temp2 = multi_MUX(&temp1, input, load);
+        let out = multi_MUX(&temp2, &[0; 16], reset);
 
         self.val.cycle(&out, 1);
         &self.val.data

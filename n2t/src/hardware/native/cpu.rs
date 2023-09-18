@@ -179,7 +179,7 @@ impl Computer {
             self.pc = 0
         }
 
-        return true;
+        true
     }
 
     /// Executes until self.pc = pc_stop

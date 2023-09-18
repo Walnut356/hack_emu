@@ -1,6 +1,4 @@
-use std::{
-    path::Path,
-};
+use std::path::Path;
 
 use n2t::{
     hardware::native::cpu::Computer,
@@ -10,13 +8,11 @@ use n2t::{
 
 fn get_computer(file_path: &str) -> Computer {
     let path = Path::new(file_path);
-    let asm = vm_to_asm(&path);
+    let asm = vm_to_asm(path);
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
-    let cpu = Computer::new(program);
-
-    cpu
+    Computer::new(program)
 }
 
 // ------------------------------------------------------------------------------------------------------------------ //

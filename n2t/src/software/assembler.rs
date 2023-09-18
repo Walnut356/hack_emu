@@ -95,13 +95,11 @@ pub fn parse_symbols(
         return None;
     }
     if line.starts_with('@') {
-        if let Ok(_) = line[1..].parse::<u16>() {
-            ();
-        } else {
-            match symbol_table.get(&line[1..].to_string()) {
+        if line.strip_prefix('@').unwrap().parse::<u16>().is_err() {
+            match symbol_table.get(&line.strip_prefix('@').unwrap().to_string()) {
                 Some(_) => (),
                 None => {
-                    symbol_table.insert(line[1..].to_string(), *var_counter);
+                    symbol_table.insert(line.strip_prefix('@').unwrap().to_string(), *var_counter);
                     *var_counter += 1;
                 }
             };
@@ -117,11 +115,11 @@ pub fn translate_instruction(instr: String, symbol_table: &HashMap<String, u16>)
     let mut code: u16;
 
     // a instruction
-    if instr.starts_with("@") {
-        if let Some(&val) = symbol_table.get(&instr[1..]) {
+    if instr.starts_with('@') {
+        if let Some(&val) = symbol_table.get(instr.strip_prefix('@').unwrap()) {
             code = val;
         } else {
-            code = instr[1..].parse::<u16>().unwrap();
+            code = instr.strip_prefix('@').unwrap().parse::<u16>().unwrap();
         }
         // a little dumb, but the book specifies that it should be stored as text
         return format!("{code:016b}\n").into();
@@ -142,7 +140,7 @@ pub fn translate_instruction(instr: String, symbol_table: &HashMap<String, u16>)
             val => panic!("Invalid jump instruction: {val}"),
         }
 
-        match instr.as_str().chars().nth(0).unwrap() {
+        match instr.as_str().chars().next().unwrap() {
             '0' => code |= 0b0000_1010_1000_0000,
             'A' => code |= 0b0000_1100_0000_0000,
             'M' => code |= 0b0001_1100_0000_0000,

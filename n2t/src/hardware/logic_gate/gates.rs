@@ -1,4 +1,4 @@
-#![allow(non_snake_case)]
+#![allow(non_snake_case, clippy::too_many_arguments)]
 
 use std::iter::zip;
 
@@ -59,7 +59,7 @@ pub fn NOT(a: u8) -> u8 {
     NAND(a, a)
 }
 
-pub fn multi_NOT(a: &Vec<u8>) -> Vec<u8> {
+pub fn multi_NOT(a: &[u8]) -> Vec<u8> {
     let mut out = Vec::new();
     for &i in a {
         out.push(NOT(i));
@@ -86,7 +86,7 @@ pub fn AND(a: u8, b: u8) -> u8 {
     NOT(NAND(a, b))
 }
 
-pub fn multi_AND(a: &Vec<u8>, b: &Vec<u8>) -> Vec<u8> {
+pub fn multi_AND(a: &[u8], b: &[u8]) -> Vec<u8> {
     let mut out = Vec::new();
     for (&i, &j) in zip(a, b) {
         out.push(AND(i, j));
@@ -113,7 +113,7 @@ pub fn OR(a: u8, b: u8) -> u8 {
     NAND(NOT(a), NOT(b))
 }
 
-pub fn multi_OR(a: &Vec<u8>, b: &Vec<u8>) -> Vec<u8> {
+pub fn multi_OR(a: &[u8], b: &[u8]) -> Vec<u8> {
     let mut out = Vec::new();
     for (&i, &j) in zip(a, b) {
         out.push(OR(i, j));
@@ -140,7 +140,7 @@ pub fn XOR(a: u8, b: u8) -> u8 {
     AND(NAND(a, b), OR(a, b))
 }
 
-pub fn multi_XOR(a: &Vec<u8>, b: &Vec<u8>) -> Vec<u8> {
+pub fn multi_XOR(a: &[u8], b: &[u8]) -> Vec<u8> {
     let mut out = Vec::new();
     for (&i, &j) in zip(a, b) {
         out.push(XOR(i, j));
@@ -187,7 +187,7 @@ pub fn MUX(a: u8, b: u8, sel: u8) -> u8 {
 /// if sel == 0, return a
 ///
 /// if sel == 1, return b
-pub fn multi_MUX(a: &Vec<u8>, b: &Vec<u8>, sel: u8) -> Vec<u8> {
+pub fn multi_MUX(a: &[u8], b: &[u8], sel: u8) -> Vec<u8> {
     let mut out = Vec::new();
     for i in 0..a.len() {
         out.push(MUX(a[i], b[i], sel));
@@ -201,7 +201,7 @@ pub fn MUX_4(a: u8, b: u8, c: u8, d: u8, s0: u8, s1: u8) -> u8 {
     MUX(out1, out2, s0)
 }
 
-pub fn multi_MUX_4(a: &Vec<u8>, b: &Vec<u8>, c: &Vec<u8>, d: &Vec<u8>, s0: u8, s1: u8) -> Vec<u8> {
+pub fn multi_MUX_4(a: &[u8], b: &[u8], c: &[u8], d: &[u8], s0: u8, s1: u8) -> Vec<u8> {
     let mut out = Vec::new();
     for i in 0..a.len() {
         out.push(MUX_4(a[i], b[i], c[i], d[i], s0, s1));
@@ -214,14 +214,14 @@ pub fn MUX_8(a: u8, b: u8, c: u8, d: u8, e: u8, f: u8, g: u8, h: u8, s0: u8, s1:
 }
 
 pub fn multi_MUX_8(
-    a: &Vec<u8>,
-    b: &Vec<u8>,
-    c: &Vec<u8>,
-    d: &Vec<u8>,
-    e: &Vec<u8>,
-    f: &Vec<u8>,
-    g: &Vec<u8>,
-    h: &Vec<u8>,
+    a: &[u8],
+    b: &[u8],
+    c: &[u8],
+    d: &[u8],
+    e: &[u8],
+    f: &[u8],
+    g: &[u8],
+    h: &[u8],
     s0: u8,
     s1: u8,
     s2: u8,
@@ -261,7 +261,7 @@ pub fn DEMUX_4(input: u8, s0: u8, s1: u8) -> [u8; 4] {
     [a, b, c, d]
 }
 
-pub fn multi_DEMUX_4(input: &Vec<u8>, s0: u8, s1: u8) -> [Vec<u8>; 4] {
+pub fn multi_DEMUX_4(input: &[u8], s0: u8, s1: u8) -> [Vec<u8>; 4] {
     let mut out = [
         Vec::with_capacity(input.len()),
         Vec::with_capacity(input.len()),
@@ -286,7 +286,7 @@ pub fn DEMUX_8(input: u8, s0: u8, s1: u8, s2: u8) -> [u8; 8] {
     [a, b, c, d, e, f, g, h]
 }
 
-pub fn multi_DEMUX_8(input: &Vec<u8>, s0: u8, s1: u8, s2: u8) -> [Vec<u8>; 8] {
+pub fn multi_DEMUX_8(input: &[u8], s0: u8, s1: u8, s2: u8) -> [Vec<u8>; 8] {
     let mut out = [
         Vec::with_capacity(input.len()),
         Vec::with_capacity(input.len()),

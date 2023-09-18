@@ -22,6 +22,8 @@ pub mod software {
     pub mod assembler;
     pub mod compiler;
     pub mod compiler_utils;
+    pub mod tokenizer;
+    pub mod tokenizer_utils;
     pub mod vm;
     pub mod vm_instructions;
 }

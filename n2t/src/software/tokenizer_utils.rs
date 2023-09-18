@@ -5,12 +5,11 @@ use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 use std::io::{BufRead, Write};
-
 use std::{error, io::Read, str::FromStr};
 
 use strum_macros::EnumString;
 
-use crate::software::compiler::JackCompiler;
+use crate::software::tokenizer::JackTokenizer;
 
 type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
@@ -242,7 +241,7 @@ pub fn expect_bytes(expected: &str, got: &[u8]) {
 //     expressionList,
 // }
 
-impl JackCompiler {
+impl JackTokenizer {
     pub fn peek(&mut self) -> Result<[u8; 1]> {
         let mut buff = [0];
         self.stream.read_exact(&mut buff)?;

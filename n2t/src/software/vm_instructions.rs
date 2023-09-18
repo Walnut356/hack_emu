@@ -185,7 +185,7 @@ pub fn set_a_offset(loc: &Segment, ind: &str) -> String {
 /// the memory segment, and the value at the resultant memory location is pushed onto the stack.
 ///
 /// If `val` is None and the location is a memory segment, the value of the pointer itself is stored to the stack.
-pub fn push<'a>(loc: Segment, val: Option<&str>) -> String {
+pub fn push(loc: Segment, val: Option<&str>) -> String {
     use Segment::*;
     match loc {
         Stack => {

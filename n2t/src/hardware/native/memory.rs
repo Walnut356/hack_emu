@@ -1,3 +1,5 @@
+#![allow(clippy::new_without_default)]
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct RAM {
     pub data: Vec<u16>,

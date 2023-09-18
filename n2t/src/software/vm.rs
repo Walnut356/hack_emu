@@ -94,7 +94,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
         while let Some(Ok(line)) = lines.next() {
             // record vm instruction as comment for debug purposes
-            write!(output, "// {line}\n").unwrap();
+            writeln!(output, "// {line}").unwrap();
 
             if line.starts_with("//") || line.is_empty() {
                 continue;
@@ -115,7 +115,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
     use Instruction::*;
     let mut temp = line.split_whitespace();
     let instr = Instruction::from_str(temp.next().unwrap())
-        .expect(format!("Invalid instruction: {}", line).as_str());
+        .unwrap_or_else(|_| panic!("Invalid instruction: {}", line));
 
     match instr {
         Pop => {
@@ -158,7 +158,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
             // label + file name
             let l_name = temp.next().expect("Label instruction with no label name");
             assert!(
-                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                !l_name.chars().next().unwrap().is_ascii_digit(),
                 "Labels must not start with a digit. Got: {}",
                 l_name
             );
@@ -167,28 +167,28 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
         Goto => {
             let l_name = temp.next().expect("Jump instruction with no label");
             assert!(
-                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                !l_name.chars().next().unwrap().is_ascii_digit(),
                 "Labels must not start with a digit. Got: {}",
                 l_name
             );
 
-            jump(format!("{l_name}")).into()
+            jump(l_name.to_string()).into()
         } // label + file name
         IfGoto => {
             // label + file name
             let l_name = temp.next().expect("Jump instruction with no label name");
             assert!(
-                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                !l_name.chars().next().unwrap().is_ascii_digit(),
                 "Labels must not start with a digit. Got: {}",
                 l_name
             );
-            jump_if_zero(format!("{l_name}")).into()
+            jump_if_zero(l_name.to_string()).into()
         }
         Function => {
             // function name + nVars
             let l_name = temp.next().expect("Function definition with no name");
             assert!(
-                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                !l_name.chars().next().unwrap().is_ascii_digit(),
                 "Function name must not start with a digit. Got: {}",
                 l_name
             );
@@ -208,11 +208,11 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
             // function name + nArgs
             let l_name = temp.next().expect("Function call with no name");
             assert!(
-                !l_name.chars().nth(0).unwrap().is_ascii_digit(),
+                !l_name.chars().next().unwrap().is_ascii_digit(),
                 "Function name must not start with a digit. Got: {}",
                 l_name
             );
-            let func_name = format!("{l_name}");
+            let func_name = l_name.to_string();
 
             let n_args = temp.next().expect("Function Call with no Arg count");
 

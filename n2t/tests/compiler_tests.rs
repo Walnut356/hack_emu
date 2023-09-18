@@ -1,3 +1,5 @@
+//! Tests for chapter 11
+
 use std::{
     fs::File,
     io::Read,
@@ -17,9 +19,9 @@ fn get_computer(file_path: &str) -> Computer {
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
-    let cpu = Computer::new(program);
 
-    cpu
+
+    Computer::new(program)
 }
 
 pub fn test_data_path(file_path: &str) -> PathBuf {
@@ -32,72 +34,31 @@ pub fn test_data_path(file_path: &str) -> PathBuf {
 }
 
 #[test]
-fn test_square() {
+fn test_seven() {
     let paths = [
         (
-            "./test_files/ch 10/Square/Main.jack",
-            "./test_files/ch 10/Square/Main.xml",
-            "./test_files/ch 10/Square/MainExample.xml",
-        ),
-        (
-            "./test_files/ch 10/Square/Square.jack",
-            "./test_files/ch 10/Square/Square.xml",
-            "./test_files/ch 10/Square/SquareExample.xml",
-        ),
-        (
-            "./test_files/ch 10/Square/SquareGame.jack",
-            "./test_files/ch 10/Square/SquareGame.xml",
-            "./test_files/ch 10/Square/SquareGameExample.xml",
+            "./test_files/ch 11/Seven/Main.jack",
+            "./test_files/ch 11/Seven/Main.vm",
+            "./test_files/ch 11/Seven/MainTarget.vm",
         ),
     ];
 
-    for (jack, xml, example) in paths {
+    for (jack, vm, target) in paths {
         let path = test_data_path(jack);
         let _vm = JackCompiler::compile(&path);
 
-        let xml_path = test_data_path(xml);
-        let mut xml_out = File::open(xml_path).unwrap();
+        let vm_path = test_data_path(vm);
+        let mut vm_out = File::open(vm_path).unwrap();
         let mut output_text = String::new();
-        xml_out.read_to_string(&mut output_text).unwrap();
+        vm_out.read_to_string(&mut output_text).unwrap();
 
-        let example_path = test_data_path(example);
-        println!("{:?}", example_path);
-        let mut example_out = File::open(example_path).unwrap();
-        let mut example_text = String::new();
-        example_out.read_to_string(&mut example_text).unwrap();
+        let target_path = test_data_path(target);
+        println!("{:?}", target_path);
+        let mut target_out = File::open(target_path).unwrap();
+        let mut target_text = String::new();
+        target_out.read_to_string(&mut target_text).unwrap();
 
-        for (a, b) in zip(output_text.lines(), example_text.lines()) {
-            assert_eq!(a, b)
-        }
-    }
-}
-
-#[test]
-fn test_array() {
-    let paths = [
-        (
-            "./test_files/ch 10/ArrayTest/Main.jack",
-            "./test_files/ch 10/ArrayTest/Main.xml",
-            "./test_files/ch 10/ArrayTest/MainExample.xml",
-        ),
-    ];
-
-    for (jack, xml, example) in paths {
-        let path = test_data_path(jack);
-        let _vm = JackCompiler::compile(&path);
-
-        let xml_path = test_data_path(xml);
-        let mut xml_out = File::open(xml_path).unwrap();
-        let mut output_text = String::new();
-        xml_out.read_to_string(&mut output_text).unwrap();
-
-        let example_path = test_data_path(example);
-        println!("{:?}", example_path);
-        let mut example_out = File::open(example_path).unwrap();
-        let mut example_text = String::new();
-        example_out.read_to_string(&mut example_text).unwrap();
-
-        for (a, b) in zip(output_text.lines(), example_text.lines()) {
+        for (a, b) in zip(output_text.lines(), target_text.lines()) {
             assert_eq!(a, b)
         }
     }
