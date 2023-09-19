@@ -48,11 +48,15 @@ fn test_square() {
         xml_out.read_to_string(&mut output_text).unwrap();
 
         let example_path = test_data_path(example);
-        println!("{:?}", example_path);
         let mut example_out = File::open(example_path).unwrap();
         let mut example_text = String::new();
         example_out.read_to_string(&mut example_text).unwrap();
 
+        assert_eq!(
+            output_text.lines().count(),
+            example_text.lines().count(),
+            "files are not the same length"
+        );
         for (a, b) in zip(output_text.lines(), example_text.lines()) {
             assert_eq!(a, b)
         }
@@ -82,6 +86,11 @@ fn test_array() {
         let mut example_text = String::new();
         example_out.read_to_string(&mut example_text).unwrap();
 
+        assert_eq!(
+            output_text.lines().count(),
+            example_text.lines().count(),
+            "files are not the same length"
+        );
         for (a, b) in zip(output_text.lines(), example_text.lines()) {
             assert_eq!(a, b)
         }

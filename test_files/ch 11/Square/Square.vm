@@ -1,0 +1,9 @@
+function Square.new 3
+pop temp 0
+push constant 0
+return
+function Square.dispose 4
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

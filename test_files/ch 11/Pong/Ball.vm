@@ -1,0 +1,14 @@
+function Ball.new 6
+push constant 6
+sub
+push constant 6
+sub
+push constant 0
+pop temp 0
+push constant 0
+return
+function Ball.dispose 7
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
