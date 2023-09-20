@@ -2,34 +2,118 @@
 //! jack language, mostly for my own sanity during debugging.
 
 use crate::{
-    software::compiler_utils::{
-        Keyword::*, Symbol::*, Token,
+    software::{
+        compiler_utils::{
+            Keyword::{self, *},
+            Symbol::*,
+            Token,
+        },
+        writer_impl::Segment,
     },
     utils::get_file_buffers,
 };
 use std::{
+    collections::HashMap,
     fs::File,
     io::{BufWriter, Cursor, Read, Write},
     path::{Path, PathBuf},
 };
 
-const OPEN: bool = true;
-const CLOSE: bool = false;
+use maplit::hashmap;
 
-#[derive(Debug, Default)]
-pub struct SymbolTable {}
+#[derive(Debug, Clone)]
+pub struct SymbolDef {
+    pub segment: Segment,
+    pub dtype: Token,
+    pub index: usize,
+}
+
+impl SymbolDef {
+    pub fn new(category: Segment, dtype: Token, index: usize) -> Self {
+        Self {
+            segment: category,
+            dtype,
+            index,
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct SymbolTable {
+    pub cls: HashMap<String, SymbolDef>,
+    pub func: HashMap<String, SymbolDef>,
+    pub counts: HashMap<Segment, usize>,
+}
+
+impl Default for SymbolTable {
+    fn default() -> Self {
+        Self {
+            cls: HashMap::default(),
+            func: HashMap::default(),
+            counts: hashmap! {
+                Segment::Static => 0,
+                Segment::This => 0,
+                Segment::Local => 0,
+                Segment::Argument => 0,
+            },
+        }
+    }
+}
+
+impl SymbolTable {
+    pub fn get(&self, name: &str) -> Option<&SymbolDef> {
+        let mut result = self.func.get(name);
+        if result.is_none() {
+            result = self.cls.get(name);
+        }
+
+        result
+    }
+
+    pub fn has(&self, name: &str) -> bool {
+        self.func.get(name).is_some() || self.cls.get(name).is_some()
+    }
+
+    pub fn insert(&mut self, name: &str, dtype: Token, segment: Segment) {
+        assert!(dtype.is_type(), "Token '{dtype:?}' is not a Data Type");
+
+        let index = *self.counts.get(&segment).unwrap();
+
+        let result = match segment {
+            Segment::Local | Segment::Argument => self
+                .func
+                .insert(name.to_owned(), SymbolDef::new(segment, dtype, index)),
+
+            Segment::This | Segment::Static => self
+                .cls
+                .insert(name.to_owned(), SymbolDef::new(segment, dtype, index)),
+            _ => panic!("Invalid keyword for symbol table: {segment:?}"),
+        };
+
+        assert!(result.is_none(), "key '{name}' existed before insert");
+
+        *self.counts.get_mut(&segment).unwrap() += 1;
+    }
+
+    pub fn clear(&mut self) {
+        *self.counts.get_mut(&Segment::Local).unwrap() = 0;
+        *self.counts.get_mut(&Segment::Argument).unwrap() = 0;
+
+        self.func.clear()
+    }
+}
 
 #[derive(Debug)]
 pub struct JackCompiler {
     pub stream: Cursor<String>,
     pub output: BufWriter<File>,
 
+    pub class_name: String,
     pub symbol_table: SymbolTable,
-    pub indent_depth: usize,
+    pub label_count: usize,
 }
 
 impl JackCompiler {
-
     /// Takes a path to a .jack file or a folder containing .jack files, compiles those files into
     /// .vm files, and returns the path to the file(s).
     pub fn compile(path: &Path) -> PathBuf {
@@ -45,7 +129,7 @@ impl JackCompiler {
 
         for (mut file, file_name) in files {
             let mut output_path = out_dir.clone();
-            output_path.push(file_name);
+            output_path.push(file_name.clone());
             output_path.set_extension("vm");
 
             let out_file = File::create(output_path).unwrap();
@@ -57,8 +141,9 @@ impl JackCompiler {
             let mut compiler = JackCompiler {
                 stream: Cursor::new(stream),
                 output,
+                class_name: file_name,
                 symbol_table: SymbolTable::default(),
-                indent_depth: 0,
+                label_count: 0,
             };
 
             compiler.tokenize();
@@ -77,8 +162,6 @@ impl JackCompiler {
         let mut buff = Token::None;
         let mut err_counter = 0;
 
-        self.write_xml("class", OPEN);
-
         // --------------------------------------- 'class' -------------------------------------- //
         while buff != Token::Keyword(Class) {
             buff = self.get_next_token().unwrap();
@@ -89,29 +172,25 @@ impl JackCompiler {
                 panic!("unable to find identifier 'class'")
             }
         }
-        self.write_token(&buff);
 
         // -------------------------------------- className ------------------------------------- //
         let identifier = self.get_next_token().unwrap();
         assert!(matches!(identifier, Token::Identifier(_)));
-        self.write_token(&identifier);
+        assert_eq!(identifier, Token::Identifier(self.class_name.clone()));
 
         // ----------------------------------------- '{' ---------------------------------------- //
         let bracket = self.get_next_token().unwrap();
         assert_eq!(bracket, Token::Symbol(BracketOp));
-        self.write_token(&bracket);
 
         // ----------------------------- classVarDec* subroutineDec* ---------------------------- //
         while let Ok(token) = self.get_next_token() {
             if token == Token::Symbol(BracketCl) {
-                self.write_token(&token);
                 break;
             }
             self.keyword_dispatch(token);
         }
 
         // ----------------------------------------- '}' ---------------------------------------- //
-        self.write_xml("class", CLOSE);
     }
 
     pub fn keyword_dispatch(&mut self, token: Token) {
@@ -120,64 +199,30 @@ impl JackCompiler {
         if let Token::Keyword(keyword) = token {
             match keyword {
                 Comment | MComment | APIComment => self.skip_comment(keyword),
-                Static | Field => {
-                    self.write_xml("classVarDec", OPEN);
-                    self.write_token(&token);
-
-                    self.compile_decl();
-
-                    self.write_xml("classVarDec", CLOSE);
-                }
-                Var => {
-                    self.write_xml("varDec", OPEN);
-                    self.write_token(&token);
-                    self.compile_decl();
-                    self.write_xml("varDec", CLOSE);
+                Static | Field | Var => {
+                    self.compile_decl(keyword);
                 }
                 Function | Method | Constructor => {
-                    self.write_xml("subroutineDec", OPEN);
-                    self.write_token(&token);
-
-                    self.compile_func();
-
-                    self.write_xml("subroutineDec", CLOSE);
+                    self.symbol_table.clear();
+                    self.compile_func(keyword);
                 }
                 Let => {
-                    self.write_xml("letStatement", OPEN);
-                    self.write_token(&token);
-
                     self.compile_let();
-                    self.write_xml("letStatement", CLOSE);
                 }
                 Do => {
-                    self.write_xml("doStatement", OPEN);
-                    self.write_token(&token);
                     self.compile_func_call();
                     let semicolon = self.get_next_token().unwrap();
                     assert_eq!(semicolon, Token::Symbol(SemiColon));
-                    self.write_token(&semicolon);
-                    self.write_xml("doStatement", CLOSE);
+                    self.pop_seg(Segment::Temp, 0);
                 }
                 Return => {
-                    self.write_xml("returnStatement", OPEN);
-                    self.write_token(&token);
-
                     self.compile_return();
-                    self.write_xml("returnStatement", CLOSE);
                 }
                 If => {
-                    self.write_xml("ifStatement", OPEN);
-                    self.write_token(&token);
-
                     self.compile_if();
-                    self.write_xml("ifStatement", CLOSE);
                 }
                 While => {
-                    self.write_xml("whileStatement", OPEN);
-                    self.write_token(&token);
-
                     self.compile_while();
-                    self.write_xml("whileStatement", CLOSE);
                 }
                 Else => panic!("Dangling Else"),
                 t => panic!("Invalid statement keyword: {:?}", t),
@@ -190,69 +235,76 @@ impl JackCompiler {
     pub fn compile_return(&mut self) {
         // -------------------------------------- 'return' -------------------------------------- //
 
-        let (next_token, read_pos) =  self.peek_next_token().unwrap();
+        let (next_token, read_pos) = self.peek_next_token().unwrap();
 
         if next_token != Token::Symbol(SemiColon) {
             // ----------------------------------- expression? ---------------------------------- //
             self.compile_expression(&Token::Symbol(SemiColon));
-            self.write_token(&Token::Symbol(SemiColon));
         } else {
-            self.write_token(&next_token);
             self.stream.set_position(read_pos);
+            self.push_seg(Segment::Constant, 0);
         }
+
+        self.write_return();
     }
 
-    pub fn compile_decl(&mut self) {
+    pub fn compile_decl(&mut self, decl_type: Keyword) {
         // ---------------------------- ('static' | 'field' | 'var') ---------------------------- //
 
         // ---------------------------------------- type ---------------------------------------- //
         let dtype = self.get_next_token().unwrap();
         assert!(dtype.is_type());
-        self.write_token(&dtype);
 
         // ------------------------------- varName (',' varName)* ------------------------------- //
         while let Ok(token) = self.get_next_token() {
-            self.write_token(&token);
+            if token == Token::Symbol(Comma) {
+                continue;
+            }
 
             if token == Token::Symbol(SemiColon) {
                 break;
             }
-
             // covers patterns `var int i` and `var int i, j, k;
-            assert!(matches!(token, Token::Identifier(_) | Token::Symbol(Comma)));
+            assert!(matches!(token, Token::Identifier(_)));
+
+            self.symbol_table
+                .insert(&token.to_string(), dtype.clone(), decl_type.into());
         }
     }
 
-    pub fn compile_func(&mut self) {
+    pub fn compile_func(&mut self, func_type: Keyword) {
         // ----------------------- ('constructor' | 'function' | 'method') ---------------------- //
+        dbg!(&func_type);
 
+        let is_method = func_type == Method;
+        if is_method {
+            self.symbol_table.insert(
+                "this",
+                Token::Identifier(self.class_name.clone()),
+                Segment::Argument,
+            )
+        }
         // ----------------------------------- ('void' | type) ---------------------------------- //
         let ret_type = self.get_next_token().unwrap();
-        assert!(ret_type == Token::Keyword(Void) || ret_type.is_type());
-        self.write_token(&ret_type);
+        assert!(ret_type.is_type());
 
         // ----------------------------------- subroutineName ----------------------------------- //
         let func_name = self.get_next_token().unwrap();
         assert!(func_name.is_identifier());
-        self.write_token(&func_name);
+
+        dbg!(&func_name);
 
         // ----------------------------------------- '(' ---------------------------------------- //
         let open_paren = self.get_next_token().unwrap();
         assert_eq!(open_paren, Token::Symbol(ParenOp));
-        self.write_token(&open_paren);
 
         // ------------------------------------ parameterList ----------------------------------- //
-        self.write_xml("parameterList", OPEN);
-
         // ------------------------ ((type varName) (',' type varName)*)? ----------------------- //
         while let Ok(token) = self.get_next_token() {
             // if the first token is a ParenCl, the paramlist is empty, but still writes tags
             if token == Token::Symbol(ParenCl) {
                 break;
             }
-
-            // token is a dtype or a comma
-            self.write_token(&token);
 
             if token == Token::Symbol(Comma) {
                 continue;
@@ -266,31 +318,26 @@ impl JackCompiler {
                     | Token::Keyword(Boolean)
             ));
 
-            // if we're past the conditionals, the token was a dtype, so the next token must be the
-            // arg's name
             let name = self.get_next_token().unwrap();
             assert!(matches!(name, Token::Identifier(_)));
-            self.write_token(&name);
+            dbg!(&name);
+            self.symbol_table
+                .insert(&name.to_string(), token, Segment::Argument);
+            dbg!(&self.symbol_table.func);
         }
 
         // ----------------------------------------- ')' ---------------------------------------- //
-        self.write_xml("parameterList", CLOSE);
-        self.write_token(&Token::Symbol(ParenCl));
-
         // ----------------------------------- subroutineBody ----------------------------------- //
-        self.compile_func_body();
+        self.compile_func_body(func_name, is_method);
     }
 
-    pub fn compile_func_body(&mut self) {
-        self.write_xml("subroutineBody", OPEN);
-
+    pub fn compile_func_body(&mut self, name: Token, is_method: bool) {
         // ----------------------------------------- '{' ---------------------------------------- //
         let open_brac = self.get_next_token().unwrap();
         assert_eq!(open_brac, Token::Symbol(BracketOp));
-        self.write_token(&open_brac);
 
         // --------------------------------------- varDec* -------------------------------------- //
-        while let Ok((next_token, read_pos)) =  self.peek_next_token() {
+        while let Ok((next_token, read_pos)) = self.peek_next_token() {
             if next_token != Token::Keyword(Var) {
                 break;
             }
@@ -298,8 +345,17 @@ impl JackCompiler {
             self.keyword_dispatch(next_token);
         }
 
+        self.write_function(
+            &name.to_string(),
+            *self.symbol_table.counts.get(&Segment::Local).unwrap(),
+        );
+
+        if is_method {
+            self.push_seg(Segment::Argument, 0);
+            self.pop_seg(Segment::Pointer, 0);
+        }
+
         // ------------------------------------- statements ------------------------------------- //
-        self.write_xml("statements", OPEN);
 
         while let Ok(token) = self.get_next_token() {
             if token == Token::Symbol(BracketCl) {
@@ -311,10 +367,6 @@ impl JackCompiler {
         }
 
         // ----------------------------------------- '}' ---------------------------------------- //
-        self.write_xml("statements", CLOSE);
-        self.write_token(&Token::Symbol(BracketCl));
-
-        self.write_xml("subroutineBody", CLOSE);
     }
 
     pub fn compile_func_call(&mut self) {
@@ -331,31 +383,32 @@ impl JackCompiler {
         // --------------------------------------- varName -------------------------------------- //
         let id = self.get_next_token().unwrap();
         assert!(matches!(id, Token::Identifier(_)));
-        self.write_token(&id);
 
-        let (next_token, read_pos) =  self.peek_next_token().unwrap();
+        let (next_token, read_pos) = self.peek_next_token().unwrap();
 
         // ---------------------------------------- ('[' ---------------------------------------- //
         if next_token == Token::Symbol(BraceOp) {
-            self.write_token(&next_token);
             self.stream.set_position(read_pos);
 
             // ----------------------------------- expression ----------------------------------- //
             self.compile_expression(&Token::Symbol(BraceCl));
             // -------------------------------------- ']')? ------------------------------------- //
-            self.write_token(&Token::Symbol(BraceCl));
         }
 
         // ----------------------------------------- '=' ---------------------------------------- //
         let token = self.get_next_token().unwrap();
         assert_eq!(token, Token::Symbol(Equals));
-        self.write_token(&token);
 
         // ------------------------------------- expression ------------------------------------- //
         self.compile_expression(&Token::Symbol(SemiColon));
 
         // ----------------------------------------- ';' ---------------------------------------- //
-        self.write_token(&Token::Symbol(SemiColon));
+        let var = self
+            .symbol_table
+            .get(&id.to_string())
+            .unwrap_or_else(|| panic!("Undefined symbol name: {id}"));
+
+        self.pop_seg(var.segment, var.index)
     }
 
     pub fn compile_if(&mut self) {
@@ -364,21 +417,24 @@ impl JackCompiler {
         // ----------------------------------------- '(' ---------------------------------------- //
         let open_paren = self.get_next_token().unwrap();
         assert_eq!(open_paren, Token::Symbol(ParenOp));
-        self.write_token(&open_paren);
 
         // ------------------------------------- expression ------------------------------------- //
         self.compile_expression(&Token::Symbol(ParenCl));
 
+        let if_label = self.label_count;
+        let else_label = self.label_count + 1;
+        self.label_count += 2;
+
+        self.write_not();
+        self.write_if(if_label);
+
         // ----------------------------------------- ')' ---------------------------------------- //
-        self.write_token(&Token::Symbol(ParenCl));
 
         // ----------------------------------------- '{' ---------------------------------------- //
         let open_brac = self.get_next_token().unwrap();
         assert_eq!(open_brac, Token::Symbol(BracketOp));
-        self.write_token(&open_brac);
 
         // ------------------------------------- statements ------------------------------------- //
-        self.write_xml("statements", OPEN);
 
         while let Ok(token) = self.get_next_token() {
             if token == Token::Symbol(BracketCl) {
@@ -389,20 +445,19 @@ impl JackCompiler {
             self.keyword_dispatch(token)
         }
 
-        self.write_xml("statements", CLOSE);
-
         // ----------------------------------------- '}' ---------------------------------------- //
-        self.write_token(&Token::Symbol(BracketCl));
 
         // --------------------------------------- ('else' -------------------------------------- //
-        let (maybe_else, read_pos) =  self.peek_next_token().unwrap();
+        let (maybe_else, read_pos) = self.peek_next_token().unwrap();
 
         if maybe_else == Token::Keyword(Else) {
             self.stream.set_position(read_pos);
-            self.write_token(&maybe_else);
 
             // -------------------------------- [rest of else])? -------------------------------- //
-            self.compile_else()
+            self.write_else(else_label);
+            self.write_label(if_label);
+            self.compile_else();
+            self.write_label(else_label);
         }
     }
 
@@ -412,10 +467,9 @@ impl JackCompiler {
         // ----------------------------------------- '{' ---------------------------------------- //
         let open_brac = self.get_next_token().unwrap();
         assert_eq!(open_brac, Token::Symbol(BracketOp));
-        self.write_token(&open_brac);
 
         // ------------------------------------- statements ------------------------------------- //
-        self.write_xml("statements", OPEN);
+
         while let Ok(token) = self.get_next_token() {
             if token == Token::Symbol(BracketCl) {
                 break;
@@ -423,10 +477,7 @@ impl JackCompiler {
             self.keyword_dispatch(token)
         }
 
-        self.write_xml("statements", CLOSE);
-
         // ----------------------------------------- '}' ---------------------------------------- //
-        self.write_token(&Token::Symbol(BracketCl));
 
         // ----------------------------------------- )? ----------------------------------------- //
     }
@@ -437,37 +488,37 @@ impl JackCompiler {
         // ----------------------------------------- '(' ---------------------------------------- //
         let open_paren = self.get_next_token().unwrap();
         assert_eq!(open_paren, Token::Symbol(ParenOp));
-        self.write_token(&open_paren);
 
         // ------------------------------------- expression ------------------------------------- //
-        self.compile_expression(&Token::Symbol(ParenCl));
+        let if_label = self.label_count;
+        let else_label = self.label_count + 1;
+        self.label_count += 2;
 
-        self.write_token(&Token::Symbol(ParenCl));
+        self.write_label(else_label);
+        self.compile_expression(&Token::Symbol(ParenCl));
+        self.write_not();
+        self.write_if(if_label);
 
         // ----------------------------------------- '{' ---------------------------------------- //
         let open_brac = self.get_next_token().unwrap();
         assert_eq!(open_brac, Token::Symbol(BracketOp));
-        self.write_token(&open_brac);
 
         // ------------------------------------- statements ------------------------------------- //
-        self.write_xml("statements", OPEN);
+
         while let Ok(token) = self.get_next_token() {
             if token == Token::Symbol(BracketCl) {
                 break;
             }
             self.keyword_dispatch(token)
         }
-        self.write_xml("statements", CLOSE);
 
         // ----------------------------------------- '}' ---------------------------------------- //
-        self.write_token(&Token::Symbol(BracketCl));
+
+        self.write_else(else_label);
+        self.write_label(if_label);
     }
 
-    pub fn compile_expression(
-        &mut self,
-        delim: &Token,
-    ) -> Token {
-        self.write_xml("expression", OPEN);
+    pub fn compile_expression(&mut self, delim: &Token) -> Token {
         /*
         Brain's not working so i'll leave a note for later: i'm going to assume that there's always 1
         term, followed by [something]. [Something] can either be the delimeter or an operator, but the
@@ -480,7 +531,6 @@ impl JackCompiler {
         if token == *delim || token == Token::Symbol(ParenCl) || token == Token::Symbol(BraceCl)
         // || token == Token::Symbol(SemiColon)
         {
-            self.write_xml("expression", CLOSE);
             return token;
         }
         // -------------------------------------- term -------------------------------------- //
@@ -501,15 +551,16 @@ impl JackCompiler {
             "got {token:?}"
         );
 
-        self.write_xml("term", OPEN);
+        let mut ops = Vec::new();
+
         self.compile_term(&token);
-        self.write_xml("term", CLOSE);
 
         let mut op = self.get_next_token().unwrap();
         // ------------------------------------- (op term)* ------------------------------------- //
         while op.is_operator() {
-            self.write_token(&op);
+            ops.push(op);
 
+            let token = self.get_next_token().unwrap();
             assert!(
                 matches!(
                     token,
@@ -527,94 +578,101 @@ impl JackCompiler {
                 "got {token:?}"
             );
 
-            self.write_xml("term", OPEN);
-            let token = self.get_next_token().unwrap();
             self.compile_term(&token);
-            self.write_xml("term", CLOSE);
 
             op = self.get_next_token().unwrap();
         }
 
-        self.write_xml("expression", CLOSE);
+        self.write_operators(&ops);
+
         op
     }
 
     pub fn compile_term(&mut self, token: &Token) {
-        let (look_ahead, read_pos) =  self.peek_next_token().unwrap();
+        let (look_ahead, read_pos) = self.peek_next_token().unwrap();
 
         match token {
+            Token::ConstInt(x) => self.push_seg(Segment::Constant, *x as usize),
             // ------------------------------- '(' expression ')' ------------------------------- //
             Token::Symbol(ParenOp) => {
-                self.write_token(token);
                 self.compile_expression(&Token::Symbol(ParenCl));
-                self.write_token(&Token::Symbol(ParenCl));
             }
             // --------------------------- varName '[' expression ']' --------------------------- //
             Token::Identifier(_) if look_ahead == Token::Symbol(BraceOp) => {
-                self.write_token(token);
-                self.write_token(&look_ahead);
                 self.stream.set_position(read_pos);
 
                 self.compile_expression(&Token::Symbol(BraceCl));
-                self.write_token(&Token::Symbol(BraceCl));
             }
             // ----------------------- subroutineName'('expressionList')' ----------------------- //
-            Token::Identifier(_) if look_ahead == Token::Symbol(ParenOp) => {
-                self.write_token(token);
-                self.write_token(&look_ahead);
+            Token::Identifier(func_name) if look_ahead == Token::Symbol(ParenOp) => {
+                // all non-identifier subroutine names are treated as **method** calls in the
+                // current class.
                 self.stream.set_position(read_pos);
 
-                self.compile_expr_list();
+                let arg_count = self.compile_expr_list();
+
+                self.push_seg(Segment::Pointer, 0);
+                self.write_function(func_name, arg_count + 1);
             }
             // ------------ (className|varName)'.'subroutineName'('expressionList')' ------------ //
-            Token::Identifier(_) if look_ahead == Token::Symbol(Period) => {
-                self.write_token(token);
-                self.write_token(&look_ahead);
+            Token::Identifier(x) if look_ahead == Token::Symbol(Period) => {
                 self.stream.set_position(read_pos);
 
                 let func_name = self.get_next_token().unwrap();
                 assert!(matches!(func_name, Token::Identifier(_)));
-                self.write_token(&func_name);
 
                 let paren_open = self.get_next_token().unwrap();
                 assert_eq!(paren_open, Token::Symbol(ParenOp));
-                self.write_token(&paren_open);
 
-                self.compile_expr_list();
+                let is_method = self.symbol_table.has(&func_name.to_string());
+                if is_method {
+                    self.push_name(&func_name.to_string());
+                }
+
+                let arg_count = self.compile_expr_list() + is_method as usize;
+
+                self.write_function_call(x, &func_name.to_string(), arg_count);
             }
             // --------------------------------- (unaryOp term) --------------------------------- //
-            Token::Symbol(Tilde) | Token::Symbol(Minus) => {
-                self.write_token(token);
-                self.write_xml("term", OPEN);
+            Token::Symbol(Minus) => {
                 self.stream.set_position(read_pos);
 
                 self.compile_term(&look_ahead);
-                self.write_xml("term", CLOSE);
+                self.write_negate();
             }
-            _ => self.write_token(token),
+            Token::Symbol(Tilde) => {
+                self.stream.set_position(read_pos);
+
+                self.compile_term(&look_ahead);
+                self.write_not();
+            }
+            Token::Identifier(_)
+            | Token::Keyword(False)
+            | Token::Keyword(True)
+            | Token::Keyword(This) => {
+                self.push_name(&token.to_string());
+            }
+            _ => {}
         }
     }
 
-    pub fn compile_expr_list(&mut self) {
-        self.write_xml("expressionList", OPEN);
+    pub fn compile_expr_list(&mut self) -> usize {
+        let mut arg_count = 0;
         let mut delim;
 
-        while let Ok((token, read_pos)) =  self.peek_next_token() {
+        while let Ok((token, read_pos)) = self.peek_next_token() {
             if token == Token::Symbol(ParenCl) {
                 self.stream.set_position(read_pos);
                 break;
             }
 
+            arg_count += 1;
             delim = self.compile_expression(&Token::Symbol(Comma));
             if delim == Token::Symbol(ParenCl) {
                 break;
-            } else {
-                self.write_token(&delim);
             }
         }
 
-        self.write_xml("expressionList", CLOSE);
-        // all expression lists are wrapped in parens
-        self.write_token(&Token::Symbol(ParenCl));
+        arg_count
     }
 }

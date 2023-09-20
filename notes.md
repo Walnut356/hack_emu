@@ -1,27 +1,16 @@
-* book treats *bit* arrays as little endian (i.e. least significant *bit* first). For selector bits, this means 10 = s[0, 1]
+# Notes
 
-class
-classVarDec
-type
-subroutineDec
-parameterList
-subroutineBody
-varDec
-className
-subroutineName
-varName
+book treats *bit* arrays as little endian (i.e. least significant *bit* first). For selector bits, this means 10 = s[0, 1]
 
-!!statements
-letStatement
-ifStatement
-whileStatement
-doStatement
-returnStatement
+---
 
-!!expression
-!!term
-!!subroutineCall
-!!expressionList
-!!op
-!!unaryop
-!!keywordConstant
+* `function()`
+
+is interpreted as the method of the current class
+
+
+* `identifier.function()`
+
+If the identifier **is** found in the symbol table, the call is assumed to be a **method**.
+
+If the identifier is **not** found, the call is assumed to be a class **function**.

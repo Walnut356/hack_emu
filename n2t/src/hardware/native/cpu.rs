@@ -1,7 +1,7 @@
 use super::alu::ALU;
-use crate::utils::decode_instr;
+// use crate::utils::decode_instr;
 use enumflags2::{bitflags, BitFlags};
-use prettytable::ptable;
+// use prettytable::ptable;
 
 #[derive(Debug, PartialEq)]
 pub enum InstrType {
@@ -65,47 +65,47 @@ impl Computer {
         let instr = self.rom[self.pc as usize];
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
 
-        if log {
-            let _mem = ptable!(
-                ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
-                [
-                    self.a,
-                    self.d,
-                    self.ram[0],
-                    self.ram[1],
-                    self.ram[2],
-                    self.ram[3],
-                    self.ram[4],
-                ],
-                [
-                    "RAM[A]",
-                    "RAM[D]",
-                    "RAM[SP]",
-                    "RAM[LCL]",
-                    "RAM[ARG]",
-                    "RAM[THIS]",
-                    "RAM[THAT]"
-                ],
-                [
-                    self.ram.get(self.a as usize).unwrap_or(&0),
-                    self.ram.get(self.d as usize).unwrap_or(&0),
-                    self.ram.get(self.ram[0] as usize).unwrap_or(&0),
-                    self.ram.get(self.ram[1] as usize).unwrap_or(&0),
-                    self.ram.get(self.ram[2] as usize).unwrap_or(&0),
-                    self.ram.get(self.ram[3] as usize).unwrap_or(&0),
-                    self.ram.get(self.ram[4] as usize).unwrap_or(&0),
-                ]
-            );
+        // if log {
+        //     let _mem = ptable!(
+        //         ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
+        //         [
+        //             self.a,
+        //             self.d,
+        //             self.ram[0],
+        //             self.ram[1],
+        //             self.ram[2],
+        //             self.ram[3],
+        //             self.ram[4],
+        //         ],
+        //         [
+        //             "RAM[A]",
+        //             "RAM[D]",
+        //             "RAM[SP]",
+        //             "RAM[LCL]",
+        //             "RAM[ARG]",
+        //             "RAM[THIS]",
+        //             "RAM[THAT]"
+        //         ],
+        //         [
+        //             self.ram.get(self.a as usize).unwrap_or(&0),
+        //             self.ram.get(self.d as usize).unwrap_or(&0),
+        //             self.ram.get(self.ram[0] as usize).unwrap_or(&0),
+        //             self.ram.get(self.ram[1] as usize).unwrap_or(&0),
+        //             self.ram.get(self.ram[2] as usize).unwrap_or(&0),
+        //             self.ram.get(self.ram[3] as usize).unwrap_or(&0),
+        //             self.ram.get(self.ram[4] as usize).unwrap_or(&0),
+        //         ]
+        //     );
 
-            let _timing = ptable!(
-                ["PC", self.pc],
-                ["Time", self.time],
-                [
-                    "Instr",
-                    decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
-                ] // , ["Binary", format!("{:016b}", instr)]
-            );
-        }
+        //     let _timing = ptable!(
+        //         ["PC", self.pc],
+        //         ["Time", self.time],
+        //         [
+        //             "Instr",
+        //             decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
+        //         ] // , ["Binary", format!("{:016b}", instr)]
+        //     );
+        // }
 
         if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
             return false;

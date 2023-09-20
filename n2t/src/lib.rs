@@ -26,6 +26,7 @@ pub mod software {
     pub mod tokenizer_utils;
     pub mod vm;
     pub mod vm_instructions;
+    pub mod writer_impl;
 }
 
 pub mod utils;
@@ -45,12 +46,11 @@ pub const VAR_MAX: usize = 15;
 pub const STATIC_START: usize = 16;
 pub const STATIC_MAX: usize = 255;
 
-use num_enum::IntoPrimitive;
 use strum_macros::FromRepr;
 use strum_macros::{Display, EnumString};
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Display, EnumString, IntoPrimitive, FromRepr)]
+#[derive(Debug, Display, EnumString, FromRepr)]
 #[repr(u8)]
 pub enum Key {
     // Non-extended ascii

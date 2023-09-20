@@ -1,10 +1,9 @@
 #![allow(non_camel_case_types)]
 
-use concat_string::concat_string;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 
-use std::io::{BufRead, Write};
+use std::io::BufRead;
 
 use std::{error, io::Read, str::FromStr};
 
@@ -57,6 +56,8 @@ pub enum Keyword {
     While,
     Return,
     Var,
+    // not technically a keyword, but it'll do
+    Arg,
     Int,
     Boolean,
     Char,
@@ -184,6 +185,7 @@ impl Token {
                 | Token::Keyword(Int)
                 | Token::Keyword(Char)
                 | Token::Keyword(Boolean)
+                | Token::Keyword(Void)
         )
     }
 
@@ -206,6 +208,21 @@ impl Token {
             self,
             Token::Symbol(BracketCl) | Token::Symbol(BraceCl) | Token::Symbol(ParenCl)
         )
+    }
+}
+
+impl std::fmt::Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let output = match self {
+            Token::Keyword(x) => x.to_string(),
+            Token::Symbol(x) => x.to_string(),
+            Token::Identifier(x) => x.to_owned(),
+            Token::ConstString(x) => x.to_owned(),
+            Token::ConstInt(x) => x.to_string(),
+            Token::None => "None".to_string(),
+        };
+
+        write!(f, "{output}")
     }
 }
 
@@ -401,70 +418,5 @@ impl JackCompiler {
         self.stream.set_position(position);
 
         Ok((next_token, post_pos))
-    }
-
-    pub fn xml_token(&self, token: &Token) -> String {
-        let indent = "  ".repeat(self.indent_depth);
-        match token {
-            Token::Keyword(t) => {
-                concat_string!(indent, "<keyword> ", t.to_string(), " </keyword>\n")
-            }
-            Token::Symbol(t) => concat_string!(indent, "<symbol> ", t.to_string(), " </symbol>\n"),
-            Token::Identifier(t) => concat_string!(indent, "<identifier> ", t, " </identifier>\n"),
-            Token::ConstString(t) => {
-                concat_string!(indent, "<stringConstant> ", t, " </stringConstant>\n")
-            }
-            Token::ConstInt(t) => {
-                concat_string!(
-                    indent,
-                    "<integerConstant> ",
-                    t.to_string(),
-                    " </integerConstant>\n"
-                )
-            }
-            Token::None => panic!("Cannot create xml token for Token::None"),
-        }
-    }
-
-    /// returns a string opening an xml "group", also increments the indent depth
-    #[inline]
-    pub fn open_xml_group(&mut self, group_name: &str) -> String {
-        let temp = concat_string!(
-            "  ".repeat(self.indent_depth),
-            "<",
-            group_name,
-            ">\n"
-        );
-        self.indent_depth += 1;
-
-        temp
-    }
-
-    /// returns a string closing an xml "group", also decrements the indent depth
-    #[inline]
-    pub fn close_xml_group(&mut self, group_name: &str) -> String {
-        self.indent_depth -= 1;
-        concat_string!(
-            "  ".repeat(self.indent_depth),
-            "</",
-            group_name,
-            ">\n"
-        )
-    }
-
-    #[inline]
-    pub fn write_token(&mut self, token: &Token) {
-        write!(self.output, "{}", self.xml_token(token)).unwrap();
-    }
-
-    #[inline]
-    pub fn write_xml(&mut self, name: &str, tag: bool) {
-        if tag {
-            let group = self.open_xml_group(name);
-            write!(self.output, "{}", group).unwrap();
-        } else {
-            let group = self.close_xml_group(name);
-            write!(self.output, "{}", group).unwrap();
-        }
     }
 }
