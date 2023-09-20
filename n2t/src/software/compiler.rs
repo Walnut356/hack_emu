@@ -284,7 +284,6 @@ impl JackCompiler {
 
     pub fn compile_func(&mut self, func_type: Keyword) {
         // ----------------------- ('constructor' | 'function' | 'method') ---------------------- //
-        dbg!(&func_type);
 
         let is_method = func_type == Method;
         if is_method {
@@ -301,8 +300,6 @@ impl JackCompiler {
         // ----------------------------------- subroutineName ----------------------------------- //
         let func_name = self.get_next_token().unwrap();
         assert!(func_name.is_identifier());
-
-        dbg!(&func_name);
 
         // ----------------------------------------- '(' ---------------------------------------- //
         let open_paren = self.get_next_token().unwrap();
@@ -330,10 +327,8 @@ impl JackCompiler {
 
             let name = self.get_next_token().unwrap();
             assert!(matches!(name, Token::Identifier(_)));
-            dbg!(&name);
             self.symbol_table
                 .insert(&name.to_string(), token, Segment::Argument);
-            dbg!(&self.symbol_table.func);
         }
 
         // ----------------------------------------- ')' ---------------------------------------- //
@@ -649,9 +644,9 @@ impl JackCompiler {
                 // current class.
                 self.stream.set_position(read_pos);
 
+                self.push_seg(Segment::Pointer, 0);
                 let arg_count = self.compile_expr_list();
 
-                self.push_seg(Segment::Pointer, 0);
                 self.write_function_call(&self.class_name.clone(), func_name, arg_count + 1);
             }
             // ------------ (className|varName)'.'subroutineName'('expressionList')' ------------ //
@@ -691,7 +686,8 @@ impl JackCompiler {
             Token::Identifier(_)
             | Token::Keyword(False)
             | Token::Keyword(True)
-            | Token::Keyword(This) => {
+            | Token::Keyword(This)
+            | Token::Keyword(Null) => {
                 self.push_name(&token.to_string());
             }
             _ => {}

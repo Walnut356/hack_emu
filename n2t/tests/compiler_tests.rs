@@ -54,7 +54,7 @@ fn test_seven() {
 }
 
 #[test]
-/// this test file was manually tested via the software suite due to their compiler outputing
+/// this test case was manually tested via the software suite due to their compiler outputing
 /// semantically different but logically identical code. After checking the output matched the
 /// expected (i.e. bit-vec of RAM[8000] in RAM[8001..=8016]), I manually set the test file to be
 /// equal to my output to catch regressions.
@@ -100,7 +100,7 @@ fn test_convertbin() {
 }
 
 #[test]
-/// this test file was manually tested via the software suite due to their compiler outputing
+/// this test case was manually tested via the software suite due to their compiler outputing
 /// semantically different but logically identical code. After checking the output matched the
 /// expected (i.e. game ran correctly), I manually set the test file to be equal to my output to
 /// catch regressions.
@@ -199,6 +199,10 @@ fn test_average() {
 }
 
 #[test]
+/// this test case was manually tested via the software suite due to their compiler outputing
+/// semantically different but logically identical code. After checking the output matched the
+/// expected (i.e. game ran correctly), I manually set the test file to be equal to my output to
+/// catch regressions.
 fn test_pong() {
     let paths = [
         (
