@@ -100,6 +100,10 @@ fn test_convertbin() {
 }
 
 #[test]
+/// this test file was manually tested via the software suite due to their compiler outputing
+/// semantically different but logically identical code. After checking the output matched the
+/// expected (i.e. game ran correctly), I manually set the test file to be equal to my output to
+/// catch regressions.
 fn test_square() {
     let paths = [
         (
@@ -141,14 +145,14 @@ fn test_square() {
         // );
 
         // for (a, b) in zip(output_text.lines(), target_text.lines()) {
-            // don't fail on dumb label naming conventions
-            // if (a.starts_with("if-goto") && b.starts_with("if-goto"))
-            //     || (a.starts_with("goto") && b.starts_with("goto"))
-            //     || (a.starts_with("label") && b.starts_with("label"))
-            // {
-            //     continue;
-            // }
-            // assert_eq!(a, b);
+        // don't fail on dumb label naming conventions
+        // if (a.starts_with("if-goto") && b.starts_with("if-goto"))
+        //     || (a.starts_with("goto") && b.starts_with("goto"))
+        //     || (a.starts_with("label") && b.starts_with("label"))
+        // {
+        //     continue;
+        // }
+        // assert_eq!(a, b);
         // }
     }
 }

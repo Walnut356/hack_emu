@@ -125,7 +125,7 @@ impl JackCompiler {
             in_path.clone()
         };
 
-        let files = get_file_buffers(&out_dir, "jack");
+        let files = get_file_buffers(path, "jack");
 
         for (mut file, file_name) in files {
             let mut output_path = out_dir.clone();
@@ -202,7 +202,15 @@ impl JackCompiler {
                 Static | Field | Var => {
                     self.compile_decl(keyword);
                 }
-                Function | Method | Constructor => {
+                Function => {
+                    self.symbol_table.clear();
+                    self.compile_func(keyword);
+                }
+                Method => {
+                    self.symbol_table.clear();
+                    self.compile_func(keyword);
+                }
+                Constructor => {
                     self.symbol_table.clear();
                     self.compile_func(keyword);
                 }
@@ -328,10 +336,10 @@ impl JackCompiler {
 
         // ----------------------------------------- ')' ---------------------------------------- //
         // ----------------------------------- subroutineBody ----------------------------------- //
-        self.compile_func_body(func_name, is_method);
+        self.compile_func_body(func_name, func_type);
     }
 
-    pub fn compile_func_body(&mut self, name: Token, is_method: bool) {
+    pub fn compile_func_body(&mut self, name: Token, func_type: Keyword) {
         // ----------------------------------------- '{' ---------------------------------------- //
         let open_brac = self.get_next_token().unwrap();
         assert_eq!(open_brac, Token::Symbol(BracketOp));
@@ -345,14 +353,20 @@ impl JackCompiler {
             self.keyword_dispatch(next_token);
         }
 
-        self.write_function(
-            &name.to_string(),
-            *self.symbol_table.counts.get(&Segment::Local).unwrap(),
-        );
+        let arg_count = *self.symbol_table.counts.get(&Segment::Local).unwrap();
+        self.write_function(&name.to_string(), arg_count);
 
-        if is_method {
+        if func_type == Method {
             self.push_seg(Segment::Argument, 0);
             self.pop_seg(Segment::Pointer, 0);
+        }
+        if func_type == Constructor {
+            self.push_seg(
+                Segment::Constant,
+                *self.symbol_table.counts.get(&Segment::This).unwrap(),
+            );
+            self.write_function_call("Memory", "alloc", 1);
+            self.pop_seg(Segment::Pointer, 0)
         }
 
         // ------------------------------------- statements ------------------------------------- //
@@ -458,6 +472,8 @@ impl JackCompiler {
             self.write_label(if_label);
             self.compile_else();
             self.write_label(else_label);
+        } else {
+            self.write_label(if_label);
         }
     }
 
@@ -612,7 +628,7 @@ impl JackCompiler {
                 let arg_count = self.compile_expr_list();
 
                 self.push_seg(Segment::Pointer, 0);
-                self.write_function(func_name, arg_count + 1);
+                self.write_function_call(&self.class_name.clone(), func_name, arg_count + 1);
             }
             // ------------ (className|varName)'.'subroutineName'('expressionList')' ------------ //
             Token::Identifier(x) if look_ahead == Token::Symbol(Period) => {
@@ -624,14 +640,17 @@ impl JackCompiler {
                 let paren_open = self.get_next_token().unwrap();
                 assert_eq!(paren_open, Token::Symbol(ParenOp));
 
-                let is_method = self.symbol_table.has(&func_name.to_string());
+                let mut id_or_type = x.clone();
+                let is_method = self.symbol_table.has(x);
                 if is_method {
-                    self.push_name(&func_name.to_string());
+                    self.push_name(x);
+                    id_or_type = self.symbol_table.get(x).unwrap().dtype.to_string();
                 }
 
                 let arg_count = self.compile_expr_list() + is_method as usize;
 
-                self.write_function_call(x, &func_name.to_string(), arg_count);
+
+                self.write_function_call(&id_or_type, &func_name.to_string(), arg_count);
             }
             // --------------------------------- (unaryOp term) --------------------------------- //
             Token::Symbol(Minus) => {
