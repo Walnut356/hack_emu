@@ -21,6 +21,8 @@ use std::{
 
 use maplit::hashmap;
 
+use super::compiler_utils::Symbol;
+
 #[derive(Debug, Clone)]
 pub struct SymbolDef {
     pub segment: Segment,
@@ -394,6 +396,7 @@ impl JackCompiler {
     pub fn compile_let(&mut self) {
         // ---------------------------------------- 'let' --------------------------------------- //
 
+        let mut array_handling = false;
         // --------------------------------------- varName -------------------------------------- //
         let id = self.get_next_token().unwrap();
         assert!(matches!(id, Token::Identifier(_)));
@@ -402,11 +405,13 @@ impl JackCompiler {
 
         // ---------------------------------------- ('[' ---------------------------------------- //
         if next_token == Token::Symbol(BraceOp) {
+            array_handling = true;
             self.stream.set_position(read_pos);
-
             // ----------------------------------- expression ----------------------------------- //
             self.compile_expression(&Token::Symbol(BraceCl));
             // -------------------------------------- ']')? ------------------------------------- //
+            self.push_name(&id.to_string());
+            self.write_operators(&[Token::Symbol(Plus)]);
         }
 
         // ----------------------------------------- '=' ---------------------------------------- //
@@ -422,7 +427,14 @@ impl JackCompiler {
             .get(&id.to_string())
             .unwrap_or_else(|| panic!("Undefined symbol name: {id}"));
 
-        self.pop_seg(var.segment, var.index)
+        if array_handling {
+            self.pop_seg(Segment::Temp, 0);
+            self.pop_seg(Segment::Pointer, 1);
+            self.push_seg(Segment::Temp, 0);
+            self.pop_seg(Segment::That, 0);
+        } else {
+            self.pop_seg(var.segment, var.index)
+        }
     }
 
     pub fn compile_if(&mut self) {
@@ -609,15 +621,27 @@ impl JackCompiler {
 
         match token {
             Token::ConstInt(x) => self.push_seg(Segment::Constant, *x as usize),
+            Token::ConstString(x) => {
+                self.push_seg(Segment::Constant, x.len());
+                self.write_function_call("String", "new", 1);
+                for char in x.chars() {
+                    self.push_seg(Segment::Constant, char as usize);
+                    self.write_function_call("String", "appendChar", 2);
+                }
+            }
             // ------------------------------- '(' expression ')' ------------------------------- //
             Token::Symbol(ParenOp) => {
                 self.compile_expression(&Token::Symbol(ParenCl));
             }
             // --------------------------- varName '[' expression ']' --------------------------- //
-            Token::Identifier(_) if look_ahead == Token::Symbol(BraceOp) => {
+            Token::Identifier(x) if look_ahead == Token::Symbol(BraceOp) => {
                 self.stream.set_position(read_pos);
 
                 self.compile_expression(&Token::Symbol(BraceCl));
+                self.push_name(x);
+                self.write_operators(&[Token::Symbol(Symbol::Plus)]);
+                self.pop_seg(Segment::Pointer, 1);
+                self.push_seg(Segment::That, 0);
             }
             // ----------------------- subroutineName'('expressionList')' ----------------------- //
             Token::Identifier(func_name) if look_ahead == Token::Symbol(ParenOp) => {
@@ -648,7 +672,6 @@ impl JackCompiler {
                 }
 
                 let arg_count = self.compile_expr_list() + is_method as usize;
-
 
                 self.write_function_call(&id_or_type, &func_name.to_string(), arg_count);
             }
