@@ -132,28 +132,28 @@ fn test_square() {
         let mut output_text = String::new();
         vm_out.read_to_string(&mut output_text).unwrap();
 
-        // let target_path = test_data_path(target);
-        // println!("{:?}", target_path);
-        // let mut target_out = File::open(target_path).unwrap();
-        // let mut target_text = String::new();
-        // target_out.read_to_string(&mut target_text).unwrap();
+        let target_path = test_data_path(target);
 
-        // assert_eq!(
-        //     output_text.lines().count(),
-        //     target_text.lines().count(),
-        //     "files are not the same length"
-        // );
+        let mut target_out = File::open(target_path).unwrap();
+        let mut target_text = String::new();
+        target_out.read_to_string(&mut target_text).unwrap();
 
-        // for (a, b) in zip(output_text.lines(), target_text.lines()) {
+        assert_eq!(
+            output_text.lines().count(),
+            target_text.lines().count(),
+            "files are not the same length"
+        );
+
+        for (a, b) in zip(output_text.lines(), target_text.lines()) {
         // don't fail on dumb label naming conventions
-        // if (a.starts_with("if-goto") && b.starts_with("if-goto"))
-        //     || (a.starts_with("goto") && b.starts_with("goto"))
-        //     || (a.starts_with("label") && b.starts_with("label"))
-        // {
-        //     continue;
-        // }
-        // assert_eq!(a, b);
-        // }
+        if (a.starts_with("if-goto") && b.starts_with("if-goto"))
+            || (a.starts_with("goto") && b.starts_with("goto"))
+            || (a.starts_with("label") && b.starts_with("label"))
+        {
+            continue;
+        }
+        assert_eq!(a, b);
+        }
     }
 }
 
@@ -175,7 +175,6 @@ fn test_average() {
         vm_out.read_to_string(&mut output_text).unwrap();
 
         let target_path = test_data_path(target);
-        println!("{:?}", target_path);
         let mut target_out = File::open(target_path).unwrap();
         let mut target_text = String::new();
         target_out.read_to_string(&mut target_text).unwrap();
