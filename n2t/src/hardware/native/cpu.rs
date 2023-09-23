@@ -1,7 +1,7 @@
 use super::alu::ALU;
-// use crate::utils::decode_instr;
+use crate::utils::decode_instr;
 use enumflags2::{bitflags, BitFlags};
-// use prettytable::ptable;
+use prettytable::ptable;
 
 #[derive(Debug, PartialEq)]
 pub enum InstrType {
@@ -42,7 +42,9 @@ pub struct Computer {
 
 impl Computer {
     pub fn new(mut program: Vec<u16>) -> Self {
-        program.resize(32768, 0);
+        if program.len() < u16::MAX as usize {
+            program.resize(u16::MAX as usize, 0);
+        }
         Computer {
             d: 0,
             a: 0,
@@ -60,52 +62,52 @@ impl Computer {
     ///
     /// Returns true if execution should continue, returns false if an infinite loop is hit and execution should reset
     /// or terminate.
-    pub fn execute(&mut self, reset: bool, log: bool) -> bool {
+    pub fn step(&mut self, reset: bool, log: bool) -> bool {
         self.time += 1;
         let instr = self.rom[self.pc as usize];
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
 
-        // if log {
-        //     let _mem = ptable!(
-        //         ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
-        //         [
-        //             self.a,
-        //             self.d,
-        //             self.ram[0],
-        //             self.ram[1],
-        //             self.ram[2],
-        //             self.ram[3],
-        //             self.ram[4],
-        //         ],
-        //         [
-        //             "RAM[A]",
-        //             "RAM[D]",
-        //             "RAM[SP]",
-        //             "RAM[LCL]",
-        //             "RAM[ARG]",
-        //             "RAM[THIS]",
-        //             "RAM[THAT]"
-        //         ],
-        //         [
-        //             self.ram.get(self.a as usize).unwrap_or(&0),
-        //             self.ram.get(self.d as usize).unwrap_or(&0),
-        //             self.ram.get(self.ram[0] as usize).unwrap_or(&0),
-        //             self.ram.get(self.ram[1] as usize).unwrap_or(&0),
-        //             self.ram.get(self.ram[2] as usize).unwrap_or(&0),
-        //             self.ram.get(self.ram[3] as usize).unwrap_or(&0),
-        //             self.ram.get(self.ram[4] as usize).unwrap_or(&0),
-        //         ]
-        //     );
+        if log {
+            let _mem = ptable!(
+                ["A", "D", "SP", "LCL", "ARG", "THIS", "THAT"],
+                [
+                    self.a,
+                    self.d,
+                    self.ram[0],
+                    self.ram[1],
+                    self.ram[2],
+                    self.ram[3],
+                    self.ram[4],
+                ],
+                [
+                    "RAM[A]",
+                    "RAM[D]",
+                    "RAM[SP]",
+                    "RAM[LCL]",
+                    "RAM[ARG]",
+                    "RAM[THIS]",
+                    "RAM[THAT]"
+                ],
+                [
+                    self.ram.get(self.a as usize).unwrap_or(&0),
+                    self.ram.get(self.d as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[0] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[1] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[2] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[3] as usize).unwrap_or(&0),
+                    self.ram.get(self.ram[4] as usize).unwrap_or(&0),
+                ]
+            );
 
-        //     let _timing = ptable!(
-        //         ["PC", self.pc],
-        //         ["Time", self.time],
-        //         [
-        //             "Instr",
-        //             decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
-        //         ] // , ["Binary", format!("{:016b}", instr)]
-        //     );
-        // }
+            let _timing = ptable!(
+                ["PC", self.pc],
+                ["Time", self.time],
+                [
+                    "Instr",
+                    decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
+                ] // , ["Binary", format!("{:016b}", instr)]
+            );
+        }
 
         if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
             return false;
@@ -115,9 +117,9 @@ impl Computer {
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;
         self.flags = BitFlags::from_bits(out_bits | in_bits).unwrap();
 
-        let instr_type = match instr < 0b1000_0000_0000_0000 {
-            true => InstrType::A,
-            false => InstrType::C,
+        let instr_type = match instr & 0b1000_0000_0000_0000 {
+            0 => InstrType::A,
+            _ => InstrType::C,
         };
 
         if instr_type == InstrType::A {
@@ -128,25 +130,25 @@ impl Computer {
 
         let input = match (0b0001_0000_0000_0000 & instr) == 0 {
             true => self.a,
-            false => self.ram[(self.a & 0b0111_1111_1111_1111) as usize],
+            false => self.ram[self.a as usize],
         };
 
         // calc
         self.alu_out = ALU(self.d, input, &mut self.flags);
 
         // set output values
-        let addr = (self.a & 0b0111_1111_1111_1111) as usize;
+        let addr = self.a as usize;
 
-        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0000_1000) > 0) {
+        if (instr & 0b0000_0000_0000_1000) != 0 {
             self.ram[addr] = self.alu_out;
         }
 
-        if (instr_type == InstrType::C) && ((instr & 0b0000_0000_0001_0000) > 0) {
+        if (instr & 0b0000_0000_0001_0000) != 0 {
             self.d = self.alu_out
         }
 
         // this needs to happen after RAM is updated, otherwise the target RAM address is incorrect
-        if (instr_type == InstrType::C) && (instr & 0b0000_0000_0010_0000 > 0) {
+        if (instr & 0b0000_0000_0010_0000) != 0 {
             self.a = self.alu_out;
         }
 
@@ -163,18 +165,20 @@ impl Computer {
                 1 => !neg & !zero, // If comp > 0 (JGT)
                 2 => zero,         // If comp = 0 (JEQ)
                 3 => !neg,         // If comp >= 0 (JGE)
-                4 => neg & !zero,  // If comp < 0 (JLT)
+                4 => neg,  // If comp < 0 (JLT)
                 5 => !zero,        // If comp != 0 (JNE)
-                6 => neg,          // If comp <= 0 (JLE)
-                7 => true,         // Unconditional jump
-                _ => panic!("somehow got a number higher than 7 on a bitwise AND with 7"),
+                6 => neg | zero,          // If comp <= 0 (JLE)
+                _ => true,         // Unconditional jump
             }
         }
 
-        self.pc += 1;
+
         if should_jump {
             self.pc = self.a;
+        } else {
+            self.pc += 1;
         }
+
         if reset {
             self.pc = 0
         }
@@ -182,13 +186,17 @@ impl Computer {
         true
     }
 
-    /// Executes until self.pc = pc_stop
-    pub fn run_until(&mut self, pc_stop: u16, reset: bool, log: bool) -> bool {
-        assert!(pc_stop <= self.rom.len() as u16);
-        let mut cont = false;
-        while self.pc != pc_stop {
-            cont = self.execute(reset, log);
+    /// Executes until cpu.time == time
+    pub fn run_until(&mut self, time: usize, reset: bool, log: bool) {
+        while self.time < time {
+            self.step(reset, log);
         }
-        cont
+    }
+
+    /// Steps exactly `cycles` times
+    pub fn run_exact(&mut self, cycles: usize, reset: bool, log: bool) {
+        for _ in 0..cycles {
+            self.step(reset, log);
+        }
     }
 }

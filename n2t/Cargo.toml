@@ -12,3 +12,9 @@ strum_macros = "0.25.0"
 lazy_static = "1.4.0"
 concat-string = "1.0.1"
 maplit = "1.0.2"
+bitvec = "1.0.1"
+minifb = "0.25.0"
+prettytable = "0.10.0"
+
+[profile.dev.package."*"]
+opt-level = 2

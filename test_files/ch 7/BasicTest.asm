@@ -201,15 +201,10 @@ M=D
 @SP
 AM=M+1
 // pop temp 6
-@R11
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@R11
 M=D
 // push local 0
 @LCL

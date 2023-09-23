@@ -36,7 +36,7 @@ pub fn ALU(mut x: u16, mut y: u16, control: &mut BitFlags<ControlBits>) -> u16 {
         control.remove(ControlBits::Zero);
     }
 
-    if result >= 0b1000_0000_0000_0000 {
+    if result & 0b1000_0000_0000_0000 != 0 {
         control.insert(ControlBits::Neg);
     } else {
         control.remove(ControlBits::Neg);

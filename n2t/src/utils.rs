@@ -5,6 +5,9 @@ use std::{
     path::Path,
 };
 
+use strum_macros::FromRepr;
+use strum_macros::{Display, EnumString};
+
 pub fn u16_from_i16(val: i16) -> u16 {
     u16::from_ne_bytes(val.to_ne_bytes())
 }
@@ -19,7 +22,6 @@ fn get_file_buffer(path: &Path, ext: &str) -> BufReader<File> {
     );
 
     let file = File::open(path).unwrap();
-
 
     BufReader::new(file)
 }
@@ -242,4 +244,152 @@ pub fn decode_instr(instr: u16, vars: &[u16]) -> String {
     let out2 = format!("{out} | {store_in}{temp_out}");
 
     out2
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug, Display, EnumString, FromRepr)]
+#[repr(u8)]
+pub enum Key {
+    // Non-extended ascii
+    DEL = 127,
+    NewLine = 128,
+    BackSpace = 129,
+    Left = 130,
+    Up = 131,
+    Right = 132,
+    Down = 133,
+    Home = 134,
+    End = 135,
+    PageUp = 136,
+    PageDown = 137,
+    Insert = 138,
+    Delete = 139,
+    Esc = 140,
+    F1 = 141,
+    F2 = 142,
+    F3 = 143,
+    F4 = 144,
+    F5 = 145,
+    F6 = 146,
+    F7 = 147,
+    F8 = 148,
+    F9 = 149,
+    F10 = 150,
+    F11 = 151,
+    F12 = 152,
+
+    // Probably won't need these since it's just ASCII encodings
+    #[strum(serialize = " ")]
+    Space = 32,
+    #[strum(serialize = "!")]
+    Exclam = 33,
+    #[strum(serialize = "\"")]
+    DblQuote = 34,
+    #[strum(serialize = "#")]
+    Pound = 35,
+    #[strum(serialize = "$")]
+    Dollar = 36,
+    #[strum(serialize = "%")]
+    Mod = 37,
+    #[strum(serialize = "&")]
+    And = 38,
+    #[strum(serialize = "'")]
+    SglQuote = 39,
+    #[strum(serialize = "(")]
+    ParenOp = 40,
+    #[strum(serialize = ")")]
+    ParenCl = 41,
+    #[strum(serialize = "*")]
+    Asterisk = 42,
+    #[strum(serialize = "+")]
+    Plus = 43,
+    #[strum(serialize = ",")]
+    Comma = 44,
+    #[strum(serialize = "-")]
+    Minus = 45,
+    #[strum(serialize = ".")]
+    Period = 46,
+    #[strum(serialize = "/")]
+    FwdSlash = 47,
+    #[strum(serialize = "0")]
+    Zero = 48,
+    #[strum(serialize = "1")]
+    One = 49,
+    Two = 50,
+    Three = 51,
+    Four = 52,
+    Five = 53,
+    Six = 54,
+    Seven = 55,
+    Eight = 56,
+    Nine = 57,
+    Colon = 58,
+    SemiColon = 59,
+    LessThan = 60,
+    Equals = 61,
+    GreaterThan = 62,
+    Question = 63,
+    At = 64,
+    // A = 65,
+    // B,
+    // C,
+    // D,
+    // E,
+    // F,
+    // G,
+    // H,
+    // I,
+    // J,
+    // K,
+    // L,
+    // M,
+    // N,
+    // O,
+    // P,
+    // Q,
+    // R,
+    // S,
+    // T,
+    // U,
+    // V,
+    // W,
+    // X,
+    // Y,
+    // Z,
+    BracketOp,
+    FwdSlash2,
+    BracketCl,
+    Carrat,
+    Underscore,
+    BackTick,
+    a,
+    b,
+    c,
+    d,
+    e,
+    f,
+    g,
+    h,
+    i,
+    j,
+    k,
+    l,
+    m,
+    n,
+    o,
+    p,
+    q,
+    r,
+    s,
+    t,
+    u,
+    v,
+    w,
+    x,
+    y,
+    z,
+    BraceOp,
+    Pipe,
+    BraceCl,
+    Tilde,
 }

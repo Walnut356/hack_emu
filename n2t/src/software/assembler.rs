@@ -14,16 +14,28 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
 
     let mut symbol_table: HashMap<String, u16> = HashMap::new();
 
-    let mut i = 0u16;
-    while i < 16 {
-        symbol_table.insert(format!("R{i:?}"), i);
-        i += 1;
-    }
+
     symbol_table.insert("SP".to_string(), 0);
     symbol_table.insert("LCL".to_string(), 1);
     symbol_table.insert("ARG".to_string(), 2);
     symbol_table.insert("THIS".to_string(), 3);
     symbol_table.insert("THAT".to_string(), 4);
+    symbol_table.insert("R0".to_string(), 0);
+    symbol_table.insert("R1".to_string(), 1);
+    symbol_table.insert("R2".to_string(), 2);
+    symbol_table.insert("R3".to_string(), 3);
+    symbol_table.insert("R4".to_string(), 4);
+    symbol_table.insert("R5".to_string(), 5);
+    symbol_table.insert("R6".to_string(), 6);
+    symbol_table.insert("R7".to_string(), 7);
+    symbol_table.insert("R8".to_string(), 8);
+    symbol_table.insert("R9".to_string(), 9);
+    symbol_table.insert("R10".to_string(), 10);
+    symbol_table.insert("R11".to_string(), 11);
+    symbol_table.insert("R12".to_string(), 12);
+    symbol_table.insert("R13".to_string(), 13);
+    symbol_table.insert("R14".to_string(), 14);
+    symbol_table.insert("R15".to_string(), 15);
     symbol_table.insert("SCREEN".to_string(), 16384);
     symbol_table.insert("KBD".to_string(), 24576);
 

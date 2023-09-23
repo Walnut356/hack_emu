@@ -92,24 +92,23 @@ D=M
 A=A-1
 D=M-D
 M=-1
-@LT_1
+@Main.fibonacciLT_1
 D;JLT
 @SP
 A=M-1
 M=0
-(LT_1)
+(Main.fibonacciLT_1)
 // if-goto IF_TRUE
 @SP
 AM=M-1
 D=M
-@IF_TRUE
+@Main.fibonacci$IF_TRUE
 D;JNE
 // goto IF_FALSE
-@IF_FALSE
+@Main.fibonacci$IF_FALSE
 0;JMP
-
 // label IF_TRUE          // if n<2, return n
-(IF_TRUE)
+(Main.fibonacci$IF_TRUE)
 // push argument 0        
 @ARG
 D=M
@@ -180,7 +179,7 @@ M=D
 A=M
 0;JMP
 // label IF_FALSE         // if n>=2, returns fib(n-2)+fib(n-1)
-(IF_FALSE)
+(Main.fibonacci$IF_FALSE)
 // push argument 0
 @ARG
 D=M
@@ -472,8 +471,7 @@ M=D
 0;JMP
 (Main.fibonacci$ret2)
 // label WHILE
-(WHILE)
+(Sys.init$WHILE)
 // goto WHILE              // loops infinitely
-@WHILE
+@Sys.init$WHILE
 0;JMP
-

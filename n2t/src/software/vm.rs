@@ -1,5 +1,6 @@
 use crate::software::vm_instructions::*;
 use crate::utils::get_file_buffers;
+use concat_string::concat_string;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{prelude::*, BufWriter};
@@ -31,6 +32,8 @@ pub enum Segment {
     Temp,
     #[strum(serialize = "pointer")]
     Pointer,
+    #[strum(serialize = "static")]
+    Static,
     #[strum(default)]
     Literal(String),
 }
@@ -89,8 +92,10 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
     // helper variables for unique labels
     let mut counts = LabelCount::default();
 
-    for (file, _f_name) in files {
+    for (file, module_name) in files {
         let mut lines = file.lines();
+
+        let mut function_name = "".to_string();
 
         while let Some(Ok(line)) = lines.next() {
             // record vm instruction as comment for debug purposes
@@ -99,8 +104,12 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
             if line.starts_with("//") || line.is_empty() {
                 continue;
             }
+            if line.starts_with("function") {
+                let mut tokens = line.split_whitespace();
+                function_name = tokens.nth(1).unwrap().to_string();
+            }
 
-            write!(output, "{}", parse_line(line, &mut counts)).unwrap();
+            write!(output, "{}", parse_line(line, &mut counts, &module_name, &function_name)).unwrap();
         }
     }
 
@@ -111,7 +120,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
 /// Parses an individual line of Hack VM code to Hack Assembly code. The resultant String is pushed to the end of the
 /// supplied `output` String
-pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
+pub fn parse_line(line: String, counts: &mut LabelCount, module_name: &str, function_name: &str) -> Box<str> {
     use Instruction::*;
     let mut temp = line.split_whitespace();
     let instr = Instruction::from_str(temp.next().unwrap())
@@ -124,7 +133,15 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
                 Segment::from_str(temp.next().expect("Pop instruction with no location")).unwrap(); // the default should mean this never fails
             let val = temp.next();
 
-            pop(target, val).into()
+            match target {
+                Segment::Static => concat_string! {
+                    POP_STACK,
+                    load_const(format!("{}.{}", module_name, val.unwrap())),
+                    load(Reg::M, "D")
+                }
+                .into(),
+                _ => pop(target, val).into(),
+            }
         }
         Push => {
             // TODO do statics get a unique name?
@@ -133,21 +150,29 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
                 Segment::from_str(temp.next().expect("Push instruction with no location")).unwrap(); // the default should mean this never fails
             let val = temp.next();
 
-            push(target, val).into()
+            match target {
+                Segment::Static => concat_string! {
+                    load_const(format!("{}.{}", module_name, val.unwrap())),
+                    load(Reg::D, "M"),
+                    PUSH_D_STACK
+                }
+                .into(),
+                _ => push(target, val).into(),
+            }
         }
         Add => ADD.to_string().into(),
         Sub => SUB.to_string().into(),
         Eq => {
             counts.eq += 1;
-            eq(counts.eq).into()
+            eq(counts.eq, function_name).into()
         }
         Lt => {
             counts.lt += 1;
-            lt(counts.lt).into()
+            lt(counts.lt, function_name).into()
         }
         Gt => {
             counts.gt += 1;
-            gt(counts.gt).into()
+            gt(counts.gt, function_name).into()
         }
         Neg => NEG.to_string().into(),
         Not => NOT.to_string().into(),
@@ -162,7 +187,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
                 "Labels must not start with a digit. Got: {}",
                 l_name
             );
-            format!("({l_name})\n").into()
+            format!("({function_name}${l_name})\n").into()
         }
         Goto => {
             let l_name = temp.next().expect("Jump instruction with no label");
@@ -172,7 +197,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
                 l_name
             );
 
-            jump(l_name.to_string()).into()
+            jump(l_name.to_string(), function_name).into()
         } // label + file name
         IfGoto => {
             // label + file name
@@ -182,7 +207,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount) -> Box<str> {
                 "Labels must not start with a digit. Got: {}",
                 l_name
             );
-            jump_if_zero(l_name.to_string()).into()
+            jump_if_zero(l_name.to_string(), function_name).into()
         }
         Function => {
             // function name + nVars

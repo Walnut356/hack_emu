@@ -169,7 +169,7 @@ A=M
 M=D
 // 
 // label MAIN_LOOP_START
-(MAIN_LOOP_START)
+($MAIN_LOOP_START)
 // 
 // push argument 0
 @ARG
@@ -186,15 +186,14 @@ AM=M+1
 @SP
 AM=M-1
 D=M
-@COMPUTE_ELEMENT
+@$COMPUTE_ELEMENT
 D;JNE
 // goto END_PROGRAM        // otherwise, goto END_PROGRAM
-@END_PROGRAM
+@$END_PROGRAM
 0;JMP
-
 // 
 // label COMPUTE_ELEMENT
-(COMPUTE_ELEMENT)
+($COMPUTE_ELEMENT)
 // 
 // push that 0
 @THAT
@@ -312,9 +311,8 @@ A=M
 M=D
 // 
 // goto MAIN_LOOP_START
-@MAIN_LOOP_START
+@$MAIN_LOOP_START
 0;JMP
-
 // 
 // label END_PROGRAM
-(END_PROGRAM)
+($END_PROGRAM)

@@ -93,8 +93,8 @@ pub fn jne(comp: &str) -> String {
 /// ```no_test
 ///  "@{dest}\n{JUMP_UNCOND}\n"
 /// ```
-pub fn jump(dest: String) -> String {
-    concat_string!("@", dest, "\n", JUMP_UNCOND, "\n")
+pub fn jump(dest: String, func_name: &str) -> String {
+    concat_string!("@", func_name, "$", dest, "\n", JUMP_UNCOND)
 }
 
 lazy_static! {
@@ -195,6 +195,30 @@ pub fn push(loc: Segment, val: Option<&str>) -> String {
                 panic!("Got instruction to push constant with no value");
             }
         }
+        Temp => {
+            let index: u16 = val.unwrap().parse().unwrap();
+            concat_string! {
+                load_const(concat_string!("R", (5 + index).to_string())),
+                load(Reg::D, "M"),
+                PUSH_D_STACK
+            }
+        }
+        Pointer => {
+            let index: u16 = val.unwrap().parse().unwrap();
+            match index {
+                0 => concat_string! {
+                    load_const("THIS"),
+                    load(Reg::D, "M"),
+                    PUSH_D_STACK
+                },
+                1 => concat_string! {
+                    load_const("THAT"),
+                    load(Reg::D, "M"),
+                    PUSH_D_STACK
+                },
+                _ => panic!("Invalid pointer index: {index}. Expected 0 or 1"),
+            }
+        }
         _ => {
             if let Some(i) = val {
                 concat_string!(set_a_offset(&loc, i), load(Reg::D, "M"), PUSH_D_STACK)
@@ -213,9 +237,21 @@ pub fn push(loc: Segment, val: Option<&str>) -> String {
 pub fn pop(loc: Segment, val: Option<&str>) -> String {
     match loc {
         Segment::Stack => POP_STACK.to_owned(),
+        Segment::Temp => {
+            let index: u16 = val.unwrap().parse().unwrap();
+            concat_string! {
+                POP_STACK,
+                load_const(concat_string!("R", (5 + index).to_string())),
+                load(Reg::M, "D")
+            }
+        }
         Segment::Pointer => {
-            let ind = val.unwrap();
-            concat_string!(POP_STACK, set_a_offset(&loc, ind), load(Reg::M, "D"))
+            let index: u16 = val.unwrap().parse().unwrap();
+            match index {
+                0 => concat_string!(POP_STACK, load_const("THIS"), load(Reg::M, "D")),
+                1 => concat_string!(POP_STACK, load_const("THAT"), load(Reg::M, "D")),
+                _ => panic!("Invalid pointer index: {index}. Expected 0 or 1"),
+            }
         }
         _ => {
             let ind = val.unwrap();
@@ -234,8 +270,8 @@ pub fn pop(loc: Segment, val: Option<&str>) -> String {
 }
 
 // comparisons
-pub fn eq(eq_count: usize) -> String {
-    let lab = concat_string!("EQ_", eq_count.to_string());
+pub fn eq(eq_count: usize, func_name: &str) -> String {
+    let lab = concat_string!(func_name, "EQ_", eq_count.to_string());
     concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
@@ -249,8 +285,8 @@ pub fn eq(eq_count: usize) -> String {
     )
 }
 
-pub fn lt(lt_count: usize) -> String {
-    let lab = concat_string!("LT_", lt_count.to_string());
+pub fn lt(lt_count: usize, func_name: &str) -> String {
+    let lab = concat_string!(func_name, "LT_", lt_count.to_string());
     concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
@@ -265,8 +301,8 @@ pub fn lt(lt_count: usize) -> String {
 }
 
 /// compares the top 2 values on the stack, pushes -1 if
-pub fn gt(gt_count: usize) -> String {
-    let lab = concat_string!("GT_", gt_count.to_string());
+pub fn gt(gt_count: usize, func_name: &str) -> String {
+    let lab = concat_string!(func_name, "GT_", gt_count.to_string());
     concat_string!(
         POP_STACK,
         load(Reg::A, "A-1"),
@@ -280,8 +316,12 @@ pub fn gt(gt_count: usize) -> String {
     )
 }
 
-pub fn jump_if_zero(dest: String) -> String {
-    concat_string!(POP_STACK, load_const(&dest), jne("D"))
+pub fn jump_if_zero(dest: String, func_name: &str) -> String {
+    concat_string!(
+        POP_STACK,
+        load_const(concat_string!(func_name, "$", dest)),
+        jne("D")
+    )
 }
 
 pub fn func_return() -> String {

@@ -143,22 +143,16 @@ M=D
 0;JMP
 (Sys.main$ret0)
 // pop temp 1
-@R6
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@R6
 M=D
 // label LOOP
-(LOOP)
+(Sys.init$LOOP)
 // goto LOOP
-@LOOP
+@Sys.init$LOOP
 0;JMP
-
 // 
 // // Sys.main()
 // //
@@ -359,15 +353,10 @@ M=D
 0;JMP
 (Sys.add12$ret0)
 // pop temp 0
-@R5
-D=A
-@R13
-M=D
 @SP
 AM=M-1
 D=M
-@R13
-A=M
+@R5
 M=D
 // push local 0
 @LCL

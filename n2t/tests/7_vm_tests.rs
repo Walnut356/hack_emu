@@ -1,4 +1,5 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
+
 
 use n2t::{
     hardware::native::cpu::Computer,
@@ -6,9 +7,18 @@ use n2t::{
     utils::{hack_to_vec, u16_from_i16},
 };
 
+pub fn test_data_path(file_path: &str) -> PathBuf {
+    match std::env::var("ENV_ROOT_DIR") {
+        Ok(path) => Path::new(&path).join(file_path),
+        Err(_) => Path::new(&std::env::current_dir().unwrap())
+            .join("../")
+            .join(file_path),
+    }
+}
+
 fn get_computer(file_path: &str) -> Computer {
-    let path = Path::new(file_path);
-    let asm = vm_to_asm(path);
+    let path = test_data_path(file_path);
+    let asm = vm_to_asm(&path);
     let machine = asm_to_hack(&asm);
     let program = hack_to_vec(&machine);
 
@@ -21,23 +31,19 @@ fn get_computer(file_path: &str) -> Computer {
 
 #[test]
 fn test_simpleadd() {
-    let mut cpu = get_computer(r#"../test_files/ch 7/SimpleAdd.vm"#);
+    let mut cpu = get_computer(r"./test_files/ch 7/SimpleAdd.vm");
 
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 60 {
-            break;
-        }
-    }
+    cpu.pc = 53;
+    cpu.run_until(60, false, false);
+
 
     assert_eq!(
         cpu.ram[0], 257,
@@ -48,14 +54,15 @@ fn test_simpleadd() {
 
 #[test]
 fn test_stacktest() {
-    let mut cpu = get_computer(r#"../test_files/ch 7/StackTest.vm"#);
+    let mut cpu = get_computer(r#"./test_files/ch 7/StackTest.vm"#);
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -76,15 +83,16 @@ fn test_stacktest() {
 
 #[test]
 fn test_basictest() {
-    let mut cpu = get_computer("../test_files/ch 7/BasicTest.vm");
+    let mut cpu = get_computer("./test_files/ch 7/BasicTest.vm");
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -105,14 +113,15 @@ fn test_basictest() {
 
 #[test]
 fn test_pointertest() {
-    let mut cpu = get_computer("../test_files/ch 7/PointerTest.vm");
+    let mut cpu = get_computer("./test_files/ch 7/PointerTest.vm");
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -130,15 +139,16 @@ fn test_pointertest() {
 
 #[test]
 fn test_statictest() {
-    let mut cpu = get_computer("../test_files/ch 7/StaticTest.vm");
+    let mut cpu = get_computer("./test_files/ch 7/StaticTest.vm");
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -156,13 +166,14 @@ fn test_statictest() {
 
 #[test]
 fn test_basicloop() {
-    let mut cpu = get_computer("../test_files/ch 8/ProgramFlow/BasicLoop/BasicLoop.vm");
+    let mut cpu = get_computer("./test_files/ch 8/ProgramFlow/BasicLoop/BasicLoop.vm");
     // forcing initialized pointers to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300; // "local" pointer
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[400] = 3; // argument initial val
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -177,15 +188,16 @@ fn test_basicloop() {
 
 #[test]
 fn test_fibseries() {
-    let mut cpu = get_computer("../test_files/ch 8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
+    let mut cpu = get_computer("./test_files/ch 8/ProgramFlow/FibonacciSeries/FibonacciSeries.vm");
 
     // force initialized poitners to match official software test conditions
+    cpu.ram[0] = 256; // stack pointer
     cpu.ram[1] = 300;
     cpu.ram[2] = 400;
     cpu.ram[400] = 6;
     cpu.ram[401] = 3000;
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.pc == 4 {
             cpu.pc = 53; // skip over bootstrapping code
         }
@@ -199,7 +211,7 @@ fn test_fibseries() {
 
 #[test]
 fn test_simplefunction() {
-    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/SimpleFunction/SimpleFunction.vm");
+    let mut cpu = get_computer("./test_files/ch 8/FunctionCalls/SimpleFunction/SimpleFunction.vm");
 
     // let mut cpu = Computer::new(program);
 
@@ -217,7 +229,7 @@ fn test_simplefunction() {
     cpu.ram[316] = 4010;
 
     cpu.pc = 53; // skip over bootstrapping code
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         // if cpu.time == 76 {
         //     // return statement beginning
         //     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
@@ -233,7 +245,7 @@ fn test_simplefunction() {
 
 #[test]
 fn test_nestedcall() {
-    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/NestedCall/");
+    let mut cpu = get_computer("./test_files/ch 8/FunctionCalls/NestedCall/");
 
     cpu.ram[0] = 261;
     cpu.ram[1] = 261;
@@ -288,7 +300,7 @@ fn test_nestedcall() {
     cpu.ram[298] = u16_from_i16(-1);
     cpu.ram[299] = u16_from_i16(-1);
 
-    while cpu.execute(false, false) {
+    while cpu.step(false, false) {
         if cpu.time > 4000 {
             break;
         }
@@ -299,9 +311,9 @@ fn test_nestedcall() {
 
 #[test]
 fn test_fibelement() {
-    let mut cpu = get_computer("../test_files/ch 8/FunctionCalls/FibonacciElement/");
+    let mut cpu = get_computer("./test_files/ch 8/FunctionCalls/FibonacciElement/");
 
-    while cpu.execute(false, false) {}
+    while cpu.step(false, false) {}
 
     assert_eq!(cpu.ram[0], 262);
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 3);
