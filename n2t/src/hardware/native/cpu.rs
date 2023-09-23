@@ -62,7 +62,7 @@ impl Computer {
     ///
     /// Returns true if execution should continue, returns false if an infinite loop is hit and execution should reset
     /// or terminate.
-    pub fn step(&mut self, reset: bool, log: bool) -> bool {
+    pub fn step(&mut self, reset: bool, log: bool) {
         self.time += 1;
         let instr = self.rom[self.pc as usize];
         // form: [i, i, i, a, c1, c2, c3, c4, c5, c6, d1, d2, d3, j1, j2, j3]
@@ -109,10 +109,6 @@ impl Computer {
             );
         }
 
-        if (instr == 0b1110101010000111) && (self.a == self.pc - 1) {
-            return false;
-        };
-
         let out_bits = self.flags.bits() & 0b0000_0011;
         let in_bits = ((instr & 0b0000_1111_1100_0000) >> 4) as u8;
         self.flags = BitFlags::from_bits(out_bits | in_bits).unwrap();
@@ -125,7 +121,7 @@ impl Computer {
         if instr_type == InstrType::A {
             self.a = instr;
             self.pc += 1;
-            return true;
+            return;
         }
 
         let input = match (0b0001_0000_0000_0000 & instr) == 0 {
@@ -165,13 +161,12 @@ impl Computer {
                 1 => !neg & !zero, // If comp > 0 (JGT)
                 2 => zero,         // If comp = 0 (JEQ)
                 3 => !neg,         // If comp >= 0 (JGE)
-                4 => neg,  // If comp < 0 (JLT)
+                4 => neg,          // If comp < 0 (JLT)
                 5 => !zero,        // If comp != 0 (JNE)
-                6 => neg | zero,          // If comp <= 0 (JLE)
+                6 => neg | zero,   // If comp <= 0 (JLE)
                 _ => true,         // Unconditional jump
             }
         }
-
 
         if should_jump {
             self.pc = self.a;
@@ -182,8 +177,6 @@ impl Computer {
         if reset {
             self.pc = 0
         }
-
-        true
     }
 
     /// Executes until cpu.time == time

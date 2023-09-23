@@ -62,14 +62,9 @@ fn test_stacktest() {
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 1000 {
-            break;
-        }
-    }
+
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(1000, false, false);
 
     assert_eq!(
         cpu.ram[0], 266,
@@ -92,14 +87,8 @@ fn test_basictest() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 600 {
-            break;
-        }
-    }
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(600, false, false);
 
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 472);
     assert_eq!(cpu.ram[300], 10);
@@ -121,14 +110,8 @@ fn test_pointertest() {
     cpu.ram[3] = 3000; // "this" pointer
     cpu.ram[4] = 3010; // "that" pointer
 
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 450 {
-            break;
-        }
-    }
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(450, false, false);
 
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 6084);
     assert_eq!(cpu.ram[3], 3030);
@@ -148,14 +131,8 @@ fn test_statictest() {
     cpu.ram[4] = 3010; // "that" pointer
     cpu.ram[16] = 3; // "pointer" pointer
 
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 200 {
-            break;
-        }
-    }
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(200, false, false);
 
     assert_eq!(cpu.ram[256], 1110);
 }
@@ -173,14 +150,8 @@ fn test_basicloop() {
     cpu.ram[2] = 400; // "argument" pointer
     cpu.ram[400] = 3; // argument initial val
 
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time > 600 {
-            break;
-        }
-    }
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(600, false, false);
 
     assert_eq!(cpu.ram[0], 257);
     assert_eq!(cpu.ram[256], 6);
@@ -197,14 +168,8 @@ fn test_fibseries() {
     cpu.ram[400] = 6;
     cpu.ram[401] = 3000;
 
-    while cpu.step(false, false) {
-        if cpu.pc == 4 {
-            cpu.pc = 53; // skip over bootstrapping code
-        }
-        if cpu.time == 1100 {
-            break;
-        }
-    }
+    cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(1100, false, false);
 
     assert_eq!(cpu.ram[3000..=3005], [0, 1, 1, 2, 3, 5])
 }
@@ -229,15 +194,7 @@ fn test_simplefunction() {
     cpu.ram[316] = 4010;
 
     cpu.pc = 53; // skip over bootstrapping code
-    while cpu.step(false, false) {
-        // if cpu.time == 76 {
-        //     // return statement beginning
-        //     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 1196)
-        // }
-        if cpu.time == 300 {
-            break;
-        }
-    }
+    cpu.run_until(300, false, false);
 
     assert_eq!(cpu.ram[0..=4], [311, 305, 300, 3010, 4010]);
     assert_eq!(cpu.ram[310], 1196);
@@ -300,11 +257,9 @@ fn test_nestedcall() {
     cpu.ram[298] = u16_from_i16(-1);
     cpu.ram[299] = u16_from_i16(-1);
 
-    while cpu.step(false, false) {
-        if cpu.time > 4000 {
-            break;
-        }
-    }
+    // cpu.pc = 53; // skip over bootstrapping code
+    cpu.run_until(4000, false, false);
+
 
     assert_eq!(cpu.ram[0..=6], [261, 261, 256, 4000, 5000, 135, 246])
 }
@@ -313,7 +268,7 @@ fn test_nestedcall() {
 fn test_fibelement() {
     let mut cpu = get_computer("./test_files/ch 8/FunctionCalls/FibonacciElement/");
 
-    while cpu.step(false, false) {}
+    cpu.run_until(6000, false, false);
 
     assert_eq!(cpu.ram[0], 262);
     assert_eq!(cpu.ram[(cpu.ram[0] - 1) as usize], 3);
