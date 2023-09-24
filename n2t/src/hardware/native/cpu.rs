@@ -104,7 +104,7 @@ impl Computer {
                 ["Time", self.time],
                 [
                     "Instr",
-                    decode_instr(instr, &[self.a, self.d, self.ram[self.a as usize]])
+                    decode_instr(instr, &[self.a, self.d, *self.ram.get(self.a as usize).unwrap_or(&0u16)])
                 ] // , ["Binary", format!("{:016b}", instr)]
             );
         }

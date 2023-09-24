@@ -19,12 +19,16 @@ fn main() {
         r"G:\Coding and Programming\My Projects\VSC\nand_2_tetris\test_files\ch 11\Seven".into(),
     );
 
-    for _ in 0..600000 {
-        let result = emu.cpu.step(false, false);
-        if !result {
-            break;
-        }
+    emu.cpu.run_until(54, false, true);
+
+    emu.cpu.pc = 34932 - 4;
+    for _ in 0..60000 {
+        emu.cpu.step(false, true);
     }
+    // emu.cpu.run_until(600000, false, false);
+
+    let blank = emu.get_screen().iter().max().unwrap();
+    println!("{:?}", blank);
 
     // let mut window = Window::new(
     //     "Test - ESC to exit",

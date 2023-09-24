@@ -74,15 +74,14 @@ pub fn u16_to_u8_array(vals: &mut [u16]) -> &mut [u8] {
     unsafe { std::slice::from_raw_parts_mut(ptr, len) }
 }
 
-
-
 use hardware::native::cpu::Computer;
 use software::{assembler::asm_to_hack, compiler::JackCompiler, vm::vm_to_asm};
-use utils::hack_to_vec;
+use utils::{decode_instr, hack_to_vec};
 
 #[derive(Debug)]
 pub struct HackEmulator {
     pub program: PathBuf,
+    // pub instr: Vec<String>,
     pub cpu: Computer,
 }
 
@@ -93,11 +92,16 @@ impl HackEmulator {
         let asm_path = vm_to_asm(&vm_path);
         let hack_path = asm_to_hack(&asm_path);
         let machine_code = hack_to_vec(&hack_path);
+        // let instr = machine_code
+        //     .iter()
+        //     .map(|x| decode_instr(*x, &[0, 0, 0]))
+        //     .collect::<Vec<_>>();
         let computer = Computer::new(machine_code);
 
         HackEmulator {
             program,
             cpu: computer,
+            // instr,
         }
     }
 

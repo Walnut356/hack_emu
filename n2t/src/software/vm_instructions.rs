@@ -103,9 +103,9 @@ lazy_static! {
     ///
     ///
     pub static ref BOOTSTRAP: String = concat_string!(
-        "//init 'stack' pointer\n@256\nD=A\n@SP\nM=D\n",
-        "//call Sys.init\n",
+        "@256\nD=A\n@SP\nM=D\n",
         func_call(&"Sys.init".to_owned(), &"Sys.init$ret0".to_owned(), "0")
+        // INFINITE_LOOP
     );
 
     /// Consumes the top 2 values of the stack, bitwise ANDs them together, and stores the result on the new top of the

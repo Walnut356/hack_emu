@@ -1,0 +1,311 @@
+function SnekGame.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push constant 20
+pop static 0
+push constant 20
+pop static 1
+push constant 156
+push constant 28
+push static 0
+push static 1
+call Board.new 4
+pop this 0
+push static 0
+push static 1
+call Snek.new 2
+pop this 1
+push constant 73
+pop this 3
+push constant 0
+pop this 4
+push pointer 0
+return
+function SnekGame.run 1
+push argument 0
+pop pointer 0
+push constant 11
+push constant 6
+call Output.moveCursor 2
+pop temp 0
+push constant 5
+call String.new 1
+push constant 83
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push pointer 0
+call SnekGame.updateScore 1
+pop temp 0
+push this 0
+call Board.drawBorder 1
+pop temp 0
+push this 1
+push this 0
+call Snek.draw 2
+pop temp 0
+push pointer 0
+call SnekGame.generateFood 1
+pop temp 0
+push constant 0
+not
+pop this 5
+label L1
+push this 5
+not
+if-goto L0
+push pointer 0
+call SnekGame.update 1
+pop local 0
+push pointer 0
+push local 0
+call SnekGame.processInput 2
+pop temp 0
+goto L1
+label L0
+push constant 11
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 10
+call String.new 1
+push constant 71
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 109
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 118
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 33
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function SnekGame.generateFood 0
+push argument 0
+pop pointer 0
+push this 3
+push constant 511
+and
+pop this 2
+push this 2
+push static 0
+push static 1
+call Math.multiply 2
+push constant 1
+sub
+gt
+not
+if-goto L2
+push this 2
+push static 0
+push static 1
+call Math.multiply 2
+push constant 1
+sub
+sub
+pop this 2
+label L2
+label L5
+push this 1
+push this 2
+call Snek.checkCollision 2
+not
+if-goto L4
+push this 2
+push constant 1
+sub
+pop this 2
+push this 2
+push constant 0
+lt
+not
+if-goto L6
+push static 0
+push static 1
+call Math.multiply 2
+push constant 1
+sub
+pop this 2
+label L6
+goto L5
+label L4
+push this 0
+push this 2
+call Board.drawFood 2
+pop temp 0
+push constant 0
+return
+function SnekGame.update 3
+push argument 0
+pop pointer 0
+push this 1
+call Snek.nextHead 1
+pop local 0
+push this 1
+push local 0
+call Snek.checkCollision 2
+not
+if-goto L8
+push constant 0
+pop this 5
+push constant 0
+return
+label L8
+push local 0
+push this 2
+eq
+not
+if-goto L10
+push this 1
+push this 0
+push local 0
+call Snek.grow 3
+pop temp 0
+push this 4
+push constant 1
+add
+pop this 4
+push pointer 0
+call SnekGame.updateScore 1
+pop temp 0
+push pointer 0
+call SnekGame.generateFood 1
+pop temp 0
+push constant 500
+return
+label L10
+push this 1
+push this 0
+push local 0
+call Snek.move 3
+pop temp 0
+push constant 1000
+return
+function SnekGame.processInput 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+call Keyboard.keyPressed 0
+pop local 1
+label L13
+push argument 1
+push constant 0
+eq
+not
+not
+if-goto L12
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+push constant 131
+eq
+not
+if-goto L14
+push constant 1
+pop local 2
+label L14
+push local 0
+push constant 132
+eq
+not
+if-goto L16
+push constant 2
+pop local 2
+label L16
+push local 0
+push constant 133
+eq
+not
+if-goto L18
+push constant 3
+pop local 2
+label L18
+push local 0
+push constant 130
+eq
+not
+if-goto L20
+push constant 4
+pop local 2
+label L20
+push argument 1
+push constant 1
+sub
+pop argument 1
+push local 0
+push local 1
+eq
+not
+not
+if-goto L22
+push this 3
+push argument 1
+add
+pop this 3
+label L22
+push local 0
+pop local 1
+goto L13
+label L12
+push local 2
+push constant 0
+eq
+not
+not
+if-goto L24
+push this 1
+push local 2
+call Snek.setDir 2
+pop temp 0
+label L24
+push constant 0
+return
+function SnekGame.updateScore 0
+push argument 0
+pop pointer 0
+push constant 12
+push constant 6
+call Output.moveCursor 2
+pop temp 0
+push this 4
+call Output.printInt 1
+pop temp 0
+push constant 0
+return
+function SnekGame.dispose 0
+push argument 0
+pop pointer 0
+push this 1
+call Snek.dispose 1
+pop temp 0
+push this 0
+call Board.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

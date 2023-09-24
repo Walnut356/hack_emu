@@ -99,7 +99,7 @@ pub fn vm_to_asm(path: &Path) -> PathBuf {
 
         while let Some(Ok(line)) = lines.next() {
             // record vm instruction as comment for debug purposes
-            writeln!(output, "// {line}").unwrap();
+            // writeln!(output, "// {line}").unwrap();
 
             if line.starts_with("//") || line.is_empty() {
                 continue;
