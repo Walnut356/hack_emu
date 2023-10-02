@@ -16,14 +16,13 @@ const HEIGHT: usize = 256;
 
 fn main() {
     let mut emu = HackEmulator::new(
-        r"G:\Coding and Programming\My Projects\VSC\nand_2_tetris\test_files\ch 11\Seven".into(),
+        r"G:\Coding and Programming\My Projects\VSC\nand_2_tetris\test_files\ch 11\Pong".into(),
     );
 
-    emu.cpu.run_until(54, false, true);
+    emu.cpu.run_until(54, false, false);
 
-    emu.cpu.pc = 34932 - 4;
-    for _ in 0..60000 {
-        emu.cpu.step(false, true);
+    for _ in 0..1_000_000 {
+        emu.cpu.step(false, false);
     }
     // emu.cpu.run_until(600000, false, false);
 
@@ -45,7 +44,7 @@ fn main() {
     // let mut buffer: Vec<u32> = vec![u32::MAX; WIDTH * HEIGHT];
 
     // while window.is_open() && !window.is_key_down(Key::Escape) {
-    //     emu.cpu.execute(false, false);
+    //     emu.cpu.step(false, false);
     //     let screen = &mut emu.cpu.ram[0x4000..0x6000];
     //     pixels_from_bitplane(screen, &mut buffer);
 

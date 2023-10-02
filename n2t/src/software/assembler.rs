@@ -10,6 +10,7 @@ pub enum Offset {
     Label(u16),
     Var(u16),
     BuiltIn(u16),
+    OS,
 }
 
 impl Into<u16> for Offset {
@@ -18,6 +19,7 @@ impl Into<u16> for Offset {
             Offset::Label(x) => x,
             Offset::Var(x) => x,
             Offset::BuiltIn(x) => x,
+            _ => panic!("Cannot turn OS calls into u16's")
         }
     }
 }
@@ -158,16 +160,16 @@ pub fn parse_symbols(
                 // symbol is a label that occurs in the top 32K of rom
                 Some(Offset::Label(x)) if *x >= 32768 => {
                     *counter += 1;
-                    println!("@{}, {}", key, x);
+                    println!("@{}({}) at line {}", key, x, line_count);
                     // see giant comment below for details.
                     for (k, v) in symbol_table.iter_mut() {
                         if let Offset::Label(val) = v {
-                            if *val >= line_count as u16 {
+                            if *val >= (line_count + *counter) as u16 {
                                 if *val == 32767 {
                                     panic!("Label {k:?} crossed ROM boundary during handling of ASM -> machine code instruction insertion");
                                 }
                                 *val += 1;
-                                if k == "String.new" {
+                                if k == "Screen.drawCircle$WHILE_EXP0" {
                                     println!("{val}");
                                 }
                             }

@@ -51,7 +51,7 @@ pub const SCREEN_END: usize = 0x6000;
 
 pub const KEYBOARD: usize = 0x6000;
 
-use std::path::PathBuf;
+use std::{fs::File, path::PathBuf};
 
 use bitvec::prelude::*;
 
@@ -77,6 +77,7 @@ pub fn u16_to_u8_array(vals: &mut [u16]) -> &mut [u8] {
 use hardware::native::cpu::Computer;
 use software::{assembler::asm_to_hack, compiler::JackCompiler, vm::vm_to_asm};
 use utils::{decode_instr, hack_to_vec};
+use std::io::Write;
 
 #[derive(Debug)]
 pub struct HackEmulator {
@@ -84,6 +85,7 @@ pub struct HackEmulator {
     // pub instr: Vec<String>,
     pub cpu: Computer,
 }
+
 
 impl HackEmulator {
     /// Accepts a path to a .jack file or a folder containing .jack files.
@@ -96,6 +98,11 @@ impl HackEmulator {
         //     .iter()
         //     .map(|x| decode_instr(*x, &[0, 0, 0]))
         //     .collect::<Vec<_>>();
+
+        // let mut temp = File::create("./temp.asm").unwrap();
+        // for line in instr {
+        //     writeln!(temp, "{}", line).unwrap();
+        // }
         let computer = Computer::new(machine_code);
 
         HackEmulator {

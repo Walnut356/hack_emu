@@ -1,9 +1,7 @@
-//init 'stack' pointer
 @256
 D=A
 @SP
 M=D
-//call Sys.init
 @Sys.init$ret0
 D=A
 @SP
@@ -54,9 +52,10 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
-// function Array.new 0
+(INFINITE_LOOP)
+@INFINITE_LOOP
+0;JMP
 (Array.new)
-// push argument 0
 @ARG
 D=M
 @0
@@ -67,7 +66,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -75,7 +73,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -88,22 +85,17 @@ D;JGT
 A=M-1
 M=0
 (Array.newGT_1)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Array.new$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Array.new$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Array.new$IF_TRUE0)
-// push constant 2
 @2
 D=A
 @SP
@@ -111,7 +103,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret0
 D=A
 @SP
@@ -162,15 +153,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Array.new$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -181,7 +169,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.alloc 1
 @Memory.alloc$ret0
 D=A
 @SP
@@ -232,7 +219,6 @@ M=D
 @Memory.alloc
 0;JMP
 (Memory.alloc$ret0)
-// return
 @LCL
 D=M
 @R15
@@ -290,9 +276,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Array.dispose 0
 (Array.dispose)
-// push argument 0
 @ARG
 D=M
 @0
@@ -303,13 +287,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -317,7 +299,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.deAlloc 1
 @Memory.deAlloc$ret0
 D=A
 @SP
@@ -368,13 +349,11 @@ M=D
 @Memory.deAlloc
 0;JMP
 (Memory.deAlloc$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -382,7 +361,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -440,9 +418,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.new 0
 (Ball.new)
-// push constant 15
 @15
 D=A
 @SP
@@ -450,7 +426,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.alloc 1
 @Memory.alloc$ret1
 D=A
 @SP
@@ -501,13 +476,11 @@ M=D
 @Memory.alloc
 0;JMP
 (Memory.alloc$ret1)
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -518,7 +491,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -532,7 +504,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -543,7 +514,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 1
 @THIS
 D=M
 @1
@@ -557,7 +527,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -568,7 +537,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 10
 @THIS
 D=M
 @10
@@ -582,7 +550,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 3
 @ARG
 D=M
 @3
@@ -593,7 +560,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -601,14 +567,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 11
 @THIS
 D=M
 @11
@@ -622,7 +586,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 4
 @ARG
 D=M
 @4
@@ -633,7 +596,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 12
 @THIS
 D=M
 @12
@@ -647,7 +609,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 5
 @ARG
 D=M
 @5
@@ -658,7 +619,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -666,14 +626,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 13
 @THIS
 D=M
 @13
@@ -687,7 +645,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -695,7 +652,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 14
 @THIS
 D=M
 @14
@@ -709,7 +665,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -717,7 +672,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.show 1
 @Ball.show$ret0
 D=A
 @SP
@@ -768,13 +722,11 @@ M=D
 @Ball.show
 0;JMP
 (Ball.show$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -782,7 +734,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -840,9 +791,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.dispose 0
 (Ball.dispose)
-// push argument 0
 @ARG
 D=M
 @0
@@ -853,13 +802,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -867,7 +814,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.deAlloc 1
 @Memory.deAlloc$ret1
 D=A
 @SP
@@ -918,13 +864,11 @@ M=D
 @Memory.deAlloc
 0;JMP
 (Memory.deAlloc$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -932,7 +876,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -990,9 +933,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.show 0
 (Ball.show)
-// push argument 0
 @ARG
 D=M
 @0
@@ -1003,13 +944,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -1017,11 +956,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// call Screen.setColor 1
 @Screen.setColor$ret0
 D=A
 @SP
@@ -1072,13 +1009,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -1086,7 +1021,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.draw 1
 @Ball.draw$ret0
 D=A
 @SP
@@ -1137,13 +1071,11 @@ M=D
 @Ball.draw
 0;JMP
 (Ball.draw$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -1151,7 +1083,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -1209,9 +1140,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.hide 0
 (Ball.hide)
-// push argument 0
 @ARG
 D=M
 @0
@@ -1222,13 +1151,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -1236,7 +1163,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.setColor 1
 @Screen.setColor$ret1
 D=A
 @SP
@@ -1287,13 +1213,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -1301,7 +1225,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.draw 1
 @Ball.draw$ret1
 D=A
 @SP
@@ -1352,13 +1275,11 @@ M=D
 @Ball.draw
 0;JMP
 (Ball.draw$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -1366,7 +1287,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -1424,9 +1344,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.draw 0
 (Ball.draw)
-// push argument 0
 @ARG
 D=M
 @0
@@ -1437,13 +1355,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -1454,7 +1370,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -1465,7 +1380,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -1476,7 +1390,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 5
 @5
 D=A
 @SP
@@ -1484,14 +1397,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -1502,7 +1413,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 5
 @5
 D=A
 @SP
@@ -1510,14 +1420,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret0
 D=A
 @SP
@@ -1568,13 +1476,11 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -1582,7 +1488,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -1640,9 +1545,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.getLeft 0
 (Ball.getLeft)
-// push argument 0
 @ARG
 D=M
 @0
@@ -1653,13 +1556,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -1670,7 +1571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -1728,9 +1628,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.getRight 0
 (Ball.getRight)
-// push argument 0
 @ARG
 D=M
 @0
@@ -1741,13 +1639,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -1758,7 +1654,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 5
 @5
 D=A
 @SP
@@ -1766,14 +1661,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// return
 @LCL
 D=M
 @R15
@@ -1831,7 +1724,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.setDestination 3
 (Ball.setDestination)
 @0
 D=A
@@ -1854,7 +1746,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -1865,13 +1756,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -1882,7 +1771,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -1893,14 +1781,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 2
 @THIS
 D=M
 @2
@@ -1914,7 +1800,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -1925,7 +1810,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -1936,14 +1820,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 3
 @THIS
 D=M
 @3
@@ -1957,7 +1839,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -1968,7 +1849,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret0
 D=A
 @SP
@@ -2019,7 +1899,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret0)
-// pop local 0
 @LCL
 D=M
 @0
@@ -2033,7 +1912,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 3
 @THIS
 D=M
 @3
@@ -2044,7 +1922,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret1
 D=A
 @SP
@@ -2095,7 +1972,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret1)
-// pop local 1
 @LCL
 D=M
 @1
@@ -2109,7 +1985,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -2120,7 +1995,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -2131,7 +2005,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2144,7 +2017,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.setDestinationLT_1)
-// pop this 7
 @THIS
 D=M
 @7
@@ -2158,7 +2030,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 7
 @THIS
 D=M
 @7
@@ -2169,17 +2040,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L0
 @SP
 AM=M-1
 D=M
 @Ball.setDestination$L0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -2190,7 +2058,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 2
 @LCL
 D=M
 @2
@@ -2204,7 +2071,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -2215,7 +2081,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -2229,7 +2094,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -2240,7 +2104,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -2254,7 +2117,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -2265,7 +2127,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -2276,7 +2137,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2289,7 +2149,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.setDestinationLT_2)
-// pop this 8
 @THIS
 D=M
 @8
@@ -2303,7 +2162,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -2314,7 +2172,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -2325,7 +2182,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2338,7 +2194,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.setDestinationLT_3)
-// pop this 9
 @THIS
 D=M
 @9
@@ -2352,12 +2207,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L1
 @Ball.setDestination$L1
 0;JMP
-// label L0
 (Ball.setDestination$L0)
-// push this 0
 @THIS
 D=M
 @0
@@ -2368,7 +2220,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -2379,7 +2230,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2392,7 +2242,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.setDestinationLT_4)
-// pop this 8
 @THIS
 D=M
 @8
@@ -2406,7 +2255,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -2417,7 +2265,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -2428,7 +2275,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2441,7 +2287,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.setDestinationLT_5)
-// pop this 9
 @THIS
 D=M
 @9
@@ -2455,9 +2300,7 @@ D=M
 @R13
 A=M
 M=D
-// label L1
 (Ball.setDestination$L1)
-// push constant 2
 @2
 D=A
 @SP
@@ -2465,7 +2308,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -2476,7 +2318,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret0
 D=A
 @SP
@@ -2527,7 +2368,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret0)
-// push local 0
 @LCL
 D=M
 @0
@@ -2538,14 +2378,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 4
 @THIS
 D=M
 @4
@@ -2559,7 +2397,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -2567,7 +2404,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -2578,7 +2414,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret1
 D=A
 @SP
@@ -2629,7 +2464,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret1)
-// pop this 5
 @THIS
 D=M
 @5
@@ -2643,7 +2477,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -2651,7 +2484,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -2662,7 +2494,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -2673,14 +2504,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Math.multiply 2
 @Math.multiply$ret2
 D=A
 @SP
@@ -2731,7 +2560,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret2)
-// pop this 6
 @THIS
 D=M
 @6
@@ -2745,7 +2573,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -2753,7 +2580,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -2811,9 +2637,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.move 0
 (Ball.move)
-// push argument 0
 @ARG
 D=M
 @0
@@ -2824,13 +2648,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -2838,7 +2660,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.hide 1
 @Ball.hide$ret0
 D=A
 @SP
@@ -2889,13 +2710,11 @@ M=D
 @Ball.hide
 0;JMP
 (Ball.hide$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 4
 @THIS
 D=M
 @4
@@ -2906,7 +2725,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -2914,7 +2732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -2927,17 +2744,14 @@ D;JLT
 A=M-1
 M=0
 (Ball.moveLT_6)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L2
 @SP
 AM=M-1
 D=M
 @Ball.move$L2
 D;JNE
-// push this 4
 @THIS
 D=M
 @4
@@ -2948,7 +2762,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 5
 @THIS
 D=M
 @5
@@ -2959,14 +2772,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 4
 @THIS
 D=M
 @4
@@ -2980,12 +2791,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L3
 @Ball.move$L3
 0;JMP
-// label L2
 (Ball.move$L2)
-// push this 4
 @THIS
 D=M
 @4
@@ -2996,7 +2804,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 6
 @THIS
 D=M
 @6
@@ -3007,14 +2814,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 4
 @THIS
 D=M
 @4
@@ -3028,7 +2833,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 9
 @THIS
 D=M
 @9
@@ -3039,17 +2843,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L4
 @SP
 AM=M-1
 D=M
 @Ball.move$L4
 D;JNE
-// push this 7
 @THIS
 D=M
 @7
@@ -3060,17 +2861,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L6
 @SP
 AM=M-1
 D=M
 @Ball.move$L6
 D;JNE
-// push this 0
 @THIS
 D=M
 @0
@@ -3081,7 +2879,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3089,14 +2886,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 0
 @THIS
 D=M
 @0
@@ -3110,12 +2905,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L7
 @Ball.move$L7
 0;JMP
-// label L6
 (Ball.move$L6)
-// push this 1
 @THIS
 D=M
 @1
@@ -3126,7 +2918,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3134,14 +2925,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 1
 @THIS
 D=M
 @1
@@ -3155,14 +2944,10 @@ D=M
 @R13
 A=M
 M=D
-// label L7
 (Ball.move$L7)
-// goto L5
 @Ball.move$L5
 0;JMP
-// label L4
 (Ball.move$L4)
-// push this 7
 @THIS
 D=M
 @7
@@ -3173,17 +2958,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L8
 @SP
 AM=M-1
 D=M
 @Ball.move$L8
 D;JNE
-// push this 0
 @THIS
 D=M
 @0
@@ -3194,7 +2976,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3202,14 +2983,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 0
 @THIS
 D=M
 @0
@@ -3223,12 +3002,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L9
 @Ball.move$L9
 0;JMP
-// label L8
 (Ball.move$L8)
-// push this 1
 @THIS
 D=M
 @1
@@ -3239,7 +3015,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3247,14 +3022,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 1
 @THIS
 D=M
 @1
@@ -3268,13 +3041,9 @@ D=M
 @R13
 A=M
 M=D
-// label L9
 (Ball.move$L9)
-// label L5
 (Ball.move$L5)
-// label L3
 (Ball.move$L3)
-// push this 8
 @THIS
 D=M
 @8
@@ -3285,17 +3054,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L10
 @SP
 AM=M-1
 D=M
 @Ball.move$L10
 D;JNE
-// push this 7
 @THIS
 D=M
 @7
@@ -3306,17 +3072,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L12
 @SP
 AM=M-1
 D=M
 @Ball.move$L12
 D;JNE
-// push this 1
 @THIS
 D=M
 @1
@@ -3327,7 +3090,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3335,14 +3097,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 1
 @THIS
 D=M
 @1
@@ -3356,12 +3116,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L13
 @Ball.move$L13
 0;JMP
-// label L12
 (Ball.move$L12)
-// push this 0
 @THIS
 D=M
 @0
@@ -3372,7 +3129,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3380,14 +3136,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 0
 @THIS
 D=M
 @0
@@ -3401,14 +3155,10 @@ D=M
 @R13
 A=M
 M=D
-// label L13
 (Ball.move$L13)
-// goto L11
 @Ball.move$L11
 0;JMP
-// label L10
 (Ball.move$L10)
-// push this 7
 @THIS
 D=M
 @7
@@ -3419,17 +3169,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L14
 @SP
 AM=M-1
 D=M
 @Ball.move$L14
 D;JNE
-// push this 1
 @THIS
 D=M
 @1
@@ -3440,7 +3187,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3448,14 +3194,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 1
 @THIS
 D=M
 @1
@@ -3469,12 +3213,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L15
 @Ball.move$L15
 0;JMP
-// label L14
 (Ball.move$L14)
-// push this 0
 @THIS
 D=M
 @0
@@ -3485,7 +3226,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -3493,14 +3233,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 0
 @THIS
 D=M
 @0
@@ -3514,11 +3252,8 @@ D=M
 @R13
 A=M
 M=D
-// label L15
 (Ball.move$L15)
-// label L11
 (Ball.move$L11)
-// push this 0
 @THIS
 D=M
 @0
@@ -3529,7 +3264,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 10
 @THIS
 D=M
 @10
@@ -3540,7 +3274,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -3553,21 +3286,17 @@ D;JGT
 A=M-1
 M=0
 (Ball.moveGT_2)
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L16
 @SP
 AM=M-1
 D=M
 @Ball.move$L16
 D;JNE
-// push constant 1
 @1
 D=A
 @SP
@@ -3575,7 +3304,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 14
 @THIS
 D=M
 @14
@@ -3589,7 +3317,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 10
 @THIS
 D=M
 @10
@@ -3600,7 +3327,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -3614,9 +3340,7 @@ D=M
 @R13
 A=M
 M=D
-// label L16
 (Ball.move$L16)
-// push this 0
 @THIS
 D=M
 @0
@@ -3627,7 +3351,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 11
 @THIS
 D=M
 @11
@@ -3638,7 +3361,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -3651,21 +3373,17 @@ D;JLT
 A=M-1
 M=0
 (Ball.moveLT_7)
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L18
 @SP
 AM=M-1
 D=M
 @Ball.move$L18
 D;JNE
-// push constant 2
 @2
 D=A
 @SP
@@ -3673,7 +3391,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 14
 @THIS
 D=M
 @14
@@ -3687,7 +3404,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 11
 @THIS
 D=M
 @11
@@ -3698,7 +3414,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -3712,9 +3427,7 @@ D=M
 @R13
 A=M
 M=D
-// label L18
 (Ball.move$L18)
-// push this 1
 @THIS
 D=M
 @1
@@ -3725,7 +3438,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 12
 @THIS
 D=M
 @12
@@ -3736,7 +3448,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -3749,21 +3460,17 @@ D;JGT
 A=M-1
 M=0
 (Ball.moveGT_3)
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L20
 @SP
 AM=M-1
 D=M
 @Ball.move$L20
 D;JNE
-// push constant 3
 @3
 D=A
 @SP
@@ -3771,7 +3478,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 14
 @THIS
 D=M
 @14
@@ -3785,7 +3491,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 12
 @THIS
 D=M
 @12
@@ -3796,7 +3501,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 1
 @THIS
 D=M
 @1
@@ -3810,9 +3514,7 @@ D=M
 @R13
 A=M
 M=D
-// label L20
 (Ball.move$L20)
-// push this 1
 @THIS
 D=M
 @1
@@ -3823,7 +3525,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 13
 @THIS
 D=M
 @13
@@ -3834,7 +3535,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -3847,21 +3547,17 @@ D;JLT
 A=M-1
 M=0
 (Ball.moveLT_8)
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L22
 @SP
 AM=M-1
 D=M
 @Ball.move$L22
 D;JNE
-// push constant 4
 @4
 D=A
 @SP
@@ -3869,7 +3565,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 14
 @THIS
 D=M
 @14
@@ -3883,7 +3578,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 13
 @THIS
 D=M
 @13
@@ -3894,7 +3588,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 1
 @THIS
 D=M
 @1
@@ -3908,9 +3601,7 @@ D=M
 @R13
 A=M
 M=D
-// label L22
 (Ball.move$L22)
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -3918,7 +3609,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.show 1
 @Ball.show$ret1
 D=A
 @SP
@@ -3969,13 +3659,11 @@ M=D
 @Ball.show
 0;JMP
 (Ball.show$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 14
 @THIS
 D=M
 @14
@@ -3986,7 +3674,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -4044,7 +3731,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Ball.bounce 5
 (Ball.bounce)
 @0
 D=A
@@ -4081,7 +3767,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -4092,13 +3777,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -4109,7 +3792,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -4117,7 +3799,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret0
 D=A
 @SP
@@ -4168,7 +3849,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret0)
-// pop local 2
 @LCL
 D=M
 @2
@@ -4182,7 +3862,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 3
 @THIS
 D=M
 @3
@@ -4193,7 +3872,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -4201,7 +3879,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret1
 D=A
 @SP
@@ -4252,7 +3929,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret1)
-// pop local 3
 @LCL
 D=M
 @3
@@ -4266,7 +3942,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -4277,7 +3952,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -4285,7 +3959,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -4298,17 +3971,14 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_1)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L24
 @SP
 AM=M-1
 D=M
 @Ball.bounce$L24
 D;JNE
-// push constant 10
 @10
 D=A
 @SP
@@ -4316,7 +3986,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -4330,12 +3999,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L25
 @Ball.bounce$L25
 0;JMP
-// label L24
 (Ball.bounce$L24)
-// push this 2
 @THIS
 D=M
 @2
@@ -4346,7 +4012,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -4354,7 +4019,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -4367,11 +4031,9 @@ D;JLT
 A=M-1
 M=0
 (Ball.bounceLT_9)
-// not
 @SP
 A=M-1
 M=!M
-// push argument 1
 @ARG
 D=M
 @1
@@ -4382,7 +4044,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -4390,7 +4051,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -4403,14 +4063,12 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_2)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push this 2
 @THIS
 D=M
 @2
@@ -4421,7 +4079,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -4429,7 +4086,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -4442,7 +4098,6 @@ D;JLT
 A=M-1
 M=0
 (Ball.bounceLT_10)
-// push argument 1
 @ARG
 D=M
 @1
@@ -4453,7 +4108,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -4461,11 +4115,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// eq
 @SP
 AM=M-1
 D=M
@@ -4478,31 +4130,26 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_3)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L26
 @SP
 AM=M-1
 D=M
 @Ball.bounce$L26
 D;JNE
-// push constant 20
 @20
 D=A
 @SP
@@ -4510,7 +4157,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -4524,12 +4170,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L27
 @Ball.bounce$L27
 0;JMP
-// label L26
 (Ball.bounce$L26)
-// push constant 5
 @5
 D=A
 @SP
@@ -4537,7 +4180,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -4551,11 +4193,8 @@ D=M
 @R13
 A=M
 M=D
-// label L27
 (Ball.bounce$L27)
-// label L25
 (Ball.bounce$L25)
-// push this 14
 @THIS
 D=M
 @14
@@ -4566,7 +4205,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -4574,7 +4212,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -4587,17 +4224,14 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_4)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L28
 @SP
 AM=M-1
 D=M
 @Ball.bounce$L28
 D;JNE
-// push constant 506
 @506
 D=A
 @SP
@@ -4605,7 +4239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -4619,7 +4252,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -4630,7 +4262,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 50
 @50
 D=A
 @SP
@@ -4638,11 +4269,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// call Math.multiply 2
 @Math.multiply$ret3
 D=A
 @SP
@@ -4693,7 +4322,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret3)
-// push local 2
 @LCL
 D=M
 @2
@@ -4704,7 +4332,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret2
 D=A
 @SP
@@ -4755,7 +4382,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret2)
-// pop local 1
 @LCL
 D=M
 @1
@@ -4769,7 +4395,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -4780,7 +4405,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -4791,7 +4415,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -4802,7 +4425,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret4
 D=A
 @SP
@@ -4853,14 +4475,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret4)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -4874,12 +4494,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L29
 @Ball.bounce$L29
 0;JMP
-// label L28
 (Ball.bounce$L28)
-// push this 14
 @THIS
 D=M
 @14
@@ -4890,7 +4507,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -4898,7 +4514,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -4911,17 +4526,14 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_5)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L30
 @SP
 AM=M-1
 D=M
 @Ball.bounce$L30
 D;JNE
-// push constant 0
 @0
 D=A
 @SP
@@ -4929,7 +4541,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -4943,7 +4554,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -4954,7 +4564,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 50
 @50
 D=A
 @SP
@@ -4962,7 +4571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret5
 D=A
 @SP
@@ -5013,7 +4621,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret5)
-// push local 2
 @LCL
 D=M
 @2
@@ -5024,7 +4631,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret3
 D=A
 @SP
@@ -5075,7 +4681,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret3)
-// pop local 1
 @LCL
 D=M
 @1
@@ -5089,7 +4694,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -5100,7 +4704,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -5111,7 +4714,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -5122,7 +4724,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret6
 D=A
 @SP
@@ -5173,14 +4774,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret6)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -5194,12 +4793,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L31
 @Ball.bounce$L31
 0;JMP
-// label L30
 (Ball.bounce$L30)
-// push this 14
 @THIS
 D=M
 @14
@@ -5210,7 +4806,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -5218,7 +4813,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -5231,17 +4825,14 @@ D;JEQ
 A=M-1
 M=0
 (Ball.bounceEQ_6)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L32
 @SP
 AM=M-1
 D=M
 @Ball.bounce$L32
 D;JNE
-// push constant 250
 @250
 D=A
 @SP
@@ -5249,7 +4840,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -5263,7 +4853,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -5274,7 +4863,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 25
 @25
 D=A
 @SP
@@ -5282,11 +4870,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// call Math.multiply 2
 @Math.multiply$ret7
 D=A
 @SP
@@ -5337,7 +4923,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret7)
-// push local 3
 @LCL
 D=M
 @3
@@ -5348,7 +4933,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret4
 D=A
 @SP
@@ -5399,7 +4983,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret4)
-// pop local 0
 @LCL
 D=M
 @0
@@ -5413,7 +4996,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -5424,7 +5006,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -5435,7 +5016,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -5446,7 +5026,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret8
 D=A
 @SP
@@ -5497,14 +5076,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret8)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -5518,12 +5095,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L33
 @Ball.bounce$L33
 0;JMP
-// label L32
 (Ball.bounce$L32)
-// push constant 0
 @0
 D=A
 @SP
@@ -5531,7 +5105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -5545,7 +5118,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -5556,7 +5128,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 25
 @25
 D=A
 @SP
@@ -5564,7 +5135,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret9
 D=A
 @SP
@@ -5615,7 +5185,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret9)
-// push local 3
 @LCL
 D=M
 @3
@@ -5626,7 +5195,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret5
 D=A
 @SP
@@ -5677,7 +5245,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret5)
-// pop local 0
 @LCL
 D=M
 @0
@@ -5691,7 +5258,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -5702,7 +5268,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -5713,7 +5278,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -5724,7 +5288,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret10
 D=A
 @SP
@@ -5775,14 +5338,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret10)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -5796,13 +5357,9 @@ D=M
 @R13
 A=M
 M=D
-// label L33
 (Ball.bounce$L33)
-// label L31
 (Ball.bounce$L31)
-// label L29
 (Ball.bounce$L29)
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -5810,7 +5367,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -5821,7 +5377,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -5832,7 +5387,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.setDestination 3
 @Ball.setDestination$ret0
 D=A
 @SP
@@ -5883,13 +5437,11 @@ M=D
 @Ball.setDestination
 0;JMP
 (Ball.setDestination$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -5897,7 +5449,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -5955,9 +5506,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.new 0
 (Bat.new)
-// push constant 5
 @5
 D=A
 @SP
@@ -5965,7 +5514,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.alloc 1
 @Memory.alloc$ret2
 D=A
 @SP
@@ -6016,13 +5564,11 @@ M=D
 @Memory.alloc
 0;JMP
 (Memory.alloc$ret2)
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -6033,7 +5579,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -6047,7 +5592,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -6058,7 +5602,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 1
 @THIS
 D=M
 @1
@@ -6072,7 +5615,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -6083,7 +5625,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -6097,7 +5638,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 3
 @ARG
 D=M
 @3
@@ -6108,7 +5648,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 3
 @THIS
 D=M
 @3
@@ -6122,7 +5661,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -6130,7 +5668,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 4
 @THIS
 D=M
 @4
@@ -6144,7 +5681,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -6152,7 +5688,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.show 1
 @Bat.show$ret0
 D=A
 @SP
@@ -6203,13 +5738,11 @@ M=D
 @Bat.show
 0;JMP
 (Bat.show$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -6217,7 +5750,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -6275,9 +5807,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.dispose 0
 (Bat.dispose)
-// push argument 0
 @ARG
 D=M
 @0
@@ -6288,13 +5818,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -6302,7 +5830,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.deAlloc 1
 @Memory.deAlloc$ret2
 D=A
 @SP
@@ -6353,13 +5880,11 @@ M=D
 @Memory.deAlloc
 0;JMP
 (Memory.deAlloc$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -6367,7 +5892,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -6425,9 +5949,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.show 0
 (Bat.show)
-// push argument 0
 @ARG
 D=M
 @0
@@ -6438,13 +5960,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -6452,11 +5972,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// call Screen.setColor 1
 @Screen.setColor$ret2
 D=A
 @SP
@@ -6507,13 +6025,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -6521,7 +6037,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.draw 1
 @Bat.draw$ret0
 D=A
 @SP
@@ -6572,13 +6087,11 @@ M=D
 @Bat.draw
 0;JMP
 (Bat.draw$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -6586,7 +6099,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -6644,9 +6156,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.hide 0
 (Bat.hide)
-// push argument 0
 @ARG
 D=M
 @0
@@ -6657,13 +6167,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -6671,7 +6179,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.setColor 1
 @Screen.setColor$ret3
 D=A
 @SP
@@ -6722,13 +6229,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -6736,7 +6241,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.draw 1
 @Bat.draw$ret1
 D=A
 @SP
@@ -6787,13 +6291,11 @@ M=D
 @Bat.draw
 0;JMP
 (Bat.draw$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -6801,7 +6303,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -6859,9 +6360,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.draw 0
 (Bat.draw)
-// push argument 0
 @ARG
 D=M
 @0
@@ -6872,13 +6371,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -6889,7 +6386,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -6900,7 +6396,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -6911,7 +6406,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -6922,14 +6416,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -6940,7 +6432,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 3
 @THIS
 D=M
 @3
@@ -6951,14 +6442,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret1
 D=A
 @SP
@@ -7009,13 +6498,11 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -7023,7 +6510,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -7081,9 +6567,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.setDirection 0
 (Bat.setDirection)
-// push argument 0
 @ARG
 D=M
 @0
@@ -7094,13 +6578,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -7111,7 +6593,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 4
 @THIS
 D=M
 @4
@@ -7125,7 +6606,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -7133,7 +6613,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -7191,9 +6670,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.getLeft 0
 (Bat.getLeft)
-// push argument 0
 @ARG
 D=M
 @0
@@ -7204,13 +6681,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -7221,7 +6696,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -7279,9 +6753,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.getRight 0
 (Bat.getRight)
-// push argument 0
 @ARG
 D=M
 @0
@@ -7292,13 +6764,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -7309,7 +6779,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -7320,14 +6789,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// return
 @LCL
 D=M
 @R15
@@ -7385,9 +6852,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.setWidth 0
 (Bat.setWidth)
-// push argument 0
 @ARG
 D=M
 @0
@@ -7398,13 +6863,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -7412,7 +6875,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.hide 1
 @Bat.hide$ret0
 D=A
 @SP
@@ -7463,13 +6925,11 @@ M=D
 @Bat.hide
 0;JMP
 (Bat.hide$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -7480,7 +6940,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -7494,7 +6953,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -7502,7 +6960,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.show 1
 @Bat.show$ret1
 D=A
 @SP
@@ -7553,13 +7010,11 @@ M=D
 @Bat.show
 0;JMP
 (Bat.show$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -7567,7 +7022,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -7625,9 +7079,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Bat.move 0
 (Bat.move)
-// push argument 0
 @ARG
 D=M
 @0
@@ -7638,13 +7090,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 4
 @THIS
 D=M
 @4
@@ -7655,7 +7105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -7663,7 +7112,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -7676,17 +7124,14 @@ D;JEQ
 A=M-1
 M=0
 (Bat.moveEQ_7)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L0
 @SP
 AM=M-1
 D=M
 @Bat.move$L0
 D;JNE
-// push this 0
 @THIS
 D=M
 @0
@@ -7697,7 +7142,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -7705,14 +7149,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 0
 @THIS
 D=M
 @0
@@ -7726,7 +7168,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -7737,7 +7178,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -7745,7 +7185,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -7758,17 +7197,14 @@ D;JLT
 A=M-1
 M=0
 (Bat.moveLT_11)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L2
 @SP
 AM=M-1
 D=M
 @Bat.move$L2
 D;JNE
-// push constant 0
 @0
 D=A
 @SP
@@ -7776,7 +7212,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -7790,9 +7225,7 @@ D=M
 @R13
 A=M
 M=D
-// label L2
 (Bat.move$L2)
-// push constant 0
 @0
 D=A
 @SP
@@ -7800,7 +7233,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.setColor 1
 @Screen.setColor$ret4
 D=A
 @SP
@@ -7851,13 +7283,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -7868,7 +7298,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -7879,14 +7308,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -7894,14 +7321,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -7912,7 +7337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -7923,7 +7347,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -7934,14 +7357,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 4
 @4
 D=A
 @SP
@@ -7949,14 +7370,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -7967,7 +7386,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 3
 @THIS
 D=M
 @3
@@ -7978,14 +7396,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret2
 D=A
 @SP
@@ -8036,13 +7452,11 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -8050,11 +7464,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// call Screen.setColor 1
 @Screen.setColor$ret5
 D=A
 @SP
@@ -8105,13 +7517,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret5)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -8122,7 +7532,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -8133,7 +7542,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -8144,7 +7552,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -8152,14 +7559,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -8170,7 +7575,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 3
 @THIS
 D=M
 @3
@@ -8181,14 +7585,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret3
 D=A
 @SP
@@ -8239,18 +7641,14 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto L1
 @Bat.move$L1
 0;JMP
-// label L0
 (Bat.move$L0)
-// push this 0
 @THIS
 D=M
 @0
@@ -8261,7 +7659,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -8269,14 +7666,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 0
 @THIS
 D=M
 @0
@@ -8290,7 +7685,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -8301,7 +7695,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -8312,14 +7705,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 511
 @511
 D=A
 @SP
@@ -8327,7 +7718,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -8340,17 +7730,14 @@ D;JGT
 A=M-1
 M=0
 (Bat.moveGT_4)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L4
 @SP
 AM=M-1
 D=M
 @Bat.move$L4
 D;JNE
-// push constant 511
 @511
 D=A
 @SP
@@ -8358,7 +7745,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -8369,14 +7755,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 0
 @THIS
 D=M
 @0
@@ -8390,9 +7774,7 @@ D=M
 @R13
 A=M
 M=D
-// label L4
 (Bat.move$L4)
-// push constant 0
 @0
 D=A
 @SP
@@ -8400,7 +7782,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.setColor 1
 @Screen.setColor$ret6
 D=A
 @SP
@@ -8451,13 +7832,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret6)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -8468,7 +7847,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -8476,14 +7854,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push this 1
 @THIS
 D=M
 @1
@@ -8494,7 +7870,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -8505,7 +7880,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -8513,14 +7887,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push this 1
 @THIS
 D=M
 @1
@@ -8531,7 +7903,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 3
 @THIS
 D=M
 @3
@@ -8542,14 +7913,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret4
 D=A
 @SP
@@ -8600,13 +7969,11 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -8614,11 +7981,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// call Screen.setColor 1
 @Screen.setColor$ret7
 D=A
 @SP
@@ -8669,13 +8034,11 @@ M=D
 @Screen.setColor
 0;JMP
 (Screen.setColor$ret7)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -8686,7 +8049,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -8697,14 +8059,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 3
 @3
 D=A
 @SP
@@ -8712,14 +8072,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push this 1
 @THIS
 D=M
 @1
@@ -8730,7 +8088,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -8741,7 +8098,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -8752,14 +8108,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push this 1
 @THIS
 D=M
 @1
@@ -8770,7 +8124,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 3
 @THIS
 D=M
 @3
@@ -8781,14 +8134,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret5
 D=A
 @SP
@@ -8839,15 +8190,12 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret5)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label L1
 (Bat.move$L1)
-// push constant 0
 @0
 D=A
 @SP
@@ -8855,7 +8203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -8913,9 +8260,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Keyboard.init 0
 (Keyboard.init)
-// push constant 0
 @0
 D=A
 @SP
@@ -8923,7 +8268,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -8981,9 +8325,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Keyboard.keyPressed 0
 (Keyboard.keyPressed)
-// push constant 24576
 @24576
 D=A
 @SP
@@ -8991,7 +8333,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.peek 1
 @Memory.peek$ret0
 D=A
 @SP
@@ -9042,7 +8383,6 @@ M=D
 @Memory.peek
 0;JMP
 (Memory.peek$ret0)
-// return
 @LCL
 D=M
 @R15
@@ -9100,7 +8440,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Keyboard.readChar 2
 (Keyboard.readChar)
 @0
 D=A
@@ -9116,7 +8455,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -9124,7 +8462,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printChar 1
 @Output.printChar$ret0
 D=A
 @SP
@@ -9175,15 +8512,12 @@ M=D
 @Output.printChar
 0;JMP
 (Output.printChar$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label WHILE_EXP0
 (Keyboard.readChar$WHILE_EXP0)
-// push local 1
 @LCL
 D=M
 @1
@@ -9194,7 +8528,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -9202,7 +8535,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -9215,7 +8547,6 @@ D;JEQ
 A=M-1
 M=0
 (Keyboard.readCharEQ_8)
-// push local 0
 @LCL
 D=M
 @0
@@ -9226,7 +8557,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -9234,7 +8564,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -9247,24 +8576,20 @@ D;JGT
 A=M-1
 M=0
 (Keyboard.readCharGT_5)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Keyboard.readChar$WHILE_END0
 D;JNE
-// call Keyboard.keyPressed 0
 @Keyboard.keyPressed$ret0
 D=A
 @SP
@@ -9315,7 +8640,6 @@ M=D
 @Keyboard.keyPressed
 0;JMP
 (Keyboard.keyPressed$ret0)
-// pop local 0
 @LCL
 D=M
 @0
@@ -9329,7 +8653,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -9340,7 +8663,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -9348,7 +8670,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -9361,18 +8682,14 @@ D;JGT
 A=M-1
 M=0
 (Keyboard.readCharGT_6)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Keyboard.readChar$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Keyboard.readChar$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Keyboard.readChar$IF_TRUE0)
-// push local 0
 @LCL
 D=M
 @0
@@ -9383,7 +8700,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -9397,14 +8713,10 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Keyboard.readChar$IF_FALSE0)
-// goto WHILE_EXP0
 @Keyboard.readChar$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Keyboard.readChar$WHILE_END0)
-// call String.backSpace 0
 @String.backSpace$ret0
 D=A
 @SP
@@ -9455,7 +8767,6 @@ M=D
 @String.backSpace
 0;JMP
 (String.backSpace$ret0)
-// call Output.printChar 1
 @Output.printChar$ret1
 D=A
 @SP
@@ -9506,13 +8817,11 @@ M=D
 @Output.printChar
 0;JMP
 (Output.printChar$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -9523,7 +8832,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printChar 1
 @Output.printChar$ret2
 D=A
 @SP
@@ -9574,13 +8882,11 @@ M=D
 @Output.printChar
 0;JMP
 (Output.printChar$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -9591,7 +8897,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -9649,7 +8954,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Keyboard.readLine 5
 (Keyboard.readLine)
 @0
 D=A
@@ -9686,7 +8990,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 80
 @80
 D=A
 @SP
@@ -9694,7 +8997,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.new 1
 @String.new$ret0
 D=A
 @SP
@@ -9745,7 +9047,6 @@ M=D
 @String.new
 0;JMP
 (String.new$ret0)
-// pop local 3
 @LCL
 D=M
 @3
@@ -9759,7 +9060,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -9770,7 +9070,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printString 1
 @Output.printString$ret0
 D=A
 @SP
@@ -9821,13 +9120,11 @@ M=D
 @Output.printString
 0;JMP
 (Output.printString$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call String.newLine 0
 @String.newLine$ret0
 D=A
 @SP
@@ -9878,7 +9175,6 @@ M=D
 @String.newLine
 0;JMP
 (String.newLine$ret0)
-// pop local 1
 @LCL
 D=M
 @1
@@ -9892,7 +9188,6 @@ D=M
 @R13
 A=M
 M=D
-// call String.backSpace 0
 @String.backSpace$ret1
 D=A
 @SP
@@ -9943,7 +9238,6 @@ M=D
 @String.backSpace
 0;JMP
 (String.backSpace$ret1)
-// pop local 2
 @LCL
 D=M
 @2
@@ -9957,9 +9251,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Keyboard.readLine$WHILE_EXP0)
-// push local 4
 @LCL
 D=M
 @4
@@ -9970,21 +9262,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Keyboard.readLine$WHILE_END0
 D;JNE
-// call Keyboard.readChar 0
 @Keyboard.readChar$ret0
 D=A
 @SP
@@ -10035,7 +9323,6 @@ M=D
 @Keyboard.readChar
 0;JMP
 (Keyboard.readChar$ret0)
-// pop local 0
 @LCL
 D=M
 @0
@@ -10049,7 +9336,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -10060,7 +9346,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -10071,7 +9356,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -10084,7 +9368,6 @@ D;JEQ
 A=M-1
 M=0
 (Keyboard.readLineEQ_9)
-// pop local 4
 @LCL
 D=M
 @4
@@ -10098,7 +9381,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 4
 @LCL
 D=M
 @4
@@ -10109,22 +9391,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Keyboard.readLine$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Keyboard.readLine$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Keyboard.readLine$IF_TRUE0)
-// push local 0
 @LCL
 D=M
 @0
@@ -10135,7 +9412,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -10146,7 +9422,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -10159,18 +9434,14 @@ D;JEQ
 A=M-1
 M=0
 (Keyboard.readLineEQ_10)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Keyboard.readLine$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Keyboard.readLine$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Keyboard.readLine$IF_TRUE1)
-// push local 3
 @LCL
 D=M
 @3
@@ -10181,7 +9452,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.eraseLastChar 1
 @String.eraseLastChar$ret0
 D=A
 @SP
@@ -10232,18 +9502,14 @@ M=D
 @String.eraseLastChar
 0;JMP
 (String.eraseLastChar$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END1
 @Keyboard.readLine$IF_END1
 0;JMP
-// label IF_FALSE1
 (Keyboard.readLine$IF_FALSE1)
-// push local 3
 @LCL
 D=M
 @3
@@ -10254,7 +9520,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -10265,7 +9530,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret0
 D=A
 @SP
@@ -10316,7 +9580,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret0)
-// pop local 3
 @LCL
 D=M
 @3
@@ -10330,16 +9593,11 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END1
 (Keyboard.readLine$IF_END1)
-// label IF_FALSE0
 (Keyboard.readLine$IF_FALSE0)
-// goto WHILE_EXP0
 @Keyboard.readLine$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Keyboard.readLine$WHILE_END0)
-// push local 3
 @LCL
 D=M
 @3
@@ -10350,7 +9608,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -10408,7 +9665,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Keyboard.readInt 2
 (Keyboard.readInt)
 @0
 D=A
@@ -10424,7 +9680,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -10435,7 +9690,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Keyboard.readLine 1
 @Keyboard.readLine$ret0
 D=A
 @SP
@@ -10486,7 +9740,6 @@ M=D
 @Keyboard.readLine
 0;JMP
 (Keyboard.readLine$ret0)
-// pop local 0
 @LCL
 D=M
 @0
@@ -10500,7 +9753,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -10511,7 +9763,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.intValue 1
 @String.intValue$ret0
 D=A
 @SP
@@ -10562,7 +9813,6 @@ M=D
 @String.intValue
 0;JMP
 (String.intValue$ret0)
-// pop local 1
 @LCL
 D=M
 @1
@@ -10576,7 +9826,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -10587,7 +9836,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.dispose 1
 @String.dispose$ret0
 D=A
 @SP
@@ -10638,13 +9886,11 @@ M=D
 @String.dispose
 0;JMP
 (String.dispose$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -10655,7 +9901,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -10713,7 +9958,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Main.main 1
 (Main.main)
 @0
 D=A
@@ -10722,7 +9966,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call PongGame.newInstance 0
 @PongGame.newInstance$ret0
 D=A
 @SP
@@ -10773,13 +10016,11 @@ M=D
 @PongGame.newInstance
 0;JMP
 (PongGame.newInstance$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call PongGame.getInstance 0
 @PongGame.getInstance$ret0
 D=A
 @SP
@@ -10830,7 +10071,6 @@ M=D
 @PongGame.getInstance
 0;JMP
 (PongGame.getInstance$ret0)
-// pop local 0
 @LCL
 D=M
 @0
@@ -10844,7 +10084,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -10855,7 +10094,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call PongGame.run 1
 @PongGame.run$ret0
 D=A
 @SP
@@ -10906,13 +10144,11 @@ M=D
 @PongGame.run
 0;JMP
 (PongGame.run$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -10923,7 +10159,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call PongGame.dispose 1
 @PongGame.dispose$ret0
 D=A
 @SP
@@ -10974,13 +10209,11 @@ M=D
 @PongGame.dispose
 0;JMP
 (PongGame.dispose$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -10988,7 +10221,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -11046,7 +10278,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.init 1
 (Math.init)
 @0
 D=A
@@ -11055,7 +10286,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -11063,7 +10293,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret0
 D=A
 @SP
@@ -11114,13 +10343,11 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret0)
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Math.1
 M=D
-// push constant 16
 @16
 D=A
 @SP
@@ -11128,7 +10355,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret1
 D=A
 @SP
@@ -11179,13 +10405,11 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret1)
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Math.0
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -11193,7 +10417,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -11201,14 +10424,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -11216,19 +10437,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -11236,7 +10454,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -11250,9 +10467,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Math.init$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -11263,7 +10478,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -11271,7 +10485,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -11284,17 +10497,14 @@ D;JLT
 A=M-1
 M=0
 (Math.initLT_12)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Math.init$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -11305,7 +10515,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -11313,14 +10522,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -11334,7 +10541,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -11345,7 +10551,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -11353,14 +10558,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -11371,7 +10574,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -11379,14 +10581,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push static 0
 @Math.0
 D=M
 @SP
@@ -11394,20 +10594,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -11418,7 +10615,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -11429,7 +10625,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -11437,14 +10632,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push static 0
 @Math.0
 D=M
 @SP
@@ -11452,20 +10645,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -11476,26 +10666,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -11503,7 +10689,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -11517,12 +10702,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Math.init$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Math.init$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -11530,7 +10712,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -11588,9 +10769,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.abs 0
 (Math.abs)
-// push argument 0
 @ARG
 D=M
 @0
@@ -11601,7 +10780,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -11609,7 +10787,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -11622,18 +10799,14 @@ D;JLT
 A=M-1
 M=0
 (Math.absLT_13)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.abs$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.abs$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.abs$IF_TRUE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -11644,11 +10817,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop argument 0
 @ARG
 D=M
 @0
@@ -11662,9 +10833,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Math.abs$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -11675,7 +10844,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -11733,7 +10901,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.multiply 5
 (Math.multiply)
 @0
 D=A
@@ -11770,7 +10937,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -11781,7 +10947,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -11789,7 +10954,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -11802,7 +10966,6 @@ D;JLT
 A=M-1
 M=0
 (Math.multiplyLT_14)
-// push argument 1
 @ARG
 D=M
 @1
@@ -11813,7 +10976,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -11821,7 +10983,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -11834,14 +10995,12 @@ D;JGT
 A=M-1
 M=0
 (Math.multiplyGT_7)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push argument 0
 @ARG
 D=M
 @0
@@ -11852,7 +11011,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -11860,7 +11018,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -11873,7 +11030,6 @@ D;JGT
 A=M-1
 M=0
 (Math.multiplyGT_8)
-// push argument 1
 @ARG
 D=M
 @1
@@ -11884,7 +11040,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -11892,7 +11047,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -11905,21 +11059,18 @@ D;JLT
 A=M-1
 M=0
 (Math.multiplyLT_15)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// pop local 4
 @LCL
 D=M
 @4
@@ -11933,7 +11084,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -11944,7 +11094,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret2
 D=A
 @SP
@@ -11995,7 +11144,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret2)
-// pop argument 0
 @ARG
 D=M
 @0
@@ -12009,7 +11157,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -12020,7 +11167,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret3
 D=A
 @SP
@@ -12071,7 +11217,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret3)
-// pop argument 1
 @ARG
 D=M
 @1
@@ -12085,7 +11230,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -12096,7 +11240,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -12107,7 +11250,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -12120,18 +11262,14 @@ D;JLT
 A=M-1
 M=0
 (Math.multiplyLT_16)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.multiply$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.multiply$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.multiply$IF_TRUE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -12142,7 +11280,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -12156,7 +11293,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -12167,7 +11303,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 0
 @ARG
 D=M
 @0
@@ -12181,7 +11316,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -12192,7 +11326,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 1
 @ARG
 D=M
 @1
@@ -12206,11 +11339,8 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Math.multiply$IF_FALSE0)
-// label WHILE_EXP0
 (Math.multiply$WHILE_EXP0)
-// push local 2
 @LCL
 D=M
 @2
@@ -12221,7 +11351,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -12229,14 +11358,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 1
 @ARG
 D=M
 @1
@@ -12247,7 +11374,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -12255,14 +11381,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// lt
 @SP
 AM=M-1
 D=M
@@ -12275,17 +11399,14 @@ D;JLT
 A=M-1
 M=0
 (Math.multiplyLT_17)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Math.multiply$WHILE_END0
 D;JNE
-// push local 3
 @LCL
 D=M
 @3
@@ -12296,7 +11417,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -12304,20 +11424,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -12328,7 +11445,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -12339,14 +11455,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push constant 0
 @0
 D=A
 @SP
@@ -12354,7 +11468,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -12367,22 +11480,17 @@ D;JEQ
 A=M-1
 M=0
 (Math.multiplyEQ_11)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Math.multiply$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Math.multiply$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Math.multiply$IF_TRUE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -12393,7 +11501,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -12404,14 +11511,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -12425,7 +11530,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -12436,7 +11540,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -12447,7 +11550,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -12455,20 +11557,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -12479,14 +11578,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 2
 @LCL
 D=M
 @2
@@ -12500,9 +11597,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (Math.multiply$IF_FALSE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -12513,7 +11608,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -12524,14 +11618,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop argument 0
 @ARG
 D=M
 @0
@@ -12545,7 +11637,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -12556,7 +11647,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -12564,14 +11654,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 3
 @LCL
 D=M
 @3
@@ -12585,12 +11673,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Math.multiply$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Math.multiply$WHILE_END0)
-// push local 4
 @LCL
 D=M
 @4
@@ -12601,18 +11686,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Math.multiply$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Math.multiply$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Math.multiply$IF_TRUE2)
-// push local 0
 @LCL
 D=M
 @0
@@ -12623,11 +11704,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop local 0
 @LCL
 D=M
 @0
@@ -12641,9 +11720,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE2
 (Math.multiply$IF_FALSE2)
-// push local 0
 @LCL
 D=M
 @0
@@ -12654,7 +11731,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -12712,7 +11788,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.divide 4
 (Math.divide)
 @0
 D=A
@@ -12742,7 +11817,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -12753,7 +11827,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -12761,7 +11834,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -12774,18 +11846,14 @@ D;JEQ
 A=M-1
 M=0
 (Math.divideEQ_12)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.divide$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.divide$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.divide$IF_TRUE0)
-// push constant 3
 @3
 D=A
 @SP
@@ -12793,7 +11861,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret1
 D=A
 @SP
@@ -12844,15 +11911,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Math.divide$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -12863,7 +11927,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -12871,7 +11934,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -12884,7 +11946,6 @@ D;JLT
 A=M-1
 M=0
 (Math.divideLT_18)
-// push argument 1
 @ARG
 D=M
 @1
@@ -12895,7 +11956,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -12903,7 +11963,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -12916,14 +11975,12 @@ D;JGT
 A=M-1
 M=0
 (Math.divideGT_9)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push argument 0
 @ARG
 D=M
 @0
@@ -12934,7 +11991,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -12942,7 +11998,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -12955,7 +12010,6 @@ D;JGT
 A=M-1
 M=0
 (Math.divideGT_10)
-// push argument 1
 @ARG
 D=M
 @1
@@ -12966,7 +12020,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -12974,7 +12027,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -12987,21 +12039,18 @@ D;JLT
 A=M-1
 M=0
 (Math.divideLT_19)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// pop local 2
 @LCL
 D=M
 @2
@@ -13015,7 +12064,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -13023,7 +12071,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13031,14 +12078,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 1
 @ARG
 D=M
 @1
@@ -13049,7 +12094,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret4
 D=A
 @SP
@@ -13100,19 +12144,16 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -13120,7 +12161,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -13134,7 +12174,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -13145,7 +12184,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.abs 1
 @Math.abs$ret5
 D=A
 @SP
@@ -13196,7 +12234,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret5)
-// pop argument 0
 @ARG
 D=M
 @0
@@ -13210,9 +12247,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Math.divide$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -13223,7 +12258,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -13231,7 +12265,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -13244,7 +12277,6 @@ D;JLT
 A=M-1
 M=0
 (Math.divideLT_20)
-// push local 3
 @LCL
 D=M
 @3
@@ -13255,28 +12287,23 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Math.divide$WHILE_END0
 D;JNE
-// push constant 32767
 @32767
 D=A
 @SP
@@ -13284,7 +12311,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -13295,7 +12321,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13303,20 +12328,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13327,7 +12349,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13335,21 +12356,18 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push local 0
 @LCL
 D=M
 @0
@@ -13360,7 +12378,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13368,20 +12385,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13392,7 +12406,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13400,14 +12413,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// lt
 @SP
 AM=M-1
 D=M
@@ -13420,7 +12431,6 @@ D;JLT
 A=M-1
 M=0
 (Math.divideLT_21)
-// pop local 3
 @LCL
 D=M
 @3
@@ -13434,7 +12444,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -13445,22 +12454,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Math.divide$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Math.divide$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Math.divide$IF_TRUE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -13471,7 +12475,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13479,14 +12482,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13494,14 +12495,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -13512,7 +12511,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13520,20 +12518,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13544,7 +12539,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -13555,7 +12549,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13563,20 +12556,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13587,26 +12577,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -13614,7 +12600,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -13628,7 +12613,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -13639,7 +12623,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13647,14 +12630,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13662,20 +12643,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13686,7 +12664,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13694,14 +12671,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -13712,7 +12687,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13720,14 +12694,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// gt
 @SP
 AM=M-1
 D=M
@@ -13740,7 +12712,6 @@ D;JGT
 A=M-1
 M=0
 (Math.divideGT_11)
-// pop local 3
 @LCL
 D=M
 @3
@@ -13754,7 +12725,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -13765,22 +12735,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Math.divide$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Math.divide$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Math.divide$IF_TRUE2)
-// push local 0
 @LCL
 D=M
 @0
@@ -13791,7 +12756,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13799,14 +12763,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -13820,18 +12782,12 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE2
 (Math.divide$IF_FALSE2)
-// label IF_FALSE1
 (Math.divide$IF_FALSE1)
-// goto WHILE_EXP0
 @Math.divide$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Math.divide$WHILE_END0)
-// label WHILE_EXP1
 (Math.divide$WHILE_EXP1)
-// push local 0
 @LCL
 D=M
 @0
@@ -13842,7 +12798,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13850,11 +12805,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// gt
 @SP
 AM=M-1
 D=M
@@ -13867,17 +12820,14 @@ D;JGT
 A=M-1
 M=0
 (Math.divideGT_12)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END1
 @SP
 AM=M-1
 D=M
 @Math.divide$WHILE_END1
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -13888,7 +12838,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -13896,20 +12845,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -13920,7 +12866,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13928,14 +12873,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -13946,7 +12889,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -13954,14 +12896,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// gt
 @SP
 AM=M-1
 D=M
@@ -13974,22 +12914,17 @@ D;JGT
 A=M-1
 M=0
 (Math.divideGT_13)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @Math.divide$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @Math.divide$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (Math.divide$IF_TRUE3)
-// push local 1
 @LCL
 D=M
 @1
@@ -14000,7 +12935,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -14011,7 +12945,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -14019,20 +12952,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -14043,14 +12973,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -14064,7 +12992,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -14075,7 +13002,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -14086,7 +13012,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Math.1
 D=M
 @SP
@@ -14094,20 +13019,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -14118,14 +13040,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop argument 0
 @ARG
 D=M
 @0
@@ -14139,9 +13059,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE3
 (Math.divide$IF_FALSE3)
-// push local 0
 @LCL
 D=M
 @0
@@ -14152,7 +13070,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -14160,14 +13077,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -14181,12 +13096,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP1
 @Math.divide$WHILE_EXP1
 0;JMP
-// label WHILE_END1
 (Math.divide$WHILE_END1)
-// push local 2
 @LCL
 D=M
 @2
@@ -14197,18 +13109,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE4
 @SP
 AM=M-1
 D=M
 @Math.divide$IF_TRUE4
 D;JNE
-// goto IF_FALSE4
 @Math.divide$IF_FALSE4
 0;JMP
-// label IF_TRUE4
 (Math.divide$IF_TRUE4)
-// push local 1
 @LCL
 D=M
 @1
@@ -14219,11 +13127,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop local 1
 @LCL
 D=M
 @1
@@ -14237,9 +13143,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE4
 (Math.divide$IF_FALSE4)
-// push local 1
 @LCL
 D=M
 @1
@@ -14250,7 +13154,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -14308,7 +13211,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.sqrt 4
 (Math.sqrt)
 @0
 D=A
@@ -14338,7 +13240,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -14349,7 +13250,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -14357,7 +13257,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -14370,18 +13269,14 @@ D;JLT
 A=M-1
 M=0
 (Math.sqrtLT_22)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.sqrt$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.sqrt$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.sqrt$IF_TRUE0)
-// push constant 4
 @4
 D=A
 @SP
@@ -14389,7 +13284,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret2
 D=A
 @SP
@@ -14440,15 +13334,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Math.sqrt$IF_FALSE0)
-// push constant 7
 @7
 D=A
 @SP
@@ -14456,7 +13347,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -14470,9 +13360,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Math.sqrt$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -14483,7 +13371,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -14491,11 +13378,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// gt
 @SP
 AM=M-1
 D=M
@@ -14508,17 +13393,14 @@ D;JGT
 A=M-1
 M=0
 (Math.sqrtGT_14)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Math.sqrt$WHILE_END0
 D;JNE
-// push local 3
 @LCL
 D=M
 @3
@@ -14529,7 +13411,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -14540,7 +13421,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Math.0
 D=M
 @SP
@@ -14548,20 +13428,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -14572,14 +13449,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -14593,7 +13468,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -14604,7 +13478,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -14615,7 +13488,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret11
 D=A
 @SP
@@ -14666,7 +13538,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret11)
-// pop local 2
 @LCL
 D=M
 @2
@@ -14680,7 +13551,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -14691,7 +13561,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -14702,7 +13571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -14715,11 +13583,9 @@ D;JGT
 A=M-1
 M=0
 (Math.sqrtGT_15)
-// not
 @SP
 A=M-1
 M=!M
-// push local 2
 @LCL
 D=M
 @2
@@ -14730,7 +13596,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -14738,7 +13603,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -14751,29 +13615,23 @@ D;JLT
 A=M-1
 M=0
 (Math.sqrtLT_23)
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Math.sqrt$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Math.sqrt$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Math.sqrt$IF_TRUE1)
-// push local 1
 @LCL
 D=M
 @1
@@ -14784,7 +13642,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 3
 @LCL
 D=M
 @3
@@ -14798,9 +13655,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (Math.sqrt$IF_FALSE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -14811,7 +13666,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -14819,14 +13673,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -14840,12 +13692,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Math.sqrt$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Math.sqrt$WHILE_END0)
-// push local 3
 @LCL
 D=M
 @3
@@ -14856,7 +13705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -14914,9 +13762,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.max 0
 (Math.max)
-// push argument 0
 @ARG
 D=M
 @0
@@ -14927,7 +13773,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -14938,7 +13783,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -14951,18 +13795,14 @@ D;JGT
 A=M-1
 M=0
 (Math.maxGT_16)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.max$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.max$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.max$IF_TRUE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -14973,7 +13813,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 1
 @ARG
 D=M
 @1
@@ -14987,9 +13826,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Math.max$IF_FALSE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -15000,7 +13837,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -15058,9 +13894,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Math.min 0
 (Math.min)
-// push argument 0
 @ARG
 D=M
 @0
@@ -15071,7 +13905,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -15082,7 +13915,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -15095,18 +13927,14 @@ D;JLT
 A=M-1
 M=0
 (Math.minLT_24)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Math.min$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Math.min$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Math.min$IF_TRUE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -15117,7 +13945,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 1
 @ARG
 D=M
 @1
@@ -15131,9 +13958,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Math.min$IF_FALSE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -15144,7 +13969,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -15202,9 +14026,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Memory.init 0
 (Memory.init)
-// push constant 0
 @0
 D=A
 @SP
@@ -15212,13 +14034,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Memory.0
 M=D
-// push constant 2048
 @2048
 D=A
 @SP
@@ -15226,7 +14046,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Memory.0
 D=M
 @SP
@@ -15234,14 +14053,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 14334
 @14334
 D=A
 @SP
@@ -15249,19 +14066,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -15269,7 +14083,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -15283,7 +14096,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2049
 @2049
 D=A
 @SP
@@ -15291,7 +14103,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Memory.0
 D=M
 @SP
@@ -15299,14 +14110,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 2050
 @2050
 D=A
 @SP
@@ -15314,19 +14123,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -15334,7 +14140,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -15348,7 +14153,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -15356,7 +14160,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -15414,9 +14217,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Memory.peek 0
 (Memory.peek)
-// push argument 0
 @ARG
 D=M
 @0
@@ -15427,7 +14228,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Memory.0
 D=M
 @SP
@@ -15435,20 +14235,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -15459,7 +14256,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -15517,9 +14313,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Memory.poke 0
 (Memory.poke)
-// push argument 0
 @ARG
 D=M
 @0
@@ -15530,7 +14324,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Memory.0
 D=M
 @SP
@@ -15538,14 +14331,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 1
 @ARG
 D=M
 @1
@@ -15556,19 +14347,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -15576,7 +14364,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -15590,7 +14377,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -15598,7 +14384,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -15656,7 +14441,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Memory.alloc 1
 (Memory.alloc)
 @0
 D=A
@@ -15665,7 +14449,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -15676,7 +14459,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -15684,7 +14466,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -15697,18 +14478,14 @@ D;JLT
 A=M-1
 M=0
 (Memory.allocLT_25)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Memory.alloc$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Memory.alloc$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Memory.alloc$IF_TRUE0)
-// push constant 5
 @5
 D=A
 @SP
@@ -15716,7 +14493,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret3
 D=A
 @SP
@@ -15767,15 +14543,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Memory.alloc$IF_FALSE0)
-// push constant 2048
 @2048
 D=A
 @SP
@@ -15783,7 +14556,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -15797,9 +14569,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Memory.alloc$WHILE_EXP0)
-// push constant 0
 @0
 D=A
 @SP
@@ -15807,7 +14577,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -15818,20 +14587,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -15842,7 +14608,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -15853,7 +14618,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -15866,17 +14630,14 @@ D;JLT
 A=M-1
 M=0
 (Memory.allocLT_26)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Memory.alloc$WHILE_END0
 D;JNE
-// push constant 1
 @1
 D=A
 @SP
@@ -15884,7 +14645,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -15895,20 +14655,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -15919,7 +14676,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -15933,12 +14689,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Memory.alloc$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Memory.alloc$WHILE_END0)
-// push local 0
 @LCL
 D=M
 @0
@@ -15949,7 +14702,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -15960,14 +14712,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 16379
 @16379
 D=A
 @SP
@@ -15975,7 +14725,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -15988,18 +14737,14 @@ D;JGT
 A=M-1
 M=0
 (Memory.allocGT_17)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Memory.alloc$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Memory.alloc$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Memory.alloc$IF_TRUE1)
-// push constant 6
 @6
 D=A
 @SP
@@ -16007,7 +14752,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret4
 D=A
 @SP
@@ -16058,15 +14802,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE1
 (Memory.alloc$IF_FALSE1)
-// push constant 0
 @0
 D=A
 @SP
@@ -16074,7 +14815,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16085,20 +14825,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -16109,7 +14846,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -16120,7 +14856,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -16128,14 +14863,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// gt
 @SP
 AM=M-1
 D=M
@@ -16148,18 +14881,14 @@ D;JGT
 A=M-1
 M=0
 (Memory.allocGT_18)
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Memory.alloc$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Memory.alloc$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Memory.alloc$IF_TRUE2)
-// push argument 0
 @ARG
 D=M
 @0
@@ -16170,7 +14899,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -16178,14 +14906,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -16196,14 +14922,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 0
 @0
 D=A
 @SP
@@ -16211,7 +14935,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16222,20 +14945,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -16246,7 +14966,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -16257,14 +14976,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push constant 2
 @2
 D=A
 @SP
@@ -16272,26 +14989,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -16299,7 +15012,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -16313,7 +15025,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -16321,7 +15032,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16332,20 +15042,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -16356,7 +15063,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16367,7 +15073,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -16375,14 +15080,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// eq
 @SP
 AM=M-1
 D=M
@@ -16395,18 +15098,14 @@ D;JEQ
 A=M-1
 M=0
 (Memory.allocEQ_13)
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @Memory.alloc$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @Memory.alloc$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (Memory.alloc$IF_TRUE3)
-// push argument 0
 @ARG
 D=M
 @0
@@ -16417,7 +15116,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -16425,14 +15123,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -16443,14 +15139,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -16461,7 +15155,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -16472,14 +15165,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 4
 @4
 D=A
 @SP
@@ -16487,26 +15178,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -16514,7 +15201,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -16528,12 +15214,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END3
 @Memory.alloc$IF_END3
 0;JMP
-// label IF_FALSE3
 (Memory.alloc$IF_FALSE3)
-// push argument 0
 @ARG
 D=M
 @0
@@ -16544,7 +15227,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -16552,14 +15234,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -16570,14 +15250,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -16585,7 +15263,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16596,20 +15273,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -16620,19 +15294,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -16640,7 +15311,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -16654,9 +15324,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END3
 (Memory.alloc$IF_END3)
-// push constant 1
 @1
 D=A
 @SP
@@ -16664,7 +15332,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16675,14 +15342,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -16693,7 +15358,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -16704,14 +15368,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 2
 @2
 D=A
 @SP
@@ -16719,26 +15381,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -16746,7 +15404,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -16760,9 +15417,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE2
 (Memory.alloc$IF_FALSE2)
-// push constant 0
 @0
 D=A
 @SP
@@ -16770,7 +15425,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16781,14 +15435,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 0
 @0
 D=A
 @SP
@@ -16796,19 +15448,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -16816,7 +15465,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -16830,7 +15478,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -16841,7 +15488,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -16849,14 +15495,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// return
 @LCL
 D=M
 @R15
@@ -16914,7 +15558,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Memory.deAlloc 2
 (Memory.deAlloc)
 @0
 D=A
@@ -16930,7 +15573,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -16941,7 +15583,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -16949,14 +15590,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -16970,7 +15609,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -16978,7 +15616,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -16989,20 +15626,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17013,7 +15647,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -17027,7 +15660,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -17035,7 +15667,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -17046,20 +15677,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17070,7 +15698,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -17078,7 +15705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -17091,18 +15717,14 @@ D;JEQ
 A=M-1
 M=0
 (Memory.deAllocEQ_14)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Memory.deAlloc$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Memory.deAlloc$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Memory.deAlloc$IF_TRUE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -17110,7 +15732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17121,14 +15742,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -17136,7 +15755,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17147,20 +15765,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17171,7 +15786,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17182,14 +15796,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push constant 2
 @2
 D=A
 @SP
@@ -17197,26 +15809,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -17224,7 +15832,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -17238,12 +15845,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END0
 @Memory.deAlloc$IF_END0
 0;JMP
-// label IF_FALSE0
 (Memory.deAlloc$IF_FALSE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -17251,7 +15855,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17262,14 +15865,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -17277,7 +15878,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17288,20 +15888,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17312,7 +15909,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17323,14 +15919,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push constant 0
 @0
 D=A
 @SP
@@ -17338,7 +15932,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -17349,20 +15942,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17373,26 +15963,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -17400,7 +15986,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -17414,7 +15999,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -17422,7 +16006,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -17433,20 +16016,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17457,7 +16037,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -17468,7 +16047,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -17476,14 +16054,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// eq
 @SP
 AM=M-1
 D=M
@@ -17496,18 +16072,14 @@ D;JEQ
 A=M-1
 M=0
 (Memory.deAllocEQ_15)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Memory.deAlloc$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Memory.deAlloc$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Memory.deAlloc$IF_TRUE1)
-// push constant 1
 @1
 D=A
 @SP
@@ -17515,7 +16087,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17526,14 +16097,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -17544,7 +16113,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -17552,26 +16120,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -17579,7 +16143,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -17593,12 +16156,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END1
 @Memory.deAlloc$IF_END1
 0;JMP
-// label IF_FALSE1
 (Memory.deAlloc$IF_FALSE1)
-// push constant 1
 @1
 D=A
 @SP
@@ -17606,7 +16166,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -17617,14 +16176,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -17632,7 +16189,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -17643,20 +16199,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -17667,19 +16220,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -17687,7 +16237,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -17701,11 +16250,8 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END1
 (Memory.deAlloc$IF_END1)
-// label IF_END0
 (Memory.deAlloc$IF_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -17713,7 +16259,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -17771,9 +16316,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.init 0
 (Output.init)
-// push constant 16384
 @16384
 D=A
 @SP
@@ -17781,13 +16324,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 4
 @SP
 AM=M-1
 D=M
 @Output.4
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -17795,17 +16336,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// push constant 32
 @32
 D=A
 @SP
@@ -17813,13 +16351,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -17827,13 +16363,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push constant 6
 @6
 D=A
 @SP
@@ -17841,7 +16375,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.new 1
 @String.new$ret1
 D=A
 @SP
@@ -17892,13 +16425,11 @@ M=D
 @String.new
 0;JMP
 (String.new$ret1)
-// pop static 3
 @SP
 AM=M-1
 D=M
 @Output.3
 M=D
-// call Output.initMap 0
 @Output.initMap$ret0
 D=A
 @SP
@@ -17949,13 +16480,11 @@ M=D
 @Output.initMap
 0;JMP
 (Output.initMap$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Output.createShiftedMap 0
 @Output.createShiftedMap$ret0
 D=A
 @SP
@@ -18006,13 +16535,11 @@ M=D
 @Output.createShiftedMap
 0;JMP
 (Output.createShiftedMap$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -18020,7 +16547,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -18078,9 +16604,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.initMap 0
 (Output.initMap)
-// push constant 127
 @127
 D=A
 @SP
@@ -18088,7 +16612,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret2
 D=A
 @SP
@@ -18139,13 +16662,11 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret2)
-// pop static 5
 @SP
 AM=M-1
 D=M
 @Output.5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -18153,7 +16674,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18161,7 +16681,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18169,7 +16688,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18177,7 +16695,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18185,7 +16702,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18193,7 +16709,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18201,7 +16716,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18209,7 +16723,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18217,7 +16730,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18225,7 +16737,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18233,7 +16744,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18241,7 +16751,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret0
 D=A
 @SP
@@ -18292,13 +16801,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 32
 @32
 D=A
 @SP
@@ -18306,7 +16813,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18314,7 +16820,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18322,7 +16827,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18330,7 +16834,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18338,7 +16841,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18346,7 +16848,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18354,7 +16855,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18362,7 +16862,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18370,7 +16869,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18378,7 +16876,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18386,7 +16883,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18394,7 +16890,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret1
 D=A
 @SP
@@ -18445,13 +16940,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 33
 @33
 D=A
 @SP
@@ -18459,7 +16952,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18467,7 +16959,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18475,7 +16966,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18483,7 +16973,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18491,7 +16980,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18499,7 +16987,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18507,7 +16994,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18515,7 +17001,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18523,7 +17008,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18531,7 +17015,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18539,7 +17022,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18547,7 +17029,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret2
 D=A
 @SP
@@ -18598,13 +17079,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 34
 @34
 D=A
 @SP
@@ -18612,7 +17091,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -18620,7 +17098,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -18628,7 +17105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 20
 @20
 D=A
 @SP
@@ -18636,7 +17112,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18644,7 +17119,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18652,7 +17126,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18660,7 +17133,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18668,7 +17140,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18676,7 +17147,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18684,7 +17154,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18692,7 +17161,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18700,7 +17168,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret3
 D=A
 @SP
@@ -18751,13 +17218,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 35
 @35
 D=A
 @SP
@@ -18765,7 +17230,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18773,7 +17237,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18781,7 +17244,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18789,7 +17251,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18797,7 +17258,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18805,7 +17265,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18813,7 +17272,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -18821,7 +17279,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18829,7 +17286,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -18837,7 +17293,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18845,7 +17300,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -18853,7 +17307,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret4
 D=A
 @SP
@@ -18904,13 +17357,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 36
 @36
 D=A
 @SP
@@ -18918,7 +17369,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18926,7 +17376,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18934,7 +17383,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -18942,7 +17390,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -18950,7 +17397,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18958,7 +17404,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -18966,7 +17411,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -18974,7 +17418,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -18982,7 +17425,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18990,7 +17432,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -18998,7 +17439,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19006,7 +17446,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret5
 D=A
 @SP
@@ -19057,13 +17496,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret5)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 37
 @37
 D=A
 @SP
@@ -19071,7 +17508,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19079,7 +17515,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19087,7 +17522,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -19095,7 +17529,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -19103,7 +17536,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19111,7 +17543,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19119,7 +17550,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19127,7 +17557,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -19135,7 +17564,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 49
 @49
 D=A
 @SP
@@ -19143,7 +17571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19151,7 +17578,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19159,7 +17585,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret6
 D=A
 @SP
@@ -19210,13 +17635,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret6)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 38
 @38
 D=A
 @SP
@@ -19224,7 +17647,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19232,7 +17654,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -19240,7 +17661,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -19248,7 +17668,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19256,7 +17675,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -19264,7 +17682,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -19272,7 +17689,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -19280,7 +17696,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -19288,7 +17703,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -19296,7 +17710,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19304,7 +17717,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19312,7 +17724,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret7
 D=A
 @SP
@@ -19363,13 +17774,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret7)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 39
 @39
 D=A
 @SP
@@ -19377,7 +17786,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19385,7 +17793,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19393,7 +17800,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19401,7 +17807,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19409,7 +17814,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19417,7 +17821,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19425,7 +17828,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19433,7 +17835,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19441,7 +17842,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19449,7 +17849,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19457,7 +17856,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19465,7 +17863,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret8
 D=A
 @SP
@@ -19516,13 +17913,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret8)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 40
 @40
 D=A
 @SP
@@ -19530,7 +17925,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19538,7 +17932,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19546,7 +17939,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19554,7 +17946,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19562,7 +17953,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19570,7 +17960,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19578,7 +17967,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19586,7 +17974,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19594,7 +17981,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19602,7 +17988,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19610,7 +17995,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19618,7 +18002,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret9
 D=A
 @SP
@@ -19669,13 +18052,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret9)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 41
 @41
 D=A
 @SP
@@ -19683,7 +18064,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19691,7 +18071,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19699,7 +18078,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19707,7 +18085,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19715,7 +18092,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19723,7 +18099,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19731,7 +18106,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -19739,7 +18113,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -19747,7 +18120,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -19755,7 +18127,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19763,7 +18134,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19771,7 +18141,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret10
 D=A
 @SP
@@ -19822,13 +18191,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret10)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 42
 @42
 D=A
 @SP
@@ -19836,7 +18203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19844,7 +18210,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19852,7 +18217,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19860,7 +18224,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -19868,7 +18231,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -19876,7 +18238,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -19884,7 +18245,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -19892,7 +18252,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -19900,7 +18259,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19908,7 +18266,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19916,7 +18273,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19924,7 +18280,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret11
 D=A
 @SP
@@ -19975,13 +18330,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret11)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 43
 @43
 D=A
 @SP
@@ -19989,7 +18342,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -19997,7 +18349,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20005,7 +18356,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20013,7 +18363,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20021,7 +18370,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20029,7 +18377,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -20037,7 +18384,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20045,7 +18391,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20053,7 +18398,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20061,7 +18405,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20069,7 +18412,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20077,7 +18419,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret12
 D=A
 @SP
@@ -20128,13 +18469,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret12)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 44
 @44
 D=A
 @SP
@@ -20142,7 +18481,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20150,7 +18488,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20158,7 +18495,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20166,7 +18502,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20174,7 +18509,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20182,7 +18516,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20190,7 +18523,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20198,7 +18530,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20206,7 +18537,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20214,7 +18544,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -20222,7 +18551,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20230,7 +18558,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret13
 D=A
 @SP
@@ -20281,13 +18608,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret13)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 45
 @45
 D=A
 @SP
@@ -20295,7 +18620,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20303,7 +18627,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20311,7 +18634,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20319,7 +18641,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20327,7 +18648,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20335,7 +18655,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -20343,7 +18662,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20351,7 +18669,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20359,7 +18676,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20367,7 +18683,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20375,7 +18690,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20383,7 +18697,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret14
 D=A
 @SP
@@ -20434,13 +18747,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret14)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 46
 @46
 D=A
 @SP
@@ -20448,7 +18759,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20456,7 +18766,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20464,7 +18773,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20472,7 +18780,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20480,7 +18787,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20488,7 +18794,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20496,7 +18801,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20504,7 +18808,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20512,7 +18815,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20520,7 +18822,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20528,7 +18829,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20536,7 +18836,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret15
 D=A
 @SP
@@ -20587,13 +18886,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret15)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 47
 @47
 D=A
 @SP
@@ -20601,7 +18898,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20609,7 +18905,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20617,7 +18912,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -20625,7 +18919,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -20633,7 +18926,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -20641,7 +18933,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20649,7 +18940,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -20657,7 +18947,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -20665,7 +18954,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -20673,7 +18961,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20681,7 +18968,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20689,7 +18975,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret16
 D=A
 @SP
@@ -20740,13 +19025,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret16)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 48
 @48
 D=A
 @SP
@@ -20754,7 +19037,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20762,7 +19044,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -20770,7 +19051,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -20778,7 +19058,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -20786,7 +19065,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -20794,7 +19072,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -20802,7 +19079,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -20810,7 +19086,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -20818,7 +19093,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20826,7 +19100,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20834,7 +19107,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20842,7 +19114,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret17
 D=A
 @SP
@@ -20893,13 +19164,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret17)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 49
 @49
 D=A
 @SP
@@ -20907,7 +19176,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20915,7 +19183,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -20923,7 +19190,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -20931,7 +19197,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20939,7 +19204,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20947,7 +19211,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20955,7 +19218,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20963,7 +19225,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -20971,7 +19232,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -20979,7 +19239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20987,7 +19246,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -20995,7 +19253,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret18
 D=A
 @SP
@@ -21046,13 +19303,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret18)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 50
 @50
 D=A
 @SP
@@ -21060,7 +19315,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21068,7 +19322,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21076,7 +19329,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21084,7 +19336,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -21092,7 +19343,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -21100,7 +19350,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -21108,7 +19357,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -21116,7 +19364,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21124,7 +19371,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -21132,7 +19378,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21140,7 +19385,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21148,7 +19392,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret19
 D=A
 @SP
@@ -21199,13 +19442,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret19)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 51
 @51
 D=A
 @SP
@@ -21213,7 +19454,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21221,7 +19461,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21229,7 +19468,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21237,7 +19475,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21245,7 +19482,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -21253,7 +19489,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21261,7 +19496,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21269,7 +19503,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21277,7 +19510,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21285,7 +19517,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21293,7 +19524,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21301,7 +19531,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret20
 D=A
 @SP
@@ -21352,13 +19581,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret20)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 52
 @52
 D=A
 @SP
@@ -21366,7 +19593,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -21374,7 +19600,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -21382,7 +19607,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -21390,7 +19614,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 26
 @26
 D=A
 @SP
@@ -21398,7 +19621,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 25
 @25
 D=A
 @SP
@@ -21406,7 +19628,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -21414,7 +19635,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -21422,7 +19642,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -21430,7 +19649,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 60
 @60
 D=A
 @SP
@@ -21438,7 +19656,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21446,7 +19663,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21454,7 +19670,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret21
 D=A
 @SP
@@ -21505,13 +19720,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret21)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 53
 @53
 D=A
 @SP
@@ -21519,7 +19732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -21527,7 +19739,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -21535,7 +19746,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -21543,7 +19753,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -21551,7 +19760,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21559,7 +19767,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21567,7 +19774,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21575,7 +19781,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21583,7 +19788,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21591,7 +19795,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21599,7 +19802,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21607,7 +19809,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret22
 D=A
 @SP
@@ -21658,13 +19859,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret22)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 54
 @54
 D=A
 @SP
@@ -21672,7 +19871,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -21680,7 +19878,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -21688,7 +19885,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -21696,7 +19892,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -21704,7 +19899,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -21712,7 +19906,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21720,7 +19913,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21728,7 +19920,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21736,7 +19927,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21744,7 +19934,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21752,7 +19941,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21760,7 +19948,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret23
 D=A
 @SP
@@ -21811,13 +19998,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret23)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 55
 @55
 D=A
 @SP
@@ -21825,7 +20010,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -21833,7 +20017,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 49
 @49
 D=A
 @SP
@@ -21841,7 +20024,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21849,7 +20031,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -21857,7 +20038,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -21865,7 +20045,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -21873,7 +20052,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -21881,7 +20059,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -21889,7 +20066,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -21897,7 +20073,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21905,7 +20080,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -21913,7 +20087,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret24
 D=A
 @SP
@@ -21964,13 +20137,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret24)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 56
 @56
 D=A
 @SP
@@ -21978,7 +20149,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -21986,7 +20156,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -21994,7 +20163,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22002,7 +20170,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22010,7 +20177,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -22018,7 +20184,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22026,7 +20191,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22034,7 +20198,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22042,7 +20205,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -22050,7 +20212,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22058,7 +20219,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22066,7 +20226,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret25
 D=A
 @SP
@@ -22117,13 +20276,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret25)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 57
 @57
 D=A
 @SP
@@ -22131,7 +20288,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -22139,7 +20295,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22147,7 +20302,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22155,7 +20309,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -22163,7 +20316,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 62
 @62
 D=A
 @SP
@@ -22171,7 +20323,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -22179,7 +20330,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -22187,7 +20337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -22195,7 +20344,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -22203,7 +20351,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22211,7 +20358,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22219,7 +20365,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret26
 D=A
 @SP
@@ -22270,13 +20415,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret26)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 58
 @58
 D=A
 @SP
@@ -22284,7 +20427,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22292,7 +20434,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22300,7 +20441,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22308,7 +20448,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22316,7 +20455,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22324,7 +20462,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22332,7 +20469,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22340,7 +20476,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22348,7 +20483,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22356,7 +20490,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22364,7 +20497,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22372,7 +20504,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret27
 D=A
 @SP
@@ -22423,13 +20554,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret27)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 59
 @59
 D=A
 @SP
@@ -22437,7 +20566,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22445,7 +20573,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22453,7 +20580,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22461,7 +20587,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22469,7 +20594,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22477,7 +20601,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22485,7 +20608,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22493,7 +20615,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22501,7 +20622,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -22509,7 +20629,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22517,7 +20636,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22525,7 +20643,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret28
 D=A
 @SP
@@ -22576,13 +20693,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret28)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 60
 @60
 D=A
 @SP
@@ -22590,7 +20705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22598,7 +20712,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22606,7 +20719,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -22614,7 +20726,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22622,7 +20733,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -22630,7 +20740,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -22638,7 +20747,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -22646,7 +20754,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22654,7 +20761,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -22662,7 +20768,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22670,7 +20775,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22678,7 +20782,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret29
 D=A
 @SP
@@ -22729,13 +20832,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret29)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 61
 @61
 D=A
 @SP
@@ -22743,7 +20844,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22751,7 +20851,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22759,7 +20858,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22767,7 +20865,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -22775,7 +20872,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22783,7 +20879,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22791,7 +20886,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -22799,7 +20893,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22807,7 +20900,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22815,7 +20907,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22823,7 +20914,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22831,7 +20921,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret30
 D=A
 @SP
@@ -22882,13 +20971,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret30)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 62
 @62
 D=A
 @SP
@@ -22896,7 +20983,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22904,7 +20990,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22912,7 +20997,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -22920,7 +21004,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -22928,7 +21011,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22936,7 +21018,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -22944,7 +21025,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -22952,7 +21032,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -22960,7 +21039,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -22968,7 +21046,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22976,7 +21053,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -22984,7 +21060,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret31
 D=A
 @SP
@@ -23035,13 +21110,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret31)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 64
 @64
 D=A
 @SP
@@ -23049,7 +21122,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -23057,7 +21129,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23065,7 +21136,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23073,7 +21143,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -23081,7 +21150,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -23089,7 +21157,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -23097,7 +21164,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -23105,7 +21171,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -23113,7 +21178,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -23121,7 +21185,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23129,7 +21192,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23137,7 +21199,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret32
 D=A
 @SP
@@ -23188,13 +21249,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret32)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 63
 @63
 D=A
 @SP
@@ -23202,7 +21261,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -23210,7 +21268,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23218,7 +21275,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23226,7 +21282,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -23234,7 +21289,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -23242,7 +21296,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -23250,7 +21303,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23258,7 +21310,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -23266,7 +21317,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -23274,7 +21324,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23282,7 +21331,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23290,7 +21338,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret33
 D=A
 @SP
@@ -23341,13 +21388,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret33)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 65
 @65
 D=A
 @SP
@@ -23355,7 +21400,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -23363,7 +21407,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -23371,7 +21414,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23379,7 +21421,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23387,7 +21428,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -23395,7 +21435,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23403,7 +21442,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23411,7 +21449,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23419,7 +21456,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23427,7 +21463,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23435,7 +21470,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23443,7 +21477,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret34
 D=A
 @SP
@@ -23494,13 +21527,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret34)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 66
 @66
 D=A
 @SP
@@ -23508,7 +21539,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -23516,7 +21546,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23524,7 +21553,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23532,7 +21560,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23540,7 +21567,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -23548,7 +21574,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23556,7 +21581,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23564,7 +21588,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23572,7 +21595,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -23580,7 +21602,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23588,7 +21609,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23596,7 +21616,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret35
 D=A
 @SP
@@ -23647,13 +21666,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret35)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 67
 @67
 D=A
 @SP
@@ -23661,7 +21678,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -23669,7 +21685,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -23677,7 +21692,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -23685,7 +21699,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -23693,7 +21706,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -23701,7 +21713,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -23709,7 +21720,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -23717,7 +21727,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -23725,7 +21734,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -23733,7 +21741,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23741,7 +21748,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23749,7 +21755,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret36
 D=A
 @SP
@@ -23800,13 +21805,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret36)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 68
 @68
 D=A
 @SP
@@ -23814,7 +21817,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -23822,7 +21824,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -23830,7 +21831,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23838,7 +21838,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23846,7 +21845,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23854,7 +21852,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23862,7 +21859,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23870,7 +21866,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -23878,7 +21873,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -23886,7 +21880,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23894,7 +21887,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -23902,7 +21894,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret37
 D=A
 @SP
@@ -23953,13 +21944,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret37)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 69
 @69
 D=A
 @SP
@@ -23967,7 +21956,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -23975,7 +21963,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -23983,7 +21970,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -23991,7 +21977,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -23999,7 +21984,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -24007,7 +21991,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -24015,7 +21998,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -24023,7 +22005,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24031,7 +22012,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -24039,7 +22019,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24047,7 +22026,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24055,7 +22033,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret38
 D=A
 @SP
@@ -24106,13 +22083,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret38)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 70
 @70
 D=A
 @SP
@@ -24120,7 +22095,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -24128,7 +22102,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24136,7 +22109,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -24144,7 +22116,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -24152,7 +22123,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -24160,7 +22130,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -24168,7 +22137,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -24176,7 +22144,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -24184,7 +22151,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -24192,7 +22158,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24200,7 +22165,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24208,7 +22172,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret39
 D=A
 @SP
@@ -24259,13 +22222,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret39)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 71
 @71
 D=A
 @SP
@@ -24273,7 +22234,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -24281,7 +22241,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -24289,7 +22248,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -24297,7 +22255,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -24305,7 +22262,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -24313,7 +22269,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24321,7 +22276,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24329,7 +22283,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -24337,7 +22290,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 44
 @44
 D=A
 @SP
@@ -24345,7 +22297,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24353,7 +22304,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24361,7 +22311,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret40
 D=A
 @SP
@@ -24412,13 +22361,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret40)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 72
 @72
 D=A
 @SP
@@ -24426,7 +22373,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24434,7 +22380,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24442,7 +22387,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24450,7 +22394,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24458,7 +22401,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -24466,7 +22408,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24474,7 +22415,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24482,7 +22422,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24490,7 +22429,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24498,7 +22436,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24506,7 +22443,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24514,7 +22450,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret41
 D=A
 @SP
@@ -24565,13 +22500,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret41)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 73
 @73
 D=A
 @SP
@@ -24579,7 +22512,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -24587,7 +22519,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24595,7 +22526,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24603,7 +22533,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24611,7 +22540,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24619,7 +22547,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24627,7 +22554,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24635,7 +22561,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -24643,7 +22568,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -24651,7 +22575,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24659,7 +22582,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24667,7 +22589,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret42
 D=A
 @SP
@@ -24718,13 +22639,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret42)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 74
 @74
 D=A
 @SP
@@ -24732,7 +22651,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 60
 @60
 D=A
 @SP
@@ -24740,7 +22658,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -24748,7 +22665,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -24756,7 +22672,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -24764,7 +22679,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -24772,7 +22686,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -24780,7 +22693,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -24788,7 +22700,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -24796,7 +22707,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -24804,7 +22714,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24812,7 +22721,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24820,7 +22728,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret43
 D=A
 @SP
@@ -24871,13 +22778,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret43)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 75
 @75
 D=A
 @SP
@@ -24885,7 +22790,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24893,7 +22797,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24901,7 +22804,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24909,7 +22811,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -24917,7 +22818,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -24925,7 +22825,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -24933,7 +22832,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24941,7 +22839,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24949,7 +22846,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -24957,7 +22853,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24965,7 +22860,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -24973,7 +22867,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret44
 D=A
 @SP
@@ -25024,13 +22917,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret44)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 76
 @76
 D=A
 @SP
@@ -25038,7 +22929,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25046,7 +22936,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25054,7 +22943,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25062,7 +22950,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25070,7 +22957,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25078,7 +22964,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25086,7 +22971,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -25094,7 +22978,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25102,7 +22985,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -25110,7 +22992,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25118,7 +22999,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25126,7 +23006,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret45
 D=A
 @SP
@@ -25177,13 +23056,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret45)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 77
 @77
 D=A
 @SP
@@ -25191,7 +23068,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 33
 @33
 D=A
 @SP
@@ -25199,7 +23075,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25207,7 +23082,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -25215,7 +23089,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -25223,7 +23096,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25231,7 +23103,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25239,7 +23110,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25247,7 +23117,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25255,7 +23124,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25263,7 +23131,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25271,7 +23138,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25279,7 +23145,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret46
 D=A
 @SP
@@ -25330,13 +23195,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret46)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 78
 @78
 D=A
 @SP
@@ -25344,7 +23207,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25352,7 +23214,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25360,7 +23221,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 55
 @55
 D=A
 @SP
@@ -25368,7 +23228,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 55
 @55
 D=A
 @SP
@@ -25376,7 +23235,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -25384,7 +23242,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -25392,7 +23249,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -25400,7 +23256,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25408,7 +23263,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25416,7 +23270,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25424,7 +23277,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25432,7 +23284,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret47
 D=A
 @SP
@@ -25483,13 +23334,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret47)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 79
 @79
 D=A
 @SP
@@ -25497,7 +23346,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -25505,7 +23353,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25513,7 +23360,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25521,7 +23367,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25529,7 +23374,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25537,7 +23381,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25545,7 +23388,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25553,7 +23395,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25561,7 +23402,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -25569,7 +23409,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25577,7 +23416,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25585,7 +23423,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret48
 D=A
 @SP
@@ -25636,13 +23473,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret48)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 80
 @80
 D=A
 @SP
@@ -25650,7 +23485,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -25658,7 +23492,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25666,7 +23499,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25674,7 +23506,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25682,7 +23513,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -25690,7 +23520,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25698,7 +23527,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25706,7 +23534,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25714,7 +23541,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -25722,7 +23548,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25730,7 +23555,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25738,7 +23562,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret49
 D=A
 @SP
@@ -25789,13 +23612,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret49)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 81
 @81
 D=A
 @SP
@@ -25803,7 +23624,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -25811,7 +23631,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25819,7 +23638,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25827,7 +23645,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25835,7 +23652,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25843,7 +23659,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25851,7 +23666,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -25859,7 +23673,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 59
 @59
 D=A
 @SP
@@ -25867,7 +23680,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -25875,7 +23687,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -25883,7 +23694,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -25891,7 +23701,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret50
 D=A
 @SP
@@ -25942,13 +23751,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret50)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 82
 @82
 D=A
 @SP
@@ -25956,7 +23763,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -25964,7 +23770,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25972,7 +23777,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25980,7 +23784,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -25988,7 +23791,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -25996,7 +23798,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -26004,7 +23805,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26012,7 +23812,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26020,7 +23819,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26028,7 +23826,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26036,7 +23833,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26044,7 +23840,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret51
 D=A
 @SP
@@ -26095,13 +23890,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret51)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 83
 @83
 D=A
 @SP
@@ -26109,7 +23902,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26117,7 +23909,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26125,7 +23916,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26133,7 +23923,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -26141,7 +23930,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -26149,7 +23937,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -26157,7 +23944,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26165,7 +23951,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26173,7 +23958,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26181,7 +23965,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26189,7 +23972,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26197,7 +23979,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret52
 D=A
 @SP
@@ -26248,13 +24029,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret52)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 84
 @84
 D=A
 @SP
@@ -26262,7 +24041,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -26270,7 +24048,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -26278,7 +24055,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 45
 @45
 D=A
 @SP
@@ -26286,7 +24062,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26294,7 +24069,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26302,7 +24076,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26310,7 +24083,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26318,7 +24090,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26326,7 +24097,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26334,7 +24104,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26342,7 +24111,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26350,7 +24118,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret53
 D=A
 @SP
@@ -26401,13 +24168,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret53)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 85
 @85
 D=A
 @SP
@@ -26415,7 +24180,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26423,7 +24187,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26431,7 +24194,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26439,7 +24201,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26447,7 +24208,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26455,7 +24215,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26463,7 +24222,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26471,7 +24229,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26479,7 +24236,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26487,7 +24243,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26495,7 +24250,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26503,7 +24257,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret54
 D=A
 @SP
@@ -26554,13 +24307,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret54)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 86
 @86
 D=A
 @SP
@@ -26568,7 +24319,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26576,7 +24326,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26584,7 +24333,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26592,7 +24340,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26600,7 +24347,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26608,7 +24354,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26616,7 +24361,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26624,7 +24368,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26632,7 +24375,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26640,7 +24382,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26648,7 +24389,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26656,7 +24396,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret55
 D=A
 @SP
@@ -26707,13 +24446,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret55)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 87
 @87
 D=A
 @SP
@@ -26721,7 +24458,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26729,7 +24465,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26737,7 +24472,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26745,7 +24479,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26753,7 +24486,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26761,7 +24493,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -26769,7 +24500,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -26777,7 +24507,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -26785,7 +24514,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -26793,7 +24521,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26801,7 +24528,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26809,7 +24535,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret56
 D=A
 @SP
@@ -26860,13 +24585,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret56)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 88
 @88
 D=A
 @SP
@@ -26874,7 +24597,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26882,7 +24604,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26890,7 +24611,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26898,7 +24618,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26906,7 +24625,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -26914,7 +24632,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26922,7 +24639,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -26930,7 +24646,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26938,7 +24653,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -26946,7 +24660,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26954,7 +24667,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -26962,7 +24674,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret57
 D=A
 @SP
@@ -27013,13 +24724,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret57)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 89
 @89
 D=A
 @SP
@@ -27027,7 +24736,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27035,7 +24743,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27043,7 +24750,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27051,7 +24757,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27059,7 +24764,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27067,7 +24771,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -27075,7 +24778,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -27083,7 +24785,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -27091,7 +24792,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27099,7 +24799,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27107,7 +24806,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27115,7 +24813,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret58
 D=A
 @SP
@@ -27166,13 +24863,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret58)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 90
 @90
 D=A
 @SP
@@ -27180,7 +24875,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -27188,7 +24882,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27196,7 +24889,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 49
 @49
 D=A
 @SP
@@ -27204,7 +24896,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27212,7 +24903,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -27220,7 +24910,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27228,7 +24917,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 35
 @35
 D=A
 @SP
@@ -27236,7 +24924,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -27244,7 +24931,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -27252,7 +24938,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27260,7 +24945,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27268,7 +24952,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret59
 D=A
 @SP
@@ -27319,13 +25002,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret59)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 91
 @91
 D=A
 @SP
@@ -27333,7 +25014,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27341,7 +25021,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27349,7 +25028,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27357,7 +25035,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27365,7 +25042,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27373,7 +25049,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27381,7 +25056,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27389,7 +25063,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27397,7 +25070,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27405,7 +25077,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27413,7 +25084,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27421,7 +25091,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret60
 D=A
 @SP
@@ -27472,13 +25141,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret60)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 92
 @92
 D=A
 @SP
@@ -27486,7 +25153,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27494,7 +25160,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27502,7 +25167,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -27510,7 +25174,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -27518,7 +25181,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -27526,7 +25188,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -27534,7 +25195,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27542,7 +25202,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -27550,7 +25209,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -27558,7 +25216,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27566,7 +25223,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27574,7 +25230,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret61
 D=A
 @SP
@@ -27625,13 +25280,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret61)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 93
 @93
 D=A
 @SP
@@ -27639,7 +25292,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27647,7 +25299,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27655,7 +25306,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27663,7 +25313,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27671,7 +25320,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27679,7 +25327,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27687,7 +25334,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27695,7 +25341,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -27703,7 +25348,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -27711,7 +25355,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27719,7 +25362,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27727,7 +25369,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret62
 D=A
 @SP
@@ -27778,13 +25419,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret62)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 94
 @94
 D=A
 @SP
@@ -27792,7 +25431,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 8
 @8
 D=A
 @SP
@@ -27800,7 +25438,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -27808,7 +25445,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -27816,7 +25452,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27824,7 +25459,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27832,7 +25466,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27840,7 +25473,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27848,7 +25480,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27856,7 +25487,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27864,7 +25494,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27872,7 +25501,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27880,7 +25508,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret63
 D=A
 @SP
@@ -27931,13 +25558,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret63)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 95
 @95
 D=A
 @SP
@@ -27945,7 +25570,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27953,7 +25577,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27961,7 +25584,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27969,7 +25591,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27977,7 +25598,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27985,7 +25605,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -27993,7 +25612,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28001,7 +25619,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28009,7 +25626,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28017,7 +25633,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -28025,7 +25640,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28033,7 +25647,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret64
 D=A
 @SP
@@ -28084,13 +25697,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret64)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 96
 @96
 D=A
 @SP
@@ -28098,7 +25709,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -28106,7 +25716,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -28114,7 +25723,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -28122,7 +25730,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28130,7 +25737,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28138,7 +25744,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28146,7 +25751,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28154,7 +25758,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28162,7 +25765,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28170,7 +25772,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28178,7 +25779,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28186,7 +25786,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret65
 D=A
 @SP
@@ -28237,13 +25836,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret65)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 97
 @97
 D=A
 @SP
@@ -28251,7 +25848,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28259,7 +25855,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28267,7 +25862,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28275,7 +25869,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -28283,7 +25876,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -28291,7 +25883,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28299,7 +25890,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -28307,7 +25897,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -28315,7 +25904,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -28323,7 +25911,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28331,7 +25918,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28339,7 +25925,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret66
 D=A
 @SP
@@ -28390,13 +25975,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret66)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 98
 @98
 D=A
 @SP
@@ -28404,7 +25987,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28412,7 +25994,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28420,7 +26001,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28428,7 +26008,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -28436,7 +26015,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -28444,7 +26022,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28452,7 +26029,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28460,7 +26036,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28468,7 +26043,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28476,7 +26050,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28484,7 +26057,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28492,7 +26064,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret67
 D=A
 @SP
@@ -28543,13 +26114,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret67)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 99
 @99
 D=A
 @SP
@@ -28557,7 +26126,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28565,7 +26133,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28573,7 +26140,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28581,7 +26147,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28589,7 +26154,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28597,7 +26161,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28605,7 +26168,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28613,7 +26175,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28621,7 +26182,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28629,7 +26189,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28637,7 +26196,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28645,7 +26203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret68
 D=A
 @SP
@@ -28696,13 +26253,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret68)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 100
 @100
 D=A
 @SP
@@ -28710,7 +26265,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -28718,7 +26272,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -28726,7 +26279,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -28734,7 +26286,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 60
 @60
 D=A
 @SP
@@ -28742,7 +26293,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -28750,7 +26300,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28758,7 +26307,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28766,7 +26314,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28774,7 +26321,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28782,7 +26328,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28790,7 +26335,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28798,7 +26342,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret69
 D=A
 @SP
@@ -28849,13 +26392,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret69)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 101
 @101
 D=A
 @SP
@@ -28863,7 +26404,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28871,7 +26411,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28879,7 +26418,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28887,7 +26425,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28895,7 +26432,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28903,7 +26439,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -28911,7 +26446,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -28919,7 +26453,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -28927,7 +26460,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -28935,7 +26467,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28943,7 +26474,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -28951,7 +26481,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret70
 D=A
 @SP
@@ -29002,13 +26531,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret70)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 102
 @102
 D=A
 @SP
@@ -29016,7 +26543,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -29024,7 +26550,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -29032,7 +26557,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 38
 @38
 D=A
 @SP
@@ -29040,7 +26564,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -29048,7 +26571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -29056,7 +26578,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -29064,7 +26585,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -29072,7 +26592,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -29080,7 +26599,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -29088,7 +26606,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29096,7 +26613,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29104,7 +26620,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret71
 D=A
 @SP
@@ -29155,13 +26670,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret71)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 103
 @103
 D=A
 @SP
@@ -29169,7 +26682,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29177,7 +26689,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29185,7 +26696,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -29193,7 +26703,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29201,7 +26710,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29209,7 +26717,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29217,7 +26724,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 62
 @62
 D=A
 @SP
@@ -29225,7 +26731,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29233,7 +26738,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29241,7 +26745,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -29249,7 +26752,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29257,7 +26759,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret72
 D=A
 @SP
@@ -29308,13 +26809,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret72)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 104
 @104
 D=A
 @SP
@@ -29322,7 +26821,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29330,7 +26828,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29338,7 +26835,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29346,7 +26842,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -29354,7 +26849,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 55
 @55
 D=A
 @SP
@@ -29362,7 +26856,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29370,7 +26863,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29378,7 +26870,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29386,7 +26877,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29394,7 +26884,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29402,7 +26891,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29410,7 +26898,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret73
 D=A
 @SP
@@ -29461,13 +26948,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret73)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 105
 @105
 D=A
 @SP
@@ -29475,7 +26960,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29483,7 +26967,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29491,7 +26974,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29499,7 +26981,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -29507,7 +26988,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29515,7 +26995,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29523,7 +27002,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29531,7 +27009,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29539,7 +27016,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -29547,7 +27023,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29555,7 +27030,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29563,7 +27037,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret74
 D=A
 @SP
@@ -29614,13 +27087,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret74)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 106
 @106
 D=A
 @SP
@@ -29628,7 +27099,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29636,7 +27106,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29644,7 +27113,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29652,7 +27120,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 56
 @56
 D=A
 @SP
@@ -29660,7 +27127,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29668,7 +27134,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29676,7 +27141,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29684,7 +27148,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -29692,7 +27155,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29700,7 +27162,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -29708,7 +27169,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29716,7 +27176,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret75
 D=A
 @SP
@@ -29767,13 +27226,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret75)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 107
 @107
 D=A
 @SP
@@ -29781,7 +27238,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29789,7 +27245,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29797,7 +27252,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -29805,7 +27259,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29813,7 +27266,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -29821,7 +27273,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -29829,7 +27280,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -29837,7 +27287,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -29845,7 +27294,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -29853,7 +27301,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29861,7 +27308,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -29869,7 +27315,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret76
 D=A
 @SP
@@ -29920,13 +27365,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret76)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 108
 @108
 D=A
 @SP
@@ -29934,7 +27377,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 14
 @14
 D=A
 @SP
@@ -29942,7 +27384,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29950,7 +27391,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29958,7 +27398,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29966,7 +27405,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29974,7 +27412,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29982,7 +27419,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29990,7 +27426,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -29998,7 +27433,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -30006,7 +27440,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30014,7 +27447,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30022,7 +27454,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret77
 D=A
 @SP
@@ -30073,13 +27504,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret77)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 109
 @109
 D=A
 @SP
@@ -30087,7 +27516,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30095,7 +27523,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30103,7 +27530,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30111,7 +27537,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 29
 @29
 D=A
 @SP
@@ -30119,7 +27544,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -30127,7 +27551,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 43
 @43
 D=A
 @SP
@@ -30135,7 +27558,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 43
 @43
 D=A
 @SP
@@ -30143,7 +27565,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 43
 @43
 D=A
 @SP
@@ -30151,7 +27572,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 43
 @43
 D=A
 @SP
@@ -30159,7 +27579,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30167,7 +27586,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30175,7 +27593,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret78
 D=A
 @SP
@@ -30226,13 +27643,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret78)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 110
 @110
 D=A
 @SP
@@ -30240,7 +27655,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30248,7 +27662,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30256,7 +27669,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30264,7 +27676,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 29
 @29
 D=A
 @SP
@@ -30272,7 +27683,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30280,7 +27690,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30288,7 +27697,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30296,7 +27704,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30304,7 +27711,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30312,7 +27718,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30320,7 +27725,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30328,7 +27732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret79
 D=A
 @SP
@@ -30379,13 +27782,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret79)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 111
 @111
 D=A
 @SP
@@ -30393,7 +27794,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30401,7 +27801,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30409,7 +27808,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30417,7 +27815,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -30425,7 +27822,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30433,7 +27829,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30441,7 +27836,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30449,7 +27843,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30457,7 +27850,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -30465,7 +27857,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30473,7 +27864,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30481,7 +27871,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret80
 D=A
 @SP
@@ -30532,13 +27921,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret80)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 112
 @112
 D=A
 @SP
@@ -30546,7 +27933,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30554,7 +27940,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30562,7 +27947,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30570,7 +27954,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -30578,7 +27961,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30586,7 +27968,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30594,7 +27975,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30602,7 +27982,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 31
 @31
 D=A
 @SP
@@ -30610,7 +27989,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -30618,7 +27996,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -30626,7 +28003,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30634,7 +28010,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret81
 D=A
 @SP
@@ -30685,13 +28060,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret81)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 113
 @113
 D=A
 @SP
@@ -30699,7 +28072,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30707,7 +28079,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30715,7 +28086,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30723,7 +28093,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -30731,7 +28100,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30739,7 +28107,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30747,7 +28114,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30755,7 +28121,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 62
 @62
 D=A
 @SP
@@ -30763,7 +28128,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -30771,7 +28135,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -30779,7 +28142,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30787,7 +28149,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret82
 D=A
 @SP
@@ -30838,13 +28199,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret82)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 114
 @114
 D=A
 @SP
@@ -30852,7 +28211,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30860,7 +28218,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30868,7 +28225,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30876,7 +28232,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 29
 @29
 D=A
 @SP
@@ -30884,7 +28239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 55
 @55
 D=A
 @SP
@@ -30892,7 +28246,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -30900,7 +28253,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -30908,7 +28260,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 3
 @3
 D=A
 @SP
@@ -30916,7 +28267,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -30924,7 +28274,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30932,7 +28281,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -30940,7 +28288,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret83
 D=A
 @SP
@@ -30991,13 +28338,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret83)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 115
 @115
 D=A
 @SP
@@ -31005,7 +28350,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31013,7 +28357,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31021,7 +28364,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31029,7 +28371,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -31037,7 +28378,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31045,7 +28385,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31053,7 +28392,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -31061,7 +28399,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31069,7 +28406,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -31077,7 +28413,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31085,7 +28420,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31093,7 +28427,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret84
 D=A
 @SP
@@ -31144,13 +28477,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret84)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 116
 @116
 D=A
 @SP
@@ -31158,7 +28489,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -31166,7 +28496,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31174,7 +28503,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31182,7 +28510,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -31190,7 +28517,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31198,7 +28524,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31206,7 +28531,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -31214,7 +28538,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -31222,7 +28545,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 28
 @28
 D=A
 @SP
@@ -31230,7 +28552,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31238,7 +28559,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31246,7 +28566,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret85
 D=A
 @SP
@@ -31297,13 +28616,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret85)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 117
 @117
 D=A
 @SP
@@ -31311,7 +28628,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31319,7 +28635,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31327,7 +28642,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31335,7 +28649,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -31343,7 +28656,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -31351,7 +28663,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -31359,7 +28670,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -31367,7 +28677,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -31375,7 +28684,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 54
 @54
 D=A
 @SP
@@ -31383,7 +28691,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31391,7 +28698,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31399,7 +28705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret86
 D=A
 @SP
@@ -31450,13 +28755,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret86)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 118
 @118
 D=A
 @SP
@@ -31464,7 +28767,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31472,7 +28774,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31480,7 +28781,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31488,7 +28788,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31496,7 +28795,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31504,7 +28802,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31512,7 +28809,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31520,7 +28816,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -31528,7 +28823,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -31536,7 +28830,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31544,7 +28837,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31552,7 +28844,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret87
 D=A
 @SP
@@ -31603,13 +28894,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret87)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 119
 @119
 D=A
 @SP
@@ -31617,7 +28906,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31625,7 +28913,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31633,7 +28920,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31641,7 +28927,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31649,7 +28934,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31657,7 +28941,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31665,7 +28948,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -31673,7 +28955,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -31681,7 +28962,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 18
 @18
 D=A
 @SP
@@ -31689,7 +28969,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31697,7 +28976,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31705,7 +28983,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret88
 D=A
 @SP
@@ -31756,13 +29033,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret88)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 120
 @120
 D=A
 @SP
@@ -31770,7 +29045,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31778,7 +29052,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31786,7 +29059,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31794,7 +29066,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31802,7 +29073,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -31810,7 +29080,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -31818,7 +29087,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -31826,7 +29094,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 30
 @30
 D=A
 @SP
@@ -31834,7 +29101,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31842,7 +29108,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31850,7 +29115,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31858,7 +29122,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret89
 D=A
 @SP
@@ -31909,13 +29172,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret89)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 121
 @121
 D=A
 @SP
@@ -31923,7 +29184,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31931,7 +29191,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31939,7 +29198,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -31947,7 +29205,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31955,7 +29212,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31963,7 +29219,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -31971,7 +29226,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 62
 @62
 D=A
 @SP
@@ -31979,7 +29233,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -31987,7 +29240,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 24
 @24
 D=A
 @SP
@@ -31995,7 +29247,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 15
 @15
 D=A
 @SP
@@ -32003,7 +29254,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32011,7 +29261,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret90
 D=A
 @SP
@@ -32062,13 +29311,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret90)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 122
 @122
 D=A
 @SP
@@ -32076,7 +29323,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32084,7 +29330,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32092,7 +29337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32100,7 +29344,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -32108,7 +29351,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -32116,7 +29358,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32124,7 +29365,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 6
 @6
 D=A
 @SP
@@ -32132,7 +29372,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 51
 @51
 D=A
 @SP
@@ -32140,7 +29379,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -32148,7 +29386,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32156,7 +29393,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32164,7 +29400,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret91
 D=A
 @SP
@@ -32215,13 +29450,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret91)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 123
 @123
 D=A
 @SP
@@ -32229,7 +29462,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 56
 @56
 D=A
 @SP
@@ -32237,7 +29469,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32245,7 +29476,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32253,7 +29483,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32261,7 +29490,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -32269,7 +29497,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32277,7 +29504,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32285,7 +29511,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32293,7 +29518,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 56
 @56
 D=A
 @SP
@@ -32301,7 +29525,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32309,7 +29532,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32317,7 +29539,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret92
 D=A
 @SP
@@ -32368,13 +29589,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret92)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 124
 @124
 D=A
 @SP
@@ -32382,7 +29601,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32390,7 +29608,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32398,7 +29615,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32406,7 +29622,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32414,7 +29629,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32422,7 +29636,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32430,7 +29643,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32438,7 +29650,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32446,7 +29657,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32454,7 +29664,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32462,7 +29671,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32470,7 +29678,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret93
 D=A
 @SP
@@ -32521,13 +29728,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret93)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 125
 @125
 D=A
 @SP
@@ -32535,7 +29740,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -32543,7 +29747,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32551,7 +29754,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32559,7 +29761,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32567,7 +29768,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 56
 @56
 D=A
 @SP
@@ -32575,7 +29775,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32583,7 +29782,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32591,7 +29789,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 12
 @12
 D=A
 @SP
@@ -32599,7 +29796,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -32607,7 +29803,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32615,7 +29810,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32623,7 +29817,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret94
 D=A
 @SP
@@ -32674,13 +29867,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret94)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 126
 @126
 D=A
 @SP
@@ -32688,7 +29879,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 38
 @38
 D=A
 @SP
@@ -32696,7 +29886,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 45
 @45
 D=A
 @SP
@@ -32704,7 +29893,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 25
 @25
 D=A
 @SP
@@ -32712,7 +29900,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32720,7 +29907,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32728,7 +29914,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32736,7 +29921,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32744,7 +29928,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32752,7 +29935,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32760,7 +29942,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32768,7 +29949,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -32776,7 +29956,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.create 12
 @Output.create$ret95
 D=A
 @SP
@@ -32827,13 +30006,11 @@ M=D
 @Output.create
 0;JMP
 (Output.create$ret95)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -32841,7 +30018,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -32899,7 +30075,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.create 1
 (Output.create)
 @0
 D=A
@@ -32908,7 +30083,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -32916,7 +30090,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret3
 D=A
 @SP
@@ -32967,7 +30140,6 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret3)
-// pop local 0
 @LCL
 D=M
 @0
@@ -32981,7 +30153,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -32992,7 +30163,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 5
 @Output.5
 D=M
 @SP
@@ -33000,14 +30170,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -33018,19 +30186,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33038,7 +30203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33052,7 +30216,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -33060,7 +30223,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33071,14 +30233,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 1
 @ARG
 D=M
 @1
@@ -33089,19 +30249,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33109,7 +30266,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33123,7 +30279,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -33131,7 +30286,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33142,14 +30296,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 2
 @ARG
 D=M
 @2
@@ -33160,19 +30312,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33180,7 +30329,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33194,7 +30342,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -33202,7 +30349,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33213,14 +30359,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 3
 @ARG
 D=M
 @3
@@ -33231,19 +30375,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33251,7 +30392,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33265,7 +30405,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 3
 @3
 D=A
 @SP
@@ -33273,7 +30412,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33284,14 +30422,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 4
 @ARG
 D=M
 @4
@@ -33302,19 +30438,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33322,7 +30455,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33336,7 +30468,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 4
 @4
 D=A
 @SP
@@ -33344,7 +30475,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33355,14 +30485,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 5
 @ARG
 D=M
 @5
@@ -33373,19 +30501,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33393,7 +30518,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33407,7 +30531,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 5
 @5
 D=A
 @SP
@@ -33415,7 +30538,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33426,14 +30548,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 6
 @ARG
 D=M
 @6
@@ -33444,19 +30564,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33464,7 +30581,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33478,7 +30594,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 6
 @6
 D=A
 @SP
@@ -33486,7 +30601,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33497,14 +30611,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 7
 @ARG
 D=M
 @7
@@ -33515,19 +30627,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33535,7 +30644,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33549,7 +30657,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 7
 @7
 D=A
 @SP
@@ -33557,7 +30664,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33568,14 +30674,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 8
 @ARG
 D=M
 @8
@@ -33586,19 +30690,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33606,7 +30707,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33620,7 +30720,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 8
 @8
 D=A
 @SP
@@ -33628,7 +30727,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33639,14 +30737,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 9
 @ARG
 D=M
 @9
@@ -33657,19 +30753,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33677,7 +30770,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33691,7 +30783,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 9
 @9
 D=A
 @SP
@@ -33699,7 +30790,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33710,14 +30800,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 10
 @ARG
 D=M
 @10
@@ -33728,19 +30816,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33748,7 +30833,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33762,7 +30846,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 10
 @10
 D=A
 @SP
@@ -33770,7 +30853,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -33781,14 +30863,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 11
 @ARG
 D=M
 @11
@@ -33799,19 +30879,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -33819,7 +30896,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -33833,7 +30909,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -33841,7 +30916,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -33899,7 +30973,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.createShiftedMap 4
 (Output.createShiftedMap)
 @0
 D=A
@@ -33929,7 +31002,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 127
 @127
 D=A
 @SP
@@ -33937,7 +31009,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret4
 D=A
 @SP
@@ -33988,13 +31059,11 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret4)
-// pop static 6
 @SP
 AM=M-1
 D=M
 @Output.6
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -34002,7 +31071,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 2
 @LCL
 D=M
 @2
@@ -34016,9 +31084,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Output.createShiftedMap$WHILE_EXP0)
-// push local 2
 @LCL
 D=M
 @2
@@ -34029,7 +31095,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 127
 @127
 D=A
 @SP
@@ -34037,7 +31102,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -34050,17 +31114,14 @@ D;JLT
 A=M-1
 M=0
 (Output.createShiftedMapLT_27)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Output.createShiftedMap$WHILE_END0
 D;JNE
-// push local 2
 @LCL
 D=M
 @2
@@ -34071,7 +31132,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 5
 @Output.5
 D=M
 @SP
@@ -34079,20 +31139,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -34103,7 +31160,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -34117,7 +31173,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 11
 @11
 D=A
 @SP
@@ -34125,7 +31180,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret5
 D=A
 @SP
@@ -34176,7 +31230,6 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret5)
-// pop local 1
 @LCL
 D=M
 @1
@@ -34190,7 +31243,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -34201,7 +31253,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 6
 @Output.6
 D=M
 @SP
@@ -34209,14 +31260,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 1
 @LCL
 D=M
 @1
@@ -34227,19 +31276,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -34247,7 +31293,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -34261,7 +31306,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -34269,7 +31313,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 3
 @LCL
 D=M
 @3
@@ -34283,9 +31326,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP1
 (Output.createShiftedMap$WHILE_EXP1)
-// push local 3
 @LCL
 D=M
 @3
@@ -34296,7 +31337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -34304,7 +31344,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -34317,17 +31356,14 @@ D;JLT
 A=M-1
 M=0
 (Output.createShiftedMapLT_28)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END1
 @SP
 AM=M-1
 D=M
 @Output.createShiftedMap$WHILE_END1
 D;JNE
-// push local 3
 @LCL
 D=M
 @3
@@ -34338,7 +31374,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -34349,14 +31384,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 3
 @LCL
 D=M
 @3
@@ -34367,7 +31400,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -34378,20 +31410,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -34402,7 +31431,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 256
 @256
 D=A
 @SP
@@ -34410,7 +31438,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret12
 D=A
 @SP
@@ -34461,19 +31488,16 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret12)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -34481,7 +31505,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -34495,7 +31518,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -34506,7 +31528,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -34514,14 +31535,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 3
 @LCL
 D=M
 @3
@@ -34535,12 +31554,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP1
 @Output.createShiftedMap$WHILE_EXP1
 0;JMP
-// label WHILE_END1
 (Output.createShiftedMap$WHILE_END1)
-// push local 2
 @LCL
 D=M
 @2
@@ -34551,7 +31567,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -34559,7 +31574,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -34572,18 +31586,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.createShiftedMapEQ_16)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.createShiftedMap$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.createShiftedMap$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.createShiftedMap$IF_TRUE0)
-// push constant 32
 @32
 D=A
 @SP
@@ -34591,7 +31601,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 2
 @LCL
 D=M
 @2
@@ -34605,12 +31614,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END0
 @Output.createShiftedMap$IF_END0
 0;JMP
-// label IF_FALSE0
 (Output.createShiftedMap$IF_FALSE0)
-// push local 2
 @LCL
 D=M
 @2
@@ -34621,7 +31627,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -34629,14 +31634,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 2
 @LCL
 D=M
 @2
@@ -34650,14 +31653,10 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END0
 (Output.createShiftedMap$IF_END0)
-// goto WHILE_EXP0
 @Output.createShiftedMap$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Output.createShiftedMap$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -34665,7 +31664,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -34723,7 +31721,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.getMap 1
 (Output.getMap)
 @0
 D=A
@@ -34732,7 +31729,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -34743,7 +31739,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -34751,7 +31746,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -34764,7 +31758,6 @@ D;JLT
 A=M-1
 M=0
 (Output.getMapLT_29)
-// push argument 0
 @ARG
 D=M
 @0
@@ -34775,7 +31768,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 126
 @126
 D=A
 @SP
@@ -34783,7 +31775,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -34796,25 +31787,20 @@ D;JGT
 A=M-1
 M=0
 (Output.getMapGT_19)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.getMap$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.getMap$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.getMap$IF_TRUE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -34822,7 +31808,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 0
 @ARG
 D=M
 @0
@@ -34836,9 +31821,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE0
 (Output.getMap$IF_FALSE0)
-// push static 2
 @Output.2
 D=M
 @SP
@@ -34846,18 +31829,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Output.getMap$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Output.getMap$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Output.getMap$IF_TRUE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -34868,7 +31847,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 5
 @Output.5
 D=M
 @SP
@@ -34876,20 +31854,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -34900,7 +31875,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -34914,12 +31888,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END1
 @Output.getMap$IF_END1
 0;JMP
-// label IF_FALSE1
 (Output.getMap$IF_FALSE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -34930,7 +31901,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 6
 @Output.6
 D=M
 @SP
@@ -34938,20 +31908,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -34962,7 +31929,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -34976,9 +31942,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END1
 (Output.getMap$IF_END1)
-// push local 0
 @LCL
 D=M
 @0
@@ -34989,7 +31953,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -35047,7 +32010,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.drawChar 4
 (Output.drawChar)
 @0
 D=A
@@ -35077,7 +32039,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -35088,7 +32049,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.getMap 1
 @Output.getMap$ret0
 D=A
 @SP
@@ -35139,7 +32099,6 @@ M=D
 @Output.getMap
 0;JMP
 (Output.getMap$ret0)
-// pop local 2
 @LCL
 D=M
 @2
@@ -35153,7 +32112,6 @@ D=M
 @R13
 A=M
 M=D
-// push static 1
 @Output.1
 D=M
 @SP
@@ -35161,7 +32119,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -35175,9 +32132,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Output.drawChar$WHILE_EXP0)
-// push local 1
 @LCL
 D=M
 @1
@@ -35188,7 +32143,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 11
 @11
 D=A
 @SP
@@ -35196,7 +32150,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -35209,17 +32162,14 @@ D;JLT
 A=M-1
 M=0
 (Output.drawCharLT_30)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Output.drawChar$WHILE_END0
 D;JNE
-// push static 2
 @Output.2
 D=M
 @SP
@@ -35227,18 +32177,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.drawChar$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.drawChar$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.drawChar$IF_TRUE0)
-// push local 0
 @LCL
 D=M
 @0
@@ -35249,7 +32195,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 4
 @Output.4
 D=M
 @SP
@@ -35257,20 +32202,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -35281,7 +32223,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 256
 @256
 D=A
 @SP
@@ -35289,18 +32230,15 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// pop local 3
 @LCL
 D=M
 @3
@@ -35314,12 +32252,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END0
 @Output.drawChar$IF_END0
 0;JMP
-// label IF_FALSE0
 (Output.drawChar$IF_FALSE0)
-// push local 0
 @LCL
 D=M
 @0
@@ -35330,7 +32265,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 4
 @Output.4
 D=M
 @SP
@@ -35338,20 +32272,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -35362,7 +32293,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 255
 @255
 D=A
 @SP
@@ -35370,14 +32300,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// pop local 3
 @LCL
 D=M
 @3
@@ -35391,9 +32319,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END0
 (Output.drawChar$IF_END0)
-// push local 0
 @LCL
 D=M
 @0
@@ -35404,7 +32330,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 4
 @Output.4
 D=M
 @SP
@@ -35412,14 +32337,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 1
 @LCL
 D=M
 @1
@@ -35430,7 +32353,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -35441,20 +32363,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -35465,7 +32384,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -35476,26 +32394,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -35503,7 +32417,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -35517,7 +32430,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -35528,7 +32440,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -35536,14 +32447,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -35557,7 +32466,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -35568,7 +32476,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -35576,14 +32483,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -35597,12 +32502,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Output.drawChar$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Output.drawChar$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -35610,7 +32512,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -35668,9 +32569,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.moveCursor 0
 (Output.moveCursor)
-// push argument 0
 @ARG
 D=M
 @0
@@ -35681,7 +32580,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -35689,7 +32587,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -35702,7 +32599,6 @@ D;JLT
 A=M-1
 M=0
 (Output.moveCursorLT_31)
-// push argument 0
 @ARG
 D=M
 @0
@@ -35713,7 +32609,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 22
 @22
 D=A
 @SP
@@ -35721,7 +32616,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -35734,14 +32628,12 @@ D;JGT
 A=M-1
 M=0
 (Output.moveCursorGT_20)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -35752,7 +32644,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -35760,7 +32651,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -35773,14 +32663,12 @@ D;JLT
 A=M-1
 M=0
 (Output.moveCursorLT_32)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -35791,7 +32679,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 63
 @63
 D=A
 @SP
@@ -35799,7 +32686,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -35812,25 +32698,20 @@ D;JGT
 A=M-1
 M=0
 (Output.moveCursorGT_21)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.moveCursor$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.moveCursor$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.moveCursor$IF_TRUE0)
-// push constant 20
 @20
 D=A
 @SP
@@ -35838,7 +32719,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret5
 D=A
 @SP
@@ -35889,15 +32769,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret5)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Output.moveCursor$IF_FALSE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -35908,7 +32785,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -35916,7 +32792,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret6
 D=A
 @SP
@@ -35967,13 +32842,11 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret6)
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push constant 32
 @32
 D=A
 @SP
@@ -35981,7 +32854,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -35992,7 +32864,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 352
 @352
 D=A
 @SP
@@ -36000,7 +32871,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret13
 D=A
 @SP
@@ -36051,14 +32921,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret13)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 0
 @Output.0
 D=M
 @SP
@@ -36066,20 +32934,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -36090,7 +32955,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Output.0
 D=M
 @SP
@@ -36098,7 +32962,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -36106,7 +32969,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret14
 D=A
 @SP
@@ -36157,7 +33019,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret14)
-// eq
 @SP
 AM=M-1
 D=M
@@ -36170,13 +33031,11 @@ D;JEQ
 A=M-1
 M=0
 (Output.moveCursorEQ_17)
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// push constant 32
 @32
 D=A
 @SP
@@ -36184,7 +33043,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.drawChar 1
 @Output.drawChar$ret0
 D=A
 @SP
@@ -36235,13 +33093,11 @@ M=D
 @Output.drawChar
 0;JMP
 (Output.drawChar$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -36249,7 +33105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -36307,9 +33162,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.printChar 0
 (Output.printChar)
-// push argument 0
 @ARG
 D=M
 @0
@@ -36320,7 +33173,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.newLine 0
 @String.newLine$ret1
 D=A
 @SP
@@ -36371,7 +33223,6 @@ M=D
 @String.newLine
 0;JMP
 (String.newLine$ret1)
-// eq
 @SP
 AM=M-1
 D=M
@@ -36384,18 +33235,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.printCharEQ_18)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.printChar$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.printChar$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.printChar$IF_TRUE0)
-// call Output.println 0
 @Output.println$ret0
 D=A
 @SP
@@ -36446,18 +33293,14 @@ M=D
 @Output.println
 0;JMP
 (Output.println$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END0
 @Output.printChar$IF_END0
 0;JMP
-// label IF_FALSE0
 (Output.printChar$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -36468,7 +33311,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.backSpace 0
 @String.backSpace$ret2
 D=A
 @SP
@@ -36519,7 +33361,6 @@ M=D
 @String.backSpace
 0;JMP
 (String.backSpace$ret2)
-// eq
 @SP
 AM=M-1
 D=M
@@ -36532,18 +33373,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.printCharEQ_19)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Output.printChar$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Output.printChar$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Output.printChar$IF_TRUE1)
-// call Output.backSpace 0
 @Output.backSpace$ret0
 D=A
 @SP
@@ -36594,18 +33431,14 @@ M=D
 @Output.backSpace
 0;JMP
 (Output.backSpace$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END1
 @Output.printChar$IF_END1
 0;JMP
-// label IF_FALSE1
 (Output.printChar$IF_FALSE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -36616,7 +33449,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.drawChar 1
 @Output.drawChar$ret1
 D=A
 @SP
@@ -36667,13 +33499,11 @@ M=D
 @Output.drawChar
 0;JMP
 (Output.drawChar$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push static 2
 @Output.2
 D=M
 @SP
@@ -36681,22 +33511,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Output.printChar$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Output.printChar$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Output.printChar$IF_TRUE2)
-// push static 0
 @Output.0
 D=M
 @SP
@@ -36704,7 +33529,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -36712,20 +33536,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push static 1
 @Output.1
 D=M
 @SP
@@ -36733,7 +33554,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -36741,22 +33561,18 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// label IF_FALSE2
 (Output.printChar$IF_FALSE2)
-// push static 0
 @Output.0
 D=M
 @SP
@@ -36764,7 +33580,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -36772,7 +33587,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -36785,18 +33599,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.printCharEQ_20)
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @Output.printChar$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @Output.printChar$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (Output.printChar$IF_TRUE3)
-// call Output.println 0
 @Output.println$ret1
 D=A
 @SP
@@ -36847,18 +33657,14 @@ M=D
 @Output.println
 0;JMP
 (Output.println$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END3
 @Output.printChar$IF_END3
 0;JMP
-// label IF_FALSE3
 (Output.printChar$IF_FALSE3)
-// push static 2
 @Output.2
 D=M
 @SP
@@ -36866,23 +33672,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// label IF_END3
 (Output.printChar$IF_END3)
-// label IF_END1
 (Output.printChar$IF_END1)
-// label IF_END0
 (Output.printChar$IF_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -36890,7 +33690,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -36948,7 +33747,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.printString 2
 (Output.printString)
 @0
 D=A
@@ -36964,7 +33762,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -36975,7 +33772,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.length 1
 @String.length$ret0
 D=A
 @SP
@@ -37026,7 +33822,6 @@ M=D
 @String.length
 0;JMP
 (String.length$ret0)
-// pop local 1
 @LCL
 D=M
 @1
@@ -37040,9 +33835,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Output.printString$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -37053,7 +33846,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -37064,7 +33856,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -37077,17 +33868,14 @@ D;JLT
 A=M-1
 M=0
 (Output.printStringLT_33)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Output.printString$WHILE_END0
 D;JNE
-// push argument 0
 @ARG
 D=M
 @0
@@ -37098,7 +33886,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -37109,7 +33896,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.charAt 2
 @String.charAt$ret0
 D=A
 @SP
@@ -37160,7 +33946,6 @@ M=D
 @String.charAt
 0;JMP
 (String.charAt$ret0)
-// call Output.printChar 1
 @Output.printChar$ret3
 D=A
 @SP
@@ -37211,13 +33996,11 @@ M=D
 @Output.printChar
 0;JMP
 (Output.printChar$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -37228,7 +34011,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -37236,14 +34018,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -37257,12 +34037,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Output.printString$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Output.printString$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -37270,7 +34047,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -37328,9 +34104,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.printInt 0
 (Output.printInt)
-// push static 3
 @Output.3
 D=M
 @SP
@@ -37338,7 +34112,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -37349,7 +34122,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.setInt 2
 @String.setInt$ret0
 D=A
 @SP
@@ -37400,13 +34172,11 @@ M=D
 @String.setInt
 0;JMP
 (String.setInt$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push static 3
 @Output.3
 D=M
 @SP
@@ -37414,7 +34184,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printString 1
 @Output.printString$ret1
 D=A
 @SP
@@ -37465,13 +34234,11 @@ M=D
 @Output.printString
 0;JMP
 (Output.printString$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -37479,7 +34246,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -37537,9 +34303,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.println 0
 (Output.println)
-// push static 1
 @Output.1
 D=M
 @SP
@@ -37547,7 +34311,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 352
 @352
 D=A
 @SP
@@ -37555,14 +34318,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 0
 @Output.0
 D=M
 @SP
@@ -37570,20 +34331,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -37591,13 +34349,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -37605,17 +34361,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// push static 1
 @Output.1
 D=M
 @SP
@@ -37623,7 +34376,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 8128
 @8128
 D=A
 @SP
@@ -37631,7 +34383,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -37644,18 +34395,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.printlnEQ_21)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.println$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.println$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.println$IF_TRUE0)
-// push constant 32
 @32
 D=A
 @SP
@@ -37663,15 +34410,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// label IF_FALSE0
 (Output.println$IF_FALSE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -37679,7 +34423,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -37737,9 +34480,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Output.backSpace 0
 (Output.backSpace)
-// push static 2
 @Output.2
 D=M
 @SP
@@ -37747,18 +34488,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Output.backSpace$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Output.backSpace$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Output.backSpace$IF_TRUE0)
-// push static 0
 @Output.0
 D=M
 @SP
@@ -37766,7 +34503,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -37774,7 +34510,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -37787,18 +34522,14 @@ D;JGT
 A=M-1
 M=0
 (Output.backSpaceGT_22)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Output.backSpace$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Output.backSpace$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Output.backSpace$IF_TRUE1)
-// push static 0
 @Output.0
 D=M
 @SP
@@ -37806,7 +34537,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -37814,20 +34544,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push static 1
 @Output.1
 D=M
 @SP
@@ -37835,7 +34562,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -37843,25 +34569,20 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// goto IF_END1
 @Output.backSpace$IF_END1
 0;JMP
-// label IF_FALSE1
 (Output.backSpace$IF_FALSE1)
-// push constant 31
 @31
 D=A
 @SP
@@ -37869,13 +34590,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Output.0
 M=D
-// push static 1
 @Output.1
 D=M
 @SP
@@ -37883,7 +34602,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -37891,7 +34609,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -37904,18 +34621,14 @@ D;JEQ
 A=M-1
 M=0
 (Output.backSpaceEQ_22)
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Output.backSpace$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Output.backSpace$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Output.backSpace$IF_TRUE2)
-// push constant 8128
 @8128
 D=A
 @SP
@@ -37923,15 +34636,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// label IF_FALSE2
 (Output.backSpace$IF_FALSE2)
-// push static 1
 @Output.1
 D=M
 @SP
@@ -37939,7 +34649,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 321
 @321
 D=A
 @SP
@@ -37947,22 +34656,18 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Output.1
 M=D
-// label IF_END1
 (Output.backSpace$IF_END1)
-// push constant 0
 @0
 D=A
 @SP
@@ -37970,18 +34675,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// goto IF_END0
 @Output.backSpace$IF_END0
 0;JMP
-// label IF_FALSE0
 (Output.backSpace$IF_FALSE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -37989,19 +34690,15 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Output.2
 M=D
-// label IF_END0
 (Output.backSpace$IF_END0)
-// push constant 32
 @32
 D=A
 @SP
@@ -38009,7 +34706,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.drawChar 1
 @Output.drawChar$ret2
 D=A
 @SP
@@ -38060,13 +34756,11 @@ M=D
 @Output.drawChar
 0;JMP
 (Output.drawChar$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -38074,7 +34768,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -38132,9 +34825,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.new 0
 (PongGame.new)
-// push constant 7
 @7
 D=A
 @SP
@@ -38142,7 +34833,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.alloc 1
 @Memory.alloc$ret3
 D=A
 @SP
@@ -38193,13 +34883,11 @@ M=D
 @Memory.alloc
 0;JMP
 (Memory.alloc$ret3)
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// call Screen.clearScreen 0
 @Screen.clearScreen$ret0
 D=A
 @SP
@@ -38250,13 +34938,11 @@ M=D
 @Screen.clearScreen
 0;JMP
 (Screen.clearScreen$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 50
 @50
 D=A
 @SP
@@ -38264,7 +34950,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 6
 @THIS
 D=M
 @6
@@ -38278,7 +34963,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 230
 @230
 D=A
 @SP
@@ -38286,7 +34970,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 229
 @229
 D=A
 @SP
@@ -38294,7 +34977,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 6
 @THIS
 D=M
 @6
@@ -38305,7 +34987,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -38313,7 +34994,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.new 4
 @Bat.new$ret0
 D=A
 @SP
@@ -38364,7 +35044,6 @@ M=D
 @Bat.new
 0;JMP
 (Bat.new$ret0)
-// pop this 0
 @THIS
 D=M
 @0
@@ -38378,7 +35057,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 253
 @253
 D=A
 @SP
@@ -38386,7 +35064,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 222
 @222
 D=A
 @SP
@@ -38394,7 +35071,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -38402,7 +35078,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -38410,7 +35085,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -38418,7 +35092,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 229
 @229
 D=A
 @SP
@@ -38426,7 +35099,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.new 6
 @Ball.new$ret0
 D=A
 @SP
@@ -38477,7 +35149,6 @@ M=D
 @Ball.new
 0;JMP
 (Ball.new$ret0)
-// pop this 1
 @THIS
 D=M
 @1
@@ -38491,7 +35162,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -38502,7 +35172,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 400
 @400
 D=A
 @SP
@@ -38510,7 +35179,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -38518,7 +35186,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.setDestination 3
 @Ball.setDestination$ret1
 D=A
 @SP
@@ -38569,13 +35236,11 @@ M=D
 @Ball.setDestination
 0;JMP
 (Ball.setDestination$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -38583,7 +35248,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 238
 @238
 D=A
 @SP
@@ -38591,7 +35255,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -38599,7 +35262,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 240
 @240
 D=A
 @SP
@@ -38607,7 +35269,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawRectangle 4
 @Screen.drawRectangle$ret6
 D=A
 @SP
@@ -38658,13 +35319,11 @@ M=D
 @Screen.drawRectangle
 0;JMP
 (Screen.drawRectangle$ret6)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 22
 @22
 D=A
 @SP
@@ -38672,7 +35331,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -38680,7 +35338,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.moveCursor 2
 @Output.moveCursor$ret0
 D=A
 @SP
@@ -38731,13 +35388,11 @@ M=D
 @Output.moveCursor
 0;JMP
 (Output.moveCursor$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 8
 @8
 D=A
 @SP
@@ -38745,7 +35400,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.new 1
 @String.new$ret2
 D=A
 @SP
@@ -38796,7 +35450,6 @@ M=D
 @String.new
 0;JMP
 (String.new$ret2)
-// push constant 83
 @83
 D=A
 @SP
@@ -38804,7 +35457,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret1
 D=A
 @SP
@@ -38855,7 +35507,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret1)
-// push constant 99
 @99
 D=A
 @SP
@@ -38863,7 +35514,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret2
 D=A
 @SP
@@ -38914,7 +35564,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret2)
-// push constant 111
 @111
 D=A
 @SP
@@ -38922,7 +35571,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret3
 D=A
 @SP
@@ -38973,7 +35621,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret3)
-// push constant 114
 @114
 D=A
 @SP
@@ -38981,7 +35628,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret4
 D=A
 @SP
@@ -39032,7 +35678,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret4)
-// push constant 101
 @101
 D=A
 @SP
@@ -39040,7 +35685,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret5
 D=A
 @SP
@@ -39091,7 +35735,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret5)
-// push constant 58
 @58
 D=A
 @SP
@@ -39099,7 +35742,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret6
 D=A
 @SP
@@ -39150,7 +35792,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret6)
-// push constant 32
 @32
 D=A
 @SP
@@ -39158,7 +35799,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret7
 D=A
 @SP
@@ -39209,7 +35849,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret7)
-// push constant 48
 @48
 D=A
 @SP
@@ -39217,7 +35856,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret8
 D=A
 @SP
@@ -39268,7 +35906,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret8)
-// call Output.printString 1
 @Output.printString$ret2
 D=A
 @SP
@@ -39319,13 +35956,11 @@ M=D
 @Output.printString
 0;JMP
 (Output.printString$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39333,7 +35968,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 3
 @THIS
 D=M
 @3
@@ -39347,7 +35981,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39355,7 +35988,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 4
 @THIS
 D=M
 @4
@@ -39369,7 +36001,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39377,7 +36008,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -39391,7 +36021,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39399,7 +36028,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 5
 @THIS
 D=M
 @5
@@ -39413,7 +36041,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -39421,7 +36048,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -39479,9 +36105,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.dispose 0
 (PongGame.dispose)
-// push argument 0
 @ARG
 D=M
 @0
@@ -39492,13 +36116,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -39509,7 +36131,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.dispose 1
 @Bat.dispose$ret0
 D=A
 @SP
@@ -39560,13 +36181,11 @@ M=D
 @Bat.dispose
 0;JMP
 (Bat.dispose$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -39577,7 +36196,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.dispose 1
 @Ball.dispose$ret0
 D=A
 @SP
@@ -39628,13 +36246,11 @@ M=D
 @Ball.dispose
 0;JMP
 (Ball.dispose$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -39642,7 +36258,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.deAlloc 1
 @Memory.deAlloc$ret3
 D=A
 @SP
@@ -39693,13 +36308,11 @@ M=D
 @Memory.deAlloc
 0;JMP
 (Memory.deAlloc$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39707,7 +36320,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -39765,9 +36377,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.newInstance 0
 (PongGame.newInstance)
-// call PongGame.new 0
 @PongGame.new$ret0
 D=A
 @SP
@@ -39818,13 +36428,11 @@ M=D
 @PongGame.new
 0;JMP
 (PongGame.new$ret0)
-// pop static 0
 @SP
 AM=M-1
 D=M
 @PongGame.0
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -39832,7 +36440,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -39890,9 +36497,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.getInstance 0
 (PongGame.getInstance)
-// push static 0
 @PongGame.0
 D=M
 @SP
@@ -39900,7 +36505,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -39958,7 +36562,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.run 1
 (PongGame.run)
 @0
 D=A
@@ -39967,7 +36570,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -39978,15 +36580,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// label L1
 (PongGame.run$L1)
-// push this 3
 @THIS
 D=M
 @3
@@ -39997,23 +36596,18 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L0
 @SP
 AM=M-1
 D=M
 @PongGame.run$L0
 D;JNE
-// label L3
 (PongGame.run$L3)
-// push local 0
 @LCL
 D=M
 @0
@@ -40024,7 +36618,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -40032,7 +36625,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -40045,7 +36637,6 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.runEQ_23)
-// push this 3
 @THIS
 D=M
 @3
@@ -40056,28 +36647,23 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L2
 @SP
 AM=M-1
 D=M
 @PongGame.run$L2
 D;JNE
-// call Keyboard.keyPressed 0
 @Keyboard.keyPressed$ret1
 D=A
 @SP
@@ -40128,7 +36714,6 @@ M=D
 @Keyboard.keyPressed
 0;JMP
 (Keyboard.keyPressed$ret1)
-// pop local 0
 @LCL
 D=M
 @0
@@ -40142,7 +36727,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -40153,7 +36737,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.move 1
 @Bat.move$ret0
 D=A
 @SP
@@ -40204,13 +36787,11 @@ M=D
 @Bat.move
 0;JMP
 (Bat.move$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -40218,7 +36799,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call PongGame.moveBall 1
 @PongGame.moveBall$ret0
 D=A
 @SP
@@ -40269,13 +36849,11 @@ M=D
 @PongGame.moveBall
 0;JMP
 (PongGame.moveBall$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 50
 @50
 D=A
 @SP
@@ -40283,7 +36861,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.wait 1
 @Sys.wait$ret0
 D=A
 @SP
@@ -40334,18 +36911,14 @@ M=D
 @Sys.wait
 0;JMP
 (Sys.wait$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto L3
 @PongGame.run$L3
 0;JMP
-// label L2
 (PongGame.run$L2)
-// push local 0
 @LCL
 D=M
 @0
@@ -40356,7 +36929,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 130
 @130
 D=A
 @SP
@@ -40364,7 +36936,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -40377,17 +36948,14 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.runEQ_24)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L4
 @SP
 AM=M-1
 D=M
 @PongGame.run$L4
 D;JNE
-// push this 0
 @THIS
 D=M
 @0
@@ -40398,7 +36966,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -40406,7 +36973,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.setDirection 2
 @Bat.setDirection$ret0
 D=A
 @SP
@@ -40457,18 +37023,14 @@ M=D
 @Bat.setDirection
 0;JMP
 (Bat.setDirection$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto L5
 @PongGame.run$L5
 0;JMP
-// label L4
 (PongGame.run$L4)
-// push local 0
 @LCL
 D=M
 @0
@@ -40479,7 +37041,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 132
 @132
 D=A
 @SP
@@ -40487,7 +37048,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -40500,17 +37060,14 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.runEQ_25)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L6
 @SP
 AM=M-1
 D=M
 @PongGame.run$L6
 D;JNE
-// push this 0
 @THIS
 D=M
 @0
@@ -40521,7 +37078,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -40529,7 +37085,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.setDirection 2
 @Bat.setDirection$ret1
 D=A
 @SP
@@ -40580,18 +37135,14 @@ M=D
 @Bat.setDirection
 0;JMP
 (Bat.setDirection$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto L7
 @PongGame.run$L7
 0;JMP
-// label L6
 (PongGame.run$L6)
-// push local 0
 @LCL
 D=M
 @0
@@ -40602,7 +37153,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 140
 @140
 D=A
 @SP
@@ -40610,7 +37160,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -40623,17 +37172,14 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.runEQ_26)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L8
 @SP
 AM=M-1
 D=M
 @PongGame.run$L8
 D;JNE
-// push constant 0
 @0
 D=A
 @SP
@@ -40641,11 +37187,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop this 3
 @THIS
 D=M
 @3
@@ -40659,15 +37203,10 @@ D=M
 @R13
 A=M
 M=D
-// label L8
 (PongGame.run$L8)
-// label L7
 (PongGame.run$L7)
-// label L5
 (PongGame.run$L5)
-// label L11
 (PongGame.run$L11)
-// push local 0
 @LCL
 D=M
 @0
@@ -40678,7 +37217,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -40686,7 +37224,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -40699,11 +37236,9 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.runEQ_27)
-// not
 @SP
 A=M-1
 M=!M
-// push this 3
 @THIS
 D=M
 @3
@@ -40714,28 +37249,23 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L10
 @SP
 AM=M-1
 D=M
 @PongGame.run$L10
 D;JNE
-// call Keyboard.keyPressed 0
 @Keyboard.keyPressed$ret2
 D=A
 @SP
@@ -40786,7 +37316,6 @@ M=D
 @Keyboard.keyPressed
 0;JMP
 (Keyboard.keyPressed$ret2)
-// pop local 0
 @LCL
 D=M
 @0
@@ -40800,7 +37329,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -40811,7 +37339,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.move 1
 @Bat.move$ret1
 D=A
 @SP
@@ -40862,13 +37389,11 @@ M=D
 @Bat.move
 0;JMP
 (Bat.move$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -40876,7 +37401,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call PongGame.moveBall 1
 @PongGame.moveBall$ret1
 D=A
 @SP
@@ -40927,13 +37451,11 @@ M=D
 @PongGame.moveBall
 0;JMP
 (PongGame.moveBall$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 50
 @50
 D=A
 @SP
@@ -40941,7 +37463,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.wait 1
 @Sys.wait$ret1
 D=A
 @SP
@@ -40992,23 +37513,17 @@ M=D
 @Sys.wait
 0;JMP
 (Sys.wait$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto L11
 @PongGame.run$L11
 0;JMP
-// label L10
 (PongGame.run$L10)
-// goto L1
 @PongGame.run$L1
 0;JMP
-// label L0
 (PongGame.run$L0)
-// push this 3
 @THIS
 D=M
 @3
@@ -41019,17 +37534,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L12
 @SP
 AM=M-1
 D=M
 @PongGame.run$L12
 D;JNE
-// push constant 10
 @10
 D=A
 @SP
@@ -41037,7 +37549,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 27
 @27
 D=A
 @SP
@@ -41045,7 +37556,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.moveCursor 2
 @Output.moveCursor$ret1
 D=A
 @SP
@@ -41096,13 +37606,11 @@ M=D
 @Output.moveCursor
 0;JMP
 (Output.moveCursor$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 9
 @9
 D=A
 @SP
@@ -41110,7 +37618,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.new 1
 @String.new$ret3
 D=A
 @SP
@@ -41161,7 +37668,6 @@ M=D
 @String.new
 0;JMP
 (String.new$ret3)
-// push constant 71
 @71
 D=A
 @SP
@@ -41169,7 +37675,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret9
 D=A
 @SP
@@ -41220,7 +37725,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret9)
-// push constant 97
 @97
 D=A
 @SP
@@ -41228,7 +37732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret10
 D=A
 @SP
@@ -41279,7 +37782,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret10)
-// push constant 109
 @109
 D=A
 @SP
@@ -41287,7 +37789,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret11
 D=A
 @SP
@@ -41338,7 +37839,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret11)
-// push constant 101
 @101
 D=A
 @SP
@@ -41346,7 +37846,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret12
 D=A
 @SP
@@ -41397,7 +37896,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret12)
-// push constant 32
 @32
 D=A
 @SP
@@ -41405,7 +37903,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret13
 D=A
 @SP
@@ -41456,7 +37953,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret13)
-// push constant 79
 @79
 D=A
 @SP
@@ -41464,7 +37960,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret14
 D=A
 @SP
@@ -41515,7 +38010,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret14)
-// push constant 118
 @118
 D=A
 @SP
@@ -41523,7 +38017,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret15
 D=A
 @SP
@@ -41574,7 +38067,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret15)
-// push constant 101
 @101
 D=A
 @SP
@@ -41582,7 +38074,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret16
 D=A
 @SP
@@ -41633,7 +38124,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret16)
-// push constant 114
 @114
 D=A
 @SP
@@ -41641,7 +38131,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret17
 D=A
 @SP
@@ -41692,7 +38181,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret17)
-// call Output.printString 1
 @Output.printString$ret3
 D=A
 @SP
@@ -41743,15 +38231,12 @@ M=D
 @Output.printString
 0;JMP
 (Output.printString$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label L12
 (PongGame.run$L12)
-// push constant 0
 @0
 D=A
 @SP
@@ -41759,7 +38244,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -41817,7 +38301,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function PongGame.moveBall 5
 (PongGame.moveBall)
 @0
 D=A
@@ -41854,7 +38337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -41865,13 +38347,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -41882,7 +38362,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.move 1
 @Ball.move$ret0
 D=A
 @SP
@@ -41933,7 +38412,6 @@ M=D
 @Ball.move
 0;JMP
 (Ball.move$ret0)
-// pop this 2
 @THIS
 D=M
 @2
@@ -41947,7 +38425,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -41958,7 +38435,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -41966,7 +38442,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -41979,7 +38454,6 @@ D;JGT
 A=M-1
 M=0
 (PongGame.moveBallGT_23)
-// push this 2
 @THIS
 D=M
 @2
@@ -41990,7 +38464,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 5
 @THIS
 D=M
 @5
@@ -42001,7 +38474,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -42014,28 +38486,23 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.moveBallEQ_28)
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L14
 @SP
 AM=M-1
 D=M
 @PongGame.moveBall$L14
 D;JNE
-// push this 2
 @THIS
 D=M
 @2
@@ -42046,7 +38513,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 5
 @THIS
 D=M
 @5
@@ -42060,7 +38526,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -42068,7 +38533,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -42082,7 +38546,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -42093,7 +38556,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.getLeft 1
 @Bat.getLeft$ret0
 D=A
 @SP
@@ -42144,7 +38606,6 @@ M=D
 @Bat.getLeft
 0;JMP
 (Bat.getLeft$ret0)
-// pop local 1
 @LCL
 D=M
 @1
@@ -42158,7 +38619,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -42169,7 +38629,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.getRight 1
 @Bat.getRight$ret0
 D=A
 @SP
@@ -42220,7 +38679,6 @@ M=D
 @Bat.getRight
 0;JMP
 (Bat.getRight$ret0)
-// pop local 2
 @LCL
 D=M
 @2
@@ -42234,7 +38692,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -42245,7 +38702,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.getLeft 1
 @Ball.getLeft$ret0
 D=A
 @SP
@@ -42296,7 +38752,6 @@ M=D
 @Ball.getLeft
 0;JMP
 (Ball.getLeft$ret0)
-// pop local 3
 @LCL
 D=M
 @3
@@ -42310,7 +38765,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 1
 @THIS
 D=M
 @1
@@ -42321,7 +38775,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.getRight 1
 @Ball.getRight$ret0
 D=A
 @SP
@@ -42372,7 +38825,6 @@ M=D
 @Ball.getRight
 0;JMP
 (Ball.getRight$ret0)
-// pop local 4
 @LCL
 D=M
 @4
@@ -42386,7 +38838,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -42397,7 +38848,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 4
 @4
 D=A
 @SP
@@ -42405,7 +38855,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -42418,17 +38867,14 @@ D;JEQ
 A=M-1
 M=0
 (PongGame.moveBallEQ_29)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L16
 @SP
 AM=M-1
 D=M
 @PongGame.moveBall$L16
 D;JNE
-// push local 1
 @LCL
 D=M
 @1
@@ -42439,7 +38885,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -42450,7 +38895,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -42463,7 +38907,6 @@ D;JGT
 A=M-1
 M=0
 (PongGame.moveBallGT_24)
-// push local 2
 @LCL
 D=M
 @2
@@ -42474,7 +38917,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -42485,7 +38927,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -42498,14 +38939,12 @@ D;JLT
 A=M-1
 M=0
 (PongGame.moveBallLT_34)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// pop this 3
 @THIS
 D=M
 @3
@@ -42519,7 +38958,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 3
 @THIS
 D=M
 @3
@@ -42530,21 +38968,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L18
 @SP
 AM=M-1
 D=M
 @PongGame.moveBall$L18
 D;JNE
-// push local 4
 @LCL
 D=M
 @4
@@ -42555,7 +38989,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -42566,7 +38999,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -42574,14 +39006,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// lt
 @SP
 AM=M-1
 D=M
@@ -42594,17 +39024,14 @@ D;JLT
 A=M-1
 M=0
 (PongGame.moveBallLT_35)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L20
 @SP
 AM=M-1
 D=M
 @PongGame.moveBall$L20
 D;JNE
-// push constant 1
 @1
 D=A
 @SP
@@ -42612,11 +39039,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop local 0
 @LCL
 D=M
 @0
@@ -42630,12 +39055,9 @@ D=M
 @R13
 A=M
 M=D
-// goto L21
 @PongGame.moveBall$L21
 0;JMP
-// label L20
 (PongGame.moveBall$L20)
-// push local 3
 @LCL
 D=M
 @3
@@ -42646,7 +39068,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -42657,7 +39078,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -42665,14 +39085,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// gt
 @SP
 AM=M-1
 D=M
@@ -42685,17 +39103,14 @@ D;JGT
 A=M-1
 M=0
 (PongGame.moveBallGT_25)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto L22
 @SP
 AM=M-1
 D=M
 @PongGame.moveBall$L22
 D;JNE
-// push constant 1
 @1
 D=A
 @SP
@@ -42703,7 +39118,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -42717,11 +39131,8 @@ D=M
 @R13
 A=M
 M=D
-// label L22
 (PongGame.moveBall$L22)
-// label L21
 (PongGame.moveBall$L21)
-// push this 6
 @THIS
 D=M
 @6
@@ -42732,7 +39143,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -42740,14 +39150,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 6
 @THIS
 D=M
 @6
@@ -42761,7 +39169,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -42772,7 +39179,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 6
 @THIS
 D=M
 @6
@@ -42783,7 +39189,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Bat.setWidth 2
 @Bat.setWidth$ret0
 D=A
 @SP
@@ -42834,13 +39239,11 @@ M=D
 @Bat.setWidth
 0;JMP
 (Bat.setWidth$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 4
 @THIS
 D=M
 @4
@@ -42851,7 +39254,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -42859,14 +39261,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 4
 @THIS
 D=M
 @4
@@ -42880,7 +39280,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 22
 @22
 D=A
 @SP
@@ -42888,7 +39287,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 7
 @7
 D=A
 @SP
@@ -42896,7 +39294,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.moveCursor 2
 @Output.moveCursor$ret2
 D=A
 @SP
@@ -42947,13 +39344,11 @@ M=D
 @Output.moveCursor
 0;JMP
 (Output.moveCursor$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push this 4
 @THIS
 D=M
 @4
@@ -42964,7 +39359,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printInt 1
 @Output.printInt$ret0
 D=A
 @SP
@@ -43015,17 +39409,13 @@ M=D
 @Output.printInt
 0;JMP
 (Output.printInt$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label L18
 (PongGame.moveBall$L18)
-// label L16
 (PongGame.moveBall$L16)
-// push this 1
 @THIS
 D=M
 @1
@@ -43036,7 +39426,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -43047,7 +39436,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Ball.bounce 2
 @Ball.bounce$ret0
 D=A
 @SP
@@ -43098,15 +39486,12 @@ M=D
 @Ball.bounce
 0;JMP
 (Ball.bounce$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label L14
 (PongGame.moveBall$L14)
-// push constant 0
 @0
 D=A
 @SP
@@ -43114,7 +39499,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -43172,7 +39556,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.init 1
 (Screen.init)
 @0
 D=A
@@ -43181,7 +39564,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16384
 @16384
 D=A
 @SP
@@ -43189,13 +39571,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 1
 @SP
 AM=M-1
 D=M
 @Screen.1
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -43203,17 +39583,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Screen.2
 M=D
-// push constant 17
 @17
 D=A
 @SP
@@ -43221,7 +39598,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret6
 D=A
 @SP
@@ -43272,13 +39648,11 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret6)
-// pop static 0
 @SP
 AM=M-1
 D=M
 @Screen.0
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -43286,7 +39660,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -43294,14 +39667,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 1
 @1
 D=A
 @SP
@@ -43309,19 +39680,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -43329,7 +39697,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -43343,9 +39710,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Screen.init$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -43356,7 +39721,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -43364,7 +39728,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -43377,17 +39740,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.initLT_36)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.init$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -43398,7 +39758,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -43406,14 +39765,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -43427,7 +39784,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -43438,7 +39794,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -43446,14 +39801,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -43464,7 +39817,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -43472,14 +39824,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -43487,20 +39837,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -43511,7 +39858,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -43522,7 +39868,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -43530,14 +39875,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -43545,20 +39888,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -43569,26 +39909,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -43596,7 +39932,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -43610,12 +39945,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Screen.init$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.init$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -43623,7 +39955,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -43681,7 +40012,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.clearScreen 1
 (Screen.clearScreen)
 @0
 D=A
@@ -43690,9 +40020,7 @@ A=M
 M=D
 @SP
 AM=M+1
-// label WHILE_EXP0
 (Screen.clearScreen$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -43703,7 +40031,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 8192
 @8192
 D=A
 @SP
@@ -43711,7 +40038,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -43724,17 +40050,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.clearScreenLT_37)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.clearScreen$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -43745,7 +40068,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Screen.1
 D=M
 @SP
@@ -43753,14 +40075,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 0
 @0
 D=A
 @SP
@@ -43768,19 +40088,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -43788,7 +40105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -43802,7 +40118,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -43813,7 +40128,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -43821,14 +40135,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -43842,12 +40154,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Screen.clearScreen$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.clearScreen$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -43855,7 +40164,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -43913,9 +40221,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.updateLocation 0
 (Screen.updateLocation)
-// push static 2
 @Screen.2
 D=M
 @SP
@@ -43923,18 +40229,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.updateLocation$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.updateLocation$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.updateLocation$IF_TRUE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -43945,7 +40247,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Screen.1
 D=M
 @SP
@@ -43953,14 +40254,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -43971,7 +40270,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Screen.1
 D=M
 @SP
@@ -43979,20 +40277,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -44003,7 +40298,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -44014,26 +40308,22 @@ A=M
 M=D
 @SP
 AM=M+1
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -44041,7 +40331,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -44055,12 +40344,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END0
 @Screen.updateLocation$IF_END0
 0;JMP
-// label IF_FALSE0
 (Screen.updateLocation$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -44071,7 +40357,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Screen.1
 D=M
 @SP
@@ -44079,14 +40364,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -44097,7 +40380,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 1
 @Screen.1
 D=M
 @SP
@@ -44105,20 +40387,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -44129,7 +40408,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -44140,30 +40418,25 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -44171,7 +40444,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -44185,9 +40457,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END0
 (Screen.updateLocation$IF_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -44195,7 +40465,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -44253,9 +40522,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.setColor 0
 (Screen.setColor)
-// push argument 0
 @ARG
 D=M
 @0
@@ -44266,13 +40533,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop static 2
 @SP
 AM=M-1
 D=M
 @Screen.2
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -44280,7 +40545,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -44338,7 +40602,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawPixel 3
 (Screen.drawPixel)
 @0
 D=A
@@ -44361,7 +40624,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -44372,7 +40634,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -44380,7 +40641,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -44393,7 +40653,6 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawPixelLT_38)
-// push argument 0
 @ARG
 D=M
 @0
@@ -44404,7 +40663,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -44412,7 +40670,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -44425,14 +40682,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawPixelGT_26)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -44443,7 +40698,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -44451,7 +40705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -44464,14 +40717,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawPixelLT_39)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -44482,7 +40733,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 255
 @255
 D=A
 @SP
@@ -44490,7 +40740,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -44503,25 +40752,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawPixelGT_27)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawPixel$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawPixel$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawPixel$IF_TRUE0)
-// push constant 7
 @7
 D=A
 @SP
@@ -44529,7 +40773,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret6
 D=A
 @SP
@@ -44580,15 +40823,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret6)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Screen.drawPixel$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -44599,7 +40839,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -44607,7 +40846,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret7
 D=A
 @SP
@@ -44658,7 +40896,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret7)
-// pop local 0
 @LCL
 D=M
 @0
@@ -44672,7 +40909,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -44683,7 +40919,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -44694,7 +40929,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -44702,7 +40936,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret15
 D=A
 @SP
@@ -44753,14 +40986,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret15)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 1
 @LCL
 D=M
 @1
@@ -44774,7 +41005,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -44785,7 +41015,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -44793,7 +41022,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret16
 D=A
 @SP
@@ -44844,7 +41072,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret16)
-// push local 0
 @LCL
 D=M
 @0
@@ -44855,14 +41082,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 2
 @LCL
 D=M
 @2
@@ -44876,7 +41101,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -44887,7 +41111,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -44898,7 +41121,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -44906,20 +41128,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -44930,7 +41149,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret0
 D=A
 @SP
@@ -44981,13 +41199,11 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -44995,7 +41211,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -45053,9 +41268,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawConditional 0
 (Screen.drawConditional)
-// push argument 2
 @ARG
 D=M
 @2
@@ -45066,18 +41279,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawConditional$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawConditional$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawConditional$IF_TRUE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -45088,7 +41297,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -45099,7 +41307,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawPixel 2
 @Screen.drawPixel$ret0
 D=A
 @SP
@@ -45150,18 +41357,14 @@ M=D
 @Screen.drawPixel
 0;JMP
 (Screen.drawPixel$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END0
 @Screen.drawConditional$IF_END0
 0;JMP
-// label IF_FALSE0
 (Screen.drawConditional$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -45172,7 +41375,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -45183,7 +41385,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawPixel 2
 @Screen.drawPixel$ret1
 D=A
 @SP
@@ -45234,15 +41435,12 @@ M=D
 @Screen.drawPixel
 0;JMP
 (Screen.drawPixel$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_END0
 (Screen.drawConditional$IF_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -45250,7 +41448,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -45308,7 +41505,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawLine 11
 (Screen.drawLine)
 @0
 D=A
@@ -45387,7 +41583,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -45398,7 +41593,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -45406,7 +41600,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -45419,7 +41612,6 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_40)
-// push argument 2
 @ARG
 D=M
 @2
@@ -45430,7 +41622,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -45438,7 +41629,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -45451,14 +41641,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawLineGT_28)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -45469,7 +41657,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -45477,7 +41664,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -45490,14 +41676,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_41)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 3
 @ARG
 D=M
 @3
@@ -45508,7 +41692,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 255
 @255
 D=A
 @SP
@@ -45516,7 +41699,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -45529,25 +41711,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawLineGT_29)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawLine$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawLine$IF_TRUE0)
-// push constant 8
 @8
 D=A
 @SP
@@ -45555,7 +41732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret7
 D=A
 @SP
@@ -45606,15 +41782,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret7)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Screen.drawLine$IF_FALSE0)
-// push argument 2
 @ARG
 D=M
 @2
@@ -45625,7 +41798,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -45636,14 +41808,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Math.abs 1
 @Math.abs$ret6
 D=A
 @SP
@@ -45694,7 +41864,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret6)
-// pop local 3
 @LCL
 D=M
 @3
@@ -45708,7 +41877,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 3
 @ARG
 D=M
 @3
@@ -45719,7 +41887,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -45730,14 +41897,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Math.abs 1
 @Math.abs$ret7
 D=A
 @SP
@@ -45788,7 +41953,6 @@ M=D
 @Math.abs
 0;JMP
 (Math.abs$ret7)
-// pop local 2
 @LCL
 D=M
 @2
@@ -45802,7 +41966,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -45813,7 +41976,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -45824,7 +41986,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -45837,7 +41998,6 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_42)
-// pop local 6
 @LCL
 D=M
 @6
@@ -45851,7 +42011,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 6
 @LCL
 D=M
 @6
@@ -45862,7 +42021,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -45873,7 +42031,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -45884,7 +42041,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -45897,14 +42053,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_43)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push local 6
 @LCL
 D=M
 @6
@@ -45915,11 +42069,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// push argument 2
 @ARG
 D=M
 @2
@@ -45930,7 +42082,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -45941,7 +42092,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -45954,32 +42104,26 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_44)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Screen.drawLine$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Screen.drawLine$IF_TRUE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -45990,7 +42134,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -46004,7 +42147,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -46015,7 +42157,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 0
 @ARG
 D=M
 @0
@@ -46029,7 +42170,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 4
 @LCL
 D=M
 @4
@@ -46040,7 +42180,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 2
 @ARG
 D=M
 @2
@@ -46054,7 +42193,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -46065,7 +42203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -46079,7 +42216,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 3
 @ARG
 D=M
 @3
@@ -46090,7 +42226,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 1
 @ARG
 D=M
 @1
@@ -46104,7 +42239,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 4
 @LCL
 D=M
 @4
@@ -46115,7 +42249,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 3
 @ARG
 D=M
 @3
@@ -46129,9 +42262,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (Screen.drawLine$IF_FALSE1)
-// push local 6
 @LCL
 D=M
 @6
@@ -46142,18 +42273,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Screen.drawLine$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Screen.drawLine$IF_TRUE2)
-// push local 3
 @LCL
 D=M
 @3
@@ -46164,7 +42291,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 4
 @LCL
 D=M
 @4
@@ -46178,7 +42304,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -46189,7 +42314,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 3
 @LCL
 D=M
 @3
@@ -46203,7 +42327,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 4
 @LCL
 D=M
 @4
@@ -46214,7 +42337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 2
 @LCL
 D=M
 @2
@@ -46228,7 +42350,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -46239,7 +42360,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -46253,7 +42373,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -46264,7 +42383,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -46278,7 +42396,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 3
 @ARG
 D=M
 @3
@@ -46289,7 +42406,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 8
 @LCL
 D=M
 @8
@@ -46303,7 +42419,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -46314,7 +42429,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -46325,7 +42439,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -46338,7 +42451,6 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawLineGT_30)
-// pop local 7
 @LCL
 D=M
 @7
@@ -46352,12 +42464,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END2
 @Screen.drawLine$IF_END2
 0;JMP
-// label IF_FALSE2
 (Screen.drawLine$IF_FALSE2)
-// push argument 0
 @ARG
 D=M
 @0
@@ -46368,7 +42477,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -46382,7 +42490,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -46393,7 +42500,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -46407,7 +42513,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -46418,7 +42523,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 8
 @LCL
 D=M
 @8
@@ -46432,7 +42536,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -46443,7 +42546,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -46454,7 +42556,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -46467,7 +42568,6 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawLineGT_31)
-// pop local 7
 @LCL
 D=M
 @7
@@ -46481,9 +42581,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END2
 (Screen.drawLine$IF_END2)
-// push constant 2
 @2
 D=A
 @SP
@@ -46491,7 +42589,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -46502,7 +42599,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret17
 D=A
 @SP
@@ -46553,7 +42649,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret17)
-// push local 3
 @LCL
 D=M
 @3
@@ -46564,14 +42659,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 5
 @LCL
 D=M
 @5
@@ -46585,7 +42678,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -46593,7 +42685,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -46604,7 +42695,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret18
 D=A
 @SP
@@ -46655,7 +42745,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret18)
-// pop local 9
 @LCL
 D=M
 @9
@@ -46669,7 +42758,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 2
 @2
 D=A
 @SP
@@ -46677,7 +42765,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -46688,7 +42775,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -46699,14 +42785,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Math.multiply 2
 @Math.multiply$ret19
 D=A
 @SP
@@ -46757,7 +42841,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret19)
-// pop local 10
 @LCL
 D=M
 @10
@@ -46771,7 +42854,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -46782,7 +42864,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -46793,7 +42874,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 6
 @LCL
 D=M
 @6
@@ -46804,7 +42884,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawConditional 3
 @Screen.drawConditional$ret0
 D=A
 @SP
@@ -46855,15 +42934,12 @@ M=D
 @Screen.drawConditional
 0;JMP
 (Screen.drawConditional$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label WHILE_EXP0
 (Screen.drawLine$WHILE_EXP0)
-// push local 1
 @LCL
 D=M
 @1
@@ -46874,7 +42950,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 8
 @LCL
 D=M
 @8
@@ -46885,7 +42960,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -46898,17 +42972,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_45)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$WHILE_END0
 D;JNE
-// push local 5
 @LCL
 D=M
 @5
@@ -46919,7 +42990,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -46927,7 +42997,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -46940,18 +43009,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawLineLT_46)
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @Screen.drawLine$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (Screen.drawLine$IF_TRUE3)
-// push local 5
 @LCL
 D=M
 @5
@@ -46962,7 +43027,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 9
 @LCL
 D=M
 @9
@@ -46973,14 +43037,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 5
 @LCL
 D=M
 @5
@@ -46994,12 +43056,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END3
 @Screen.drawLine$IF_END3
 0;JMP
-// label IF_FALSE3
 (Screen.drawLine$IF_FALSE3)
-// push local 5
 @LCL
 D=M
 @5
@@ -47010,7 +43069,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 10
 @LCL
 D=M
 @10
@@ -47021,14 +43079,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 5
 @LCL
 D=M
 @5
@@ -47042,7 +43098,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 7
 @LCL
 D=M
 @7
@@ -47053,18 +43108,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE4
 @SP
 AM=M-1
 D=M
 @Screen.drawLine$IF_TRUE4
 D;JNE
-// goto IF_FALSE4
 @Screen.drawLine$IF_FALSE4
 0;JMP
-// label IF_TRUE4
 (Screen.drawLine$IF_TRUE4)
-// push local 0
 @LCL
 D=M
 @0
@@ -47075,7 +43126,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -47083,14 +43133,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -47104,12 +43152,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END4
 @Screen.drawLine$IF_END4
 0;JMP
-// label IF_FALSE4
 (Screen.drawLine$IF_FALSE4)
-// push local 0
 @LCL
 D=M
 @0
@@ -47120,7 +43165,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -47128,14 +43172,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -47149,11 +43191,8 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END4
 (Screen.drawLine$IF_END4)
-// label IF_END3
 (Screen.drawLine$IF_END3)
-// push local 1
 @LCL
 D=M
 @1
@@ -47164,7 +43203,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -47172,14 +43210,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -47193,7 +43229,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -47204,7 +43239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -47215,7 +43249,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 6
 @LCL
 D=M
 @6
@@ -47226,7 +43259,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawConditional 3
 @Screen.drawConditional$ret1
 D=A
 @SP
@@ -47277,18 +43309,14 @@ M=D
 @Screen.drawConditional
 0;JMP
 (Screen.drawConditional$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto WHILE_EXP0
 @Screen.drawLine$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.drawLine$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -47296,7 +43324,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -47354,7 +43381,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawRectangle 9
 (Screen.drawRectangle)
 @0
 D=A
@@ -47419,7 +43445,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -47430,7 +43455,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -47441,7 +43465,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -47454,7 +43477,6 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawRectangleGT_32)
-// push argument 1
 @ARG
 D=M
 @1
@@ -47465,7 +43487,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -47476,7 +43497,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -47489,14 +43509,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawRectangleGT_33)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 0
 @ARG
 D=M
 @0
@@ -47507,7 +43525,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -47515,7 +43532,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -47528,14 +43544,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawRectangleLT_47)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 2
 @ARG
 D=M
 @2
@@ -47546,7 +43560,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -47554,7 +43567,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -47567,14 +43579,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawRectangleGT_34)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -47585,7 +43595,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -47593,7 +43602,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -47606,14 +43614,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawRectangleLT_48)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 3
 @ARG
 D=M
 @3
@@ -47624,7 +43630,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 255
 @255
 D=A
 @SP
@@ -47632,7 +43637,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -47645,25 +43649,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawRectangleGT_35)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawRectangle$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawRectangle$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawRectangle$IF_TRUE0)
-// push constant 9
 @9
 D=A
 @SP
@@ -47671,7 +43670,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret8
 D=A
 @SP
@@ -47722,15 +43720,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret8)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Screen.drawRectangle$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -47741,7 +43736,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -47749,7 +43743,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret8
 D=A
 @SP
@@ -47800,7 +43793,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret8)
-// pop local 3
 @LCL
 D=M
 @3
@@ -47814,7 +43806,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -47825,7 +43816,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -47836,7 +43826,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -47844,7 +43833,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret20
 D=A
 @SP
@@ -47895,14 +43883,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret20)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 7
 @LCL
 D=M
 @7
@@ -47916,7 +43902,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -47927,7 +43912,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -47935,7 +43919,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret9
 D=A
 @SP
@@ -47986,7 +43969,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret9)
-// pop local 4
 @LCL
 D=M
 @4
@@ -48000,7 +43982,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 2
 @ARG
 D=M
 @2
@@ -48011,7 +43992,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -48022,7 +44002,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -48030,7 +44009,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret21
 D=A
 @SP
@@ -48081,14 +44059,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret21)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 8
 @LCL
 D=M
 @8
@@ -48102,7 +44078,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 7
 @LCL
 D=M
 @7
@@ -48113,7 +44088,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -48121,20 +44095,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -48145,7 +44116,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48153,18 +44123,15 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// not
 @SP
 A=M-1
 M=!M
-// pop local 6
 @LCL
 D=M
 @6
@@ -48178,7 +44145,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 8
 @LCL
 D=M
 @8
@@ -48189,7 +44155,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48197,14 +44162,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -48212,20 +44175,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -48236,7 +44196,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48244,14 +44203,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 5
 @LCL
 D=M
 @5
@@ -48265,7 +44222,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -48276,7 +44232,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -48284,7 +44239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret22
 D=A
 @SP
@@ -48335,7 +44289,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret22)
-// push local 3
 @LCL
 D=M
 @3
@@ -48346,14 +44299,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -48367,7 +44318,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 4
 @LCL
 D=M
 @4
@@ -48378,7 +44328,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -48389,14 +44338,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 2
 @LCL
 D=M
 @2
@@ -48410,9 +44357,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Screen.drawRectangle$WHILE_EXP0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -48423,7 +44368,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -48434,7 +44378,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -48447,21 +44390,17 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawRectangleGT_36)
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.drawRectangle$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -48472,7 +44411,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -48483,14 +44421,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -48504,7 +44440,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -48515,7 +44450,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -48523,7 +44457,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -48536,18 +44469,14 @@ D;JEQ
 A=M-1
 M=0
 (Screen.drawRectangleEQ_30)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Screen.drawRectangle$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Screen.drawRectangle$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Screen.drawRectangle$IF_TRUE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -48558,7 +44487,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 5
 @LCL
 D=M
 @5
@@ -48569,7 +44497,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 6
 @LCL
 D=M
 @6
@@ -48580,14 +44507,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret1
 D=A
 @SP
@@ -48638,18 +44563,14 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END1
 @Screen.drawRectangle$IF_END1
 0;JMP
-// label IF_FALSE1
 (Screen.drawRectangle$IF_FALSE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -48660,7 +44581,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 6
 @LCL
 D=M
 @6
@@ -48671,7 +44591,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret2
 D=A
 @SP
@@ -48722,13 +44641,11 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -48739,7 +44656,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48747,14 +44663,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -48768,9 +44682,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP1
 (Screen.drawRectangle$WHILE_EXP1)
-// push local 0
 @LCL
 D=M
 @0
@@ -48781,7 +44693,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -48792,7 +44703,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -48805,17 +44715,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawRectangleLT_49)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END1
 @SP
 AM=M-1
 D=M
 @Screen.drawRectangle$WHILE_END1
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -48826,7 +44733,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48834,11 +44740,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret3
 D=A
 @SP
@@ -48889,13 +44793,11 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -48906,7 +44808,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -48914,14 +44815,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -48935,12 +44834,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP1
 @Screen.drawRectangle$WHILE_EXP1
 0;JMP
-// label WHILE_END1
 (Screen.drawRectangle$WHILE_END1)
-// push local 1
 @LCL
 D=M
 @1
@@ -48951,7 +44847,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 5
 @LCL
 D=M
 @5
@@ -48962,7 +44857,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret4
 D=A
 @SP
@@ -49013,15 +44907,12 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_END1
 (Screen.drawRectangle$IF_END1)
-// push argument 1
 @ARG
 D=M
 @1
@@ -49032,7 +44923,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -49040,14 +44930,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop argument 1
 @ARG
 D=M
 @1
@@ -49061,7 +44949,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -49072,7 +44959,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -49080,14 +44966,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 2
 @LCL
 D=M
 @2
@@ -49098,14 +44982,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -49119,12 +45001,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Screen.drawRectangle$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.drawRectangle$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -49132,7 +45011,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -49190,7 +45068,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawHorizontal 11
 (Screen.drawHorizontal)
 @0
 D=A
@@ -49269,7 +45146,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -49280,7 +45156,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -49291,7 +45166,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.min 2
 @Math.min$ret0
 D=A
 @SP
@@ -49342,7 +45216,6 @@ M=D
 @Math.min
 0;JMP
 (Math.min$ret0)
-// pop local 7
 @LCL
 D=M
 @7
@@ -49356,7 +45229,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -49367,7 +45239,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -49378,7 +45249,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.max 2
 @Math.max$ret0
 D=A
 @SP
@@ -49429,7 +45299,6 @@ M=D
 @Math.max
 0;JMP
 (Math.max$ret0)
-// pop local 8
 @LCL
 D=M
 @8
@@ -49443,7 +45312,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -49454,7 +45322,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -49462,11 +45329,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// gt
 @SP
 AM=M-1
 D=M
@@ -49479,7 +45344,6 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawHorizontalGT_37)
-// push argument 0
 @ARG
 D=M
 @0
@@ -49490,7 +45354,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 256
 @256
 D=A
 @SP
@@ -49498,7 +45361,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -49511,14 +45373,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawHorizontalLT_50)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push local 7
 @LCL
 D=M
 @7
@@ -49529,7 +45389,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 512
 @512
 D=A
 @SP
@@ -49537,7 +45396,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -49550,14 +45408,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawHorizontalLT_51)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// push local 8
 @LCL
 D=M
 @8
@@ -49568,7 +45424,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -49576,11 +45431,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// gt
 @SP
 AM=M-1
 D=M
@@ -49593,25 +45446,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawHorizontalGT_38)
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawHorizontal$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawHorizontal$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawHorizontal$IF_TRUE0)
-// push local 7
 @LCL
 D=M
 @7
@@ -49622,7 +45470,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -49630,7 +45477,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.max 2
 @Math.max$ret1
 D=A
 @SP
@@ -49681,7 +45527,6 @@ M=D
 @Math.max
 0;JMP
 (Math.max$ret1)
-// pop local 7
 @LCL
 D=M
 @7
@@ -49695,7 +45540,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 8
 @LCL
 D=M
 @8
@@ -49706,7 +45550,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -49714,7 +45557,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.min 2
 @Math.min$ret1
 D=A
 @SP
@@ -49765,7 +45607,6 @@ M=D
 @Math.min
 0;JMP
 (Math.min$ret1)
-// pop local 8
 @LCL
 D=M
 @8
@@ -49779,7 +45620,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 7
 @LCL
 D=M
 @7
@@ -49790,7 +45630,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -49798,7 +45637,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret10
 D=A
 @SP
@@ -49849,7 +45687,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret10)
-// pop local 1
 @LCL
 D=M
 @1
@@ -49863,7 +45700,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 7
 @LCL
 D=M
 @7
@@ -49874,7 +45710,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -49885,7 +45720,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -49893,7 +45727,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret23
 D=A
 @SP
@@ -49944,14 +45777,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret23)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 9
 @LCL
 D=M
 @9
@@ -49965,7 +45796,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 8
 @LCL
 D=M
 @8
@@ -49976,7 +45806,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -49984,7 +45813,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret11
 D=A
 @SP
@@ -50035,7 +45863,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret11)
-// pop local 2
 @LCL
 D=M
 @2
@@ -50049,7 +45876,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 8
 @LCL
 D=M
 @8
@@ -50060,7 +45886,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -50071,7 +45896,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 16
 @16
 D=A
 @SP
@@ -50079,7 +45903,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret24
 D=A
 @SP
@@ -50130,14 +45953,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret24)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 10
 @LCL
 D=M
 @10
@@ -50151,7 +45972,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 9
 @LCL
 D=M
 @9
@@ -50162,7 +45982,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -50170,20 +45989,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -50194,7 +46010,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50202,18 +46017,15 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// not
 @SP
 A=M-1
 M=!M
-// pop local 5
 @LCL
 D=M
 @5
@@ -50227,7 +46039,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 10
 @LCL
 D=M
 @10
@@ -50238,7 +46049,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50246,14 +46056,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push static 0
 @Screen.0
 D=M
 @SP
@@ -50261,20 +46069,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -50285,7 +46090,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50293,14 +46097,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 4
 @LCL
 D=M
 @4
@@ -50314,7 +46116,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -50325,7 +46126,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 32
 @32
 D=A
 @SP
@@ -50333,7 +46133,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret25
 D=A
 @SP
@@ -50384,7 +46183,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret25)
-// push local 1
 @LCL
 D=M
 @1
@@ -50395,14 +46193,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -50416,7 +46212,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -50427,7 +46222,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -50438,14 +46232,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 6
 @LCL
 D=M
 @6
@@ -50459,7 +46251,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -50470,7 +46261,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 6
 @LCL
 D=M
 @6
@@ -50481,14 +46271,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 3
 @LCL
 D=M
 @3
@@ -50502,7 +46290,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 6
 @LCL
 D=M
 @6
@@ -50513,7 +46300,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -50521,7 +46307,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -50534,18 +46319,14 @@ D;JEQ
 A=M-1
 M=0
 (Screen.drawHorizontalEQ_31)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Screen.drawHorizontal$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Screen.drawHorizontal$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Screen.drawHorizontal$IF_TRUE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -50556,7 +46337,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -50567,7 +46347,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 5
 @LCL
 D=M
 @5
@@ -50578,14 +46357,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret5
 D=A
 @SP
@@ -50636,18 +46413,14 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret5)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto IF_END1
 @Screen.drawHorizontal$IF_END1
 0;JMP
-// label IF_FALSE1
 (Screen.drawHorizontal$IF_FALSE1)
-// push local 0
 @LCL
 D=M
 @0
@@ -50658,7 +46431,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 5
 @LCL
 D=M
 @5
@@ -50669,7 +46441,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret6
 D=A
 @SP
@@ -50720,13 +46491,11 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret6)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -50737,7 +46506,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50745,14 +46513,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -50766,9 +46532,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (Screen.drawHorizontal$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -50779,7 +46543,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 3
 @LCL
 D=M
 @3
@@ -50790,7 +46553,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -50803,17 +46565,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawHorizontalLT_52)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.drawHorizontal$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -50824,7 +46583,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50832,11 +46590,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret7
 D=A
 @SP
@@ -50887,13 +46643,11 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret7)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -50904,7 +46658,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -50912,14 +46665,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -50933,12 +46684,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Screen.drawHorizontal$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.drawHorizontal$WHILE_END0)
-// push local 3
 @LCL
 D=M
 @3
@@ -50949,7 +46697,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 4
 @LCL
 D=M
 @4
@@ -50960,7 +46707,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.updateLocation 2
 @Screen.updateLocation$ret8
 D=A
 @SP
@@ -51011,17 +46757,13 @@ M=D
 @Screen.updateLocation
 0;JMP
 (Screen.updateLocation$ret8)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_END1
 (Screen.drawHorizontal$IF_END1)
-// label IF_FALSE0
 (Screen.drawHorizontal$IF_FALSE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -51029,7 +46771,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -51087,9 +46828,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawSymetric 0
 (Screen.drawSymetric)
-// push argument 1
 @ARG
 D=M
 @1
@@ -51100,7 +46839,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51111,14 +46849,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -51129,7 +46865,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51140,14 +46875,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -51158,7 +46891,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51169,14 +46901,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Screen.drawHorizontal 3
 @Screen.drawHorizontal$ret0
 D=A
 @SP
@@ -51227,13 +46957,11 @@ M=D
 @Screen.drawHorizontal
 0;JMP
 (Screen.drawHorizontal$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -51244,7 +46972,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51255,14 +46982,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -51273,7 +46998,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51284,14 +47008,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -51302,7 +47024,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51313,14 +47034,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Screen.drawHorizontal 3
 @Screen.drawHorizontal$ret1
 D=A
 @SP
@@ -51371,13 +47090,11 @@ M=D
 @Screen.drawHorizontal
 0;JMP
 (Screen.drawHorizontal$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -51388,7 +47105,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51399,14 +47115,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -51417,7 +47131,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51428,14 +47141,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -51446,7 +47157,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51457,14 +47167,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawHorizontal 3
 @Screen.drawHorizontal$ret2
 D=A
 @SP
@@ -51515,13 +47223,11 @@ M=D
 @Screen.drawHorizontal
 0;JMP
 (Screen.drawHorizontal$ret2)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -51532,7 +47238,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -51543,14 +47248,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 0
 @ARG
 D=M
 @0
@@ -51561,7 +47264,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51572,14 +47274,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push argument 0
 @ARG
 D=M
 @0
@@ -51590,7 +47290,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 3
 @ARG
 D=M
 @3
@@ -51601,14 +47300,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// call Screen.drawHorizontal 3
 @Screen.drawHorizontal$ret3
 D=A
 @SP
@@ -51659,13 +47356,11 @@ M=D
 @Screen.drawHorizontal
 0;JMP
 (Screen.drawHorizontal$ret3)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -51673,7 +47368,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -51731,7 +47425,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Screen.drawCircle 3
 (Screen.drawCircle)
 @0
 D=A
@@ -51754,7 +47447,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -51765,7 +47457,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -51773,7 +47464,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -51786,7 +47476,6 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawCircleLT_53)
-// push argument 0
 @ARG
 D=M
 @0
@@ -51797,7 +47486,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 511
 @511
 D=A
 @SP
@@ -51805,7 +47493,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -51818,14 +47505,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawCircleGT_39)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -51836,7 +47521,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -51844,7 +47528,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -51857,14 +47540,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawCircleLT_54)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -51875,7 +47556,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 255
 @255
 D=A
 @SP
@@ -51883,7 +47563,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -51896,25 +47575,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawCircleGT_40)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Screen.drawCircle$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Screen.drawCircle$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Screen.drawCircle$IF_TRUE0)
-// push constant 12
 @12
 D=A
 @SP
@@ -51922,7 +47596,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret9
 D=A
 @SP
@@ -51973,15 +47646,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret9)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Screen.drawCircle$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -51992,7 +47662,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -52003,14 +47672,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push constant 0
 @0
 D=A
 @SP
@@ -52018,7 +47685,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -52031,7 +47697,6 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawCircleLT_55)
-// push argument 0
 @ARG
 D=M
 @0
@@ -52042,7 +47707,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -52053,14 +47717,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 511
 @511
 D=A
 @SP
@@ -52068,7 +47730,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -52081,14 +47742,12 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawCircleGT_41)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -52099,7 +47758,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -52110,14 +47768,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push constant 0
 @0
 D=A
 @SP
@@ -52125,7 +47781,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -52138,14 +47793,12 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawCircleLT_56)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -52156,7 +47809,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -52167,14 +47819,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 255
 @255
 D=A
 @SP
@@ -52182,7 +47832,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -52195,25 +47844,20 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawCircleGT_42)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @Screen.drawCircle$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @Screen.drawCircle$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (Screen.drawCircle$IF_TRUE1)
-// push constant 13
 @13
 D=A
 @SP
@@ -52221,7 +47865,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret10
 D=A
 @SP
@@ -52272,15 +47915,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret10)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE1
 (Screen.drawCircle$IF_FALSE1)
-// push argument 2
 @ARG
 D=M
 @2
@@ -52291,7 +47931,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -52305,7 +47944,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -52313,7 +47951,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 2
 @ARG
 D=M
 @2
@@ -52324,14 +47961,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 2
 @LCL
 D=M
 @2
@@ -52345,7 +47980,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -52356,7 +47990,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -52367,7 +48000,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -52378,7 +48010,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -52389,7 +48020,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawSymetric 4
 @Screen.drawSymetric$ret0
 D=A
 @SP
@@ -52440,15 +48070,12 @@ M=D
 @Screen.drawSymetric
 0;JMP
 (Screen.drawSymetric$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label WHILE_EXP0
 (Screen.drawCircle$WHILE_EXP0)
-// push local 1
 @LCL
 D=M
 @1
@@ -52459,7 +48086,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -52470,7 +48096,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -52483,17 +48108,14 @@ D;JGT
 A=M-1
 M=0
 (Screen.drawCircleGT_43)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Screen.drawCircle$WHILE_END0
 D;JNE
-// push local 2
 @LCL
 D=M
 @2
@@ -52504,7 +48126,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -52512,7 +48133,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -52525,18 +48145,14 @@ D;JLT
 A=M-1
 M=0
 (Screen.drawCircleLT_57)
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @Screen.drawCircle$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @Screen.drawCircle$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (Screen.drawCircle$IF_TRUE2)
-// push local 2
 @LCL
 D=M
 @2
@@ -52547,7 +48163,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -52555,7 +48170,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -52566,7 +48180,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret26
 D=A
 @SP
@@ -52617,14 +48230,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret26)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 3
 @3
 D=A
 @SP
@@ -52632,14 +48243,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 2
 @LCL
 D=M
 @2
@@ -52653,12 +48262,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END2
 @Screen.drawCircle$IF_END2
 0;JMP
-// label IF_FALSE2
 (Screen.drawCircle$IF_FALSE2)
-// push local 2
 @LCL
 D=M
 @2
@@ -52669,7 +48275,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 2
 @2
 D=A
 @SP
@@ -52677,7 +48282,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -52688,7 +48292,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -52699,14 +48302,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// call Math.multiply 2
 @Math.multiply$ret27
 D=A
 @SP
@@ -52757,14 +48358,12 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret27)
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 5
 @5
 D=A
 @SP
@@ -52772,14 +48371,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 2
 @LCL
 D=M
 @2
@@ -52793,7 +48390,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -52804,7 +48400,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -52812,14 +48407,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 1
 @LCL
 D=M
 @1
@@ -52833,9 +48426,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_END2
 (Screen.drawCircle$IF_END2)
-// push local 0
 @LCL
 D=M
 @0
@@ -52846,7 +48437,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -52854,14 +48444,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -52875,7 +48463,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -52886,7 +48473,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -52897,7 +48483,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -52908,7 +48493,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -52919,7 +48503,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Screen.drawSymetric 4
 @Screen.drawSymetric$ret1
 D=A
 @SP
@@ -52970,18 +48553,14 @@ M=D
 @Screen.drawSymetric
 0;JMP
 (Screen.drawSymetric$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// goto WHILE_EXP0
 @Screen.drawCircle$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Screen.drawCircle$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -52989,7 +48568,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -53047,9 +48625,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.new 0
 (String.new)
-// push constant 3
 @3
 D=A
 @SP
@@ -53057,7 +48633,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.alloc 1
 @Memory.alloc$ret4
 D=A
 @SP
@@ -53108,13 +48683,11 @@ M=D
 @Memory.alloc
 0;JMP
 (Memory.alloc$ret4)
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -53125,7 +48698,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -53133,7 +48705,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -53146,18 +48717,14 @@ D;JLT
 A=M-1
 M=0
 (String.newLT_58)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.new$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.new$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.new$IF_TRUE0)
-// push constant 14
 @14
 D=A
 @SP
@@ -53165,7 +48732,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret11
 D=A
 @SP
@@ -53216,15 +48782,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret11)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.new$IF_FALSE0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53235,7 +48798,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -53243,7 +48805,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -53256,18 +48817,14 @@ D;JGT
 A=M-1
 M=0
 (String.newGT_44)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @String.new$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @String.new$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (String.new$IF_TRUE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53278,7 +48835,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret7
 D=A
 @SP
@@ -53329,7 +48885,6 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret7)
-// pop this 1
 @THIS
 D=M
 @1
@@ -53343,9 +48898,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (String.new$IF_FALSE1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53356,7 +48909,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 0
 @THIS
 D=M
 @0
@@ -53370,7 +48922,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -53378,7 +48929,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -53392,7 +48942,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -53400,7 +48949,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -53458,9 +49006,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.dispose 0
 (String.dispose)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53471,13 +49017,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -53488,7 +49032,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -53496,7 +49039,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -53509,18 +49051,14 @@ D;JGT
 A=M-1
 M=0
 (String.disposeGT_45)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.dispose$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.dispose$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.dispose$IF_TRUE0)
-// push this 1
 @THIS
 D=M
 @1
@@ -53531,7 +49069,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.dispose 1
 @Array.dispose$ret0
 D=A
 @SP
@@ -53582,15 +49119,12 @@ M=D
 @Array.dispose
 0;JMP
 (Array.dispose$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.dispose$IF_FALSE0)
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -53598,7 +49132,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Memory.deAlloc 1
 @Memory.deAlloc$ret4
 D=A
 @SP
@@ -53649,13 +49182,11 @@ M=D
 @Memory.deAlloc
 0;JMP
 (Memory.deAlloc$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -53663,7 +49194,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -53721,9 +49251,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.length 0
 (String.length)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53734,13 +49262,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -53751,7 +49277,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -53809,9 +49334,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.charAt 0
 (String.charAt)
-// push argument 0
 @ARG
 D=M
 @0
@@ -53822,13 +49345,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -53839,7 +49360,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -53847,7 +49367,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -53860,7 +49379,6 @@ D;JLT
 A=M-1
 M=0
 (String.charAtLT_59)
-// push argument 1
 @ARG
 D=M
 @1
@@ -53871,7 +49389,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -53882,7 +49399,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -53895,14 +49411,12 @@ D;JGT
 A=M-1
 M=0
 (String.charAtGT_46)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -53913,7 +49427,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -53924,7 +49437,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -53937,25 +49449,20 @@ D;JEQ
 A=M-1
 M=0
 (String.charAtEQ_32)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.charAt$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.charAt$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.charAt$IF_TRUE0)
-// push constant 15
 @15
 D=A
 @SP
@@ -53963,7 +49470,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret12
 D=A
 @SP
@@ -54014,15 +49520,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret12)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.charAt$IF_FALSE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -54033,7 +49536,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -54044,20 +49546,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -54068,7 +49567,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -54126,9 +49624,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.setCharAt 0
 (String.setCharAt)
-// push argument 0
 @ARG
 D=M
 @0
@@ -54139,13 +49635,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -54156,7 +49650,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -54164,7 +49657,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -54177,7 +49669,6 @@ D;JLT
 A=M-1
 M=0
 (String.setCharAtLT_60)
-// push argument 1
 @ARG
 D=M
 @1
@@ -54188,7 +49679,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -54199,7 +49689,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -54212,14 +49701,12 @@ D;JGT
 A=M-1
 M=0
 (String.setCharAtGT_47)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// push argument 1
 @ARG
 D=M
 @1
@@ -54230,7 +49717,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -54241,7 +49727,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -54254,25 +49739,20 @@ D;JEQ
 A=M-1
 M=0
 (String.setCharAtEQ_33)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.setCharAt$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.setCharAt$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.setCharAt$IF_TRUE0)
-// push constant 16
 @16
 D=A
 @SP
@@ -54280,7 +49760,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret13
 D=A
 @SP
@@ -54331,15 +49810,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret13)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.setCharAt$IF_FALSE0)
-// push argument 1
 @ARG
 D=M
 @1
@@ -54350,7 +49826,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -54361,14 +49836,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 2
 @ARG
 D=M
 @2
@@ -54379,19 +49852,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -54399,7 +49869,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -54413,7 +49882,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -54421,7 +49889,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -54479,9 +49946,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.appendChar 0
 (String.appendChar)
-// push argument 0
 @ARG
 D=M
 @0
@@ -54492,13 +49957,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -54509,7 +49972,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 0
 @THIS
 D=M
 @0
@@ -54520,7 +49982,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -54533,18 +49994,14 @@ D;JEQ
 A=M-1
 M=0
 (String.appendCharEQ_34)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.appendChar$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.appendChar$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.appendChar$IF_TRUE0)
-// push constant 17
 @17
 D=A
 @SP
@@ -54552,7 +50009,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret14
 D=A
 @SP
@@ -54603,15 +50059,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret14)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.appendChar$IF_FALSE0)
-// push this 2
 @THIS
 D=M
 @2
@@ -54622,7 +50075,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -54633,14 +50085,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push argument 1
 @ARG
 D=M
 @1
@@ -54651,19 +50101,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -54671,7 +50118,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -54685,7 +50131,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -54696,7 +50141,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -54704,14 +50148,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 2
 @THIS
 D=M
 @2
@@ -54725,7 +50167,6 @@ D=M
 @R13
 A=M
 M=D
-// push pointer 0
 @THIS
 D=M
 @SP
@@ -54733,7 +50174,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -54791,9 +50231,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.eraseLastChar 0
 (String.eraseLastChar)
-// push argument 0
 @ARG
 D=M
 @0
@@ -54804,13 +50242,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -54821,7 +50257,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -54829,7 +50264,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -54842,18 +50276,14 @@ D;JEQ
 A=M-1
 M=0
 (String.eraseLastCharEQ_35)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.eraseLastChar$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.eraseLastChar$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.eraseLastChar$IF_TRUE0)
-// push constant 18
 @18
 D=A
 @SP
@@ -54861,7 +50291,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret15
 D=A
 @SP
@@ -54912,15 +50341,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret15)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.eraseLastChar$IF_FALSE0)
-// push this 2
 @THIS
 D=M
 @2
@@ -54931,7 +50357,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -54939,14 +50364,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop this 2
 @THIS
 D=M
 @2
@@ -54960,7 +50383,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -54968,7 +50390,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -55026,7 +50447,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.intValue 5
 (String.intValue)
 @0
 D=A
@@ -55063,7 +50483,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -55074,13 +50493,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -55091,7 +50508,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -55099,7 +50515,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -55112,18 +50527,14 @@ D;JEQ
 A=M-1
 M=0
 (String.intValueEQ_36)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.intValue$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.intValue$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.intValue$IF_TRUE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -55131,7 +50542,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -55189,9 +50599,7 @@ M=D
 @R14
 A=M
 0;JMP
-// label IF_FALSE0
 (String.intValue$IF_FALSE0)
-// push constant 0
 @0
 D=A
 @SP
@@ -55199,11 +50607,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop local 3
 @LCL
 D=M
 @3
@@ -55217,7 +50623,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -55225,7 +50630,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -55236,20 +50640,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -55260,7 +50661,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 45
 @45
 D=A
 @SP
@@ -55268,7 +50668,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -55281,18 +50680,14 @@ D;JEQ
 A=M-1
 M=0
 (String.intValueEQ_37)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @String.intValue$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @String.intValue$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (String.intValue$IF_TRUE1)
-// push constant 0
 @0
 D=A
 @SP
@@ -55300,11 +50695,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop local 4
 @LCL
 D=M
 @4
@@ -55318,7 +50711,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -55326,7 +50718,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -55340,11 +50731,8 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (String.intValue$IF_FALSE1)
-// label WHILE_EXP0
 (String.intValue$WHILE_EXP0)
-// push local 0
 @LCL
 D=M
 @0
@@ -55355,7 +50743,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -55366,7 +50753,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -55379,7 +50765,6 @@ D;JLT
 A=M-1
 M=0
 (String.intValueLT_61)
-// push local 3
 @LCL
 D=M
 @3
@@ -55390,24 +50775,20 @@ A=M
 M=D
 @SP
 AM=M+1
-// and
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D&M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @String.intValue$WHILE_END0
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -55418,7 +50799,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -55429,20 +50809,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -55453,7 +50830,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 48
 @48
 D=A
 @SP
@@ -55461,14 +50837,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 2
 @LCL
 D=M
 @2
@@ -55482,7 +50856,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 2
 @LCL
 D=M
 @2
@@ -55493,7 +50866,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -55501,7 +50873,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -55514,7 +50885,6 @@ D;JLT
 A=M-1
 M=0
 (String.intValueLT_62)
-// push local 2
 @LCL
 D=M
 @2
@@ -55525,7 +50895,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 9
 @9
 D=A
 @SP
@@ -55533,7 +50902,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -55546,18 +50914,15 @@ D;JGT
 A=M-1
 M=0
 (String.intValueGT_48)
-// or
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D|M
-// not
 @SP
 A=M-1
 M=!M
-// pop local 3
 @LCL
 D=M
 @3
@@ -55571,7 +50936,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 3
 @LCL
 D=M
 @3
@@ -55582,18 +50946,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @String.intValue$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @String.intValue$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (String.intValue$IF_TRUE2)
-// push local 1
 @LCL
 D=M
 @1
@@ -55604,7 +50964,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -55612,7 +50971,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret28
 D=A
 @SP
@@ -55663,7 +51021,6 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret28)
-// push local 2
 @LCL
 D=M
 @2
@@ -55674,14 +51031,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 1
 @LCL
 D=M
 @1
@@ -55695,7 +51050,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -55706,7 +51060,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -55714,14 +51067,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -55735,14 +51086,10 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE2
 (String.intValue$IF_FALSE2)
-// goto WHILE_EXP0
 @String.intValue$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (String.intValue$WHILE_END0)
-// push local 4
 @LCL
 D=M
 @4
@@ -55753,18 +51100,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @String.intValue$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @String.intValue$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (String.intValue$IF_TRUE3)
-// push local 1
 @LCL
 D=M
 @1
@@ -55775,11 +51118,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop local 1
 @LCL
 D=M
 @1
@@ -55793,9 +51134,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE3
 (String.intValue$IF_FALSE3)
-// push local 1
 @LCL
 D=M
 @1
@@ -55806,7 +51145,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -55864,7 +51202,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.setInt 4
 (String.setInt)
 @0
 D=A
@@ -55894,7 +51231,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -55905,13 +51241,11 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop pointer 0
 @SP
 AM=M-1
 D=M
 @THIS
 M=D
-// push this 0
 @THIS
 D=M
 @0
@@ -55922,7 +51256,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -55930,7 +51263,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -55943,18 +51275,14 @@ D;JEQ
 A=M-1
 M=0
 (String.setIntEQ_38)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @String.setInt$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @String.setInt$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (String.setInt$IF_TRUE0)
-// push constant 19
 @19
 D=A
 @SP
@@ -55962,7 +51290,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret16
 D=A
 @SP
@@ -56013,15 +51340,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret16)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (String.setInt$IF_FALSE0)
-// push constant 6
 @6
 D=A
 @SP
@@ -56029,7 +51353,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.new 1
 @Array.new$ret8
 D=A
 @SP
@@ -56080,7 +51403,6 @@ M=D
 @Array.new
 0;JMP
 (Array.new$ret8)
-// pop local 2
 @LCL
 D=M
 @2
@@ -56094,7 +51416,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -56105,7 +51426,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -56113,7 +51433,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -56126,18 +51445,14 @@ D;JLT
 A=M-1
 M=0
 (String.setIntLT_63)
-// if-goto IF_TRUE1
 @SP
 AM=M-1
 D=M
 @String.setInt$IF_TRUE1
 D;JNE
-// goto IF_FALSE1
 @String.setInt$IF_FALSE1
 0;JMP
-// label IF_TRUE1
 (String.setInt$IF_TRUE1)
-// push constant 0
 @0
 D=A
 @SP
@@ -56145,11 +51460,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// pop local 3
 @LCL
 D=M
 @3
@@ -56163,7 +51476,6 @@ D=M
 @R13
 A=M
 M=D
-// push argument 1
 @ARG
 D=M
 @1
@@ -56174,11 +51486,9 @@ A=M
 M=D
 @SP
 AM=M+1
-// neg
 @SP
 A=M-1
 M=-M
-// pop argument 1
 @ARG
 D=M
 @1
@@ -56192,9 +51502,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE1
 (String.setInt$IF_FALSE1)
-// push argument 1
 @ARG
 D=M
 @1
@@ -56205,7 +51513,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 1
 @LCL
 D=M
 @1
@@ -56219,9 +51526,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP0
 (String.setInt$WHILE_EXP0)
-// push local 1
 @LCL
 D=M
 @1
@@ -56232,7 +51537,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -56240,7 +51544,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -56253,17 +51556,14 @@ D;JGT
 A=M-1
 M=0
 (String.setIntGT_49)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @String.setInt$WHILE_END0
 D;JNE
-// push argument 1
 @ARG
 D=M
 @1
@@ -56274,7 +51574,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -56282,7 +51581,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.divide 2
 @Math.divide$ret12
 D=A
 @SP
@@ -56333,7 +51631,6 @@ M=D
 @Math.divide
 0;JMP
 (Math.divide$ret12)
-// pop local 1
 @LCL
 D=M
 @1
@@ -56347,7 +51644,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -56358,7 +51654,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -56369,14 +51664,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 48
 @48
 D=A
 @SP
@@ -56384,7 +51677,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 1
 @ARG
 D=M
 @1
@@ -56395,7 +51687,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 1
 @LCL
 D=M
 @1
@@ -56406,7 +51697,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 10
 @10
 D=A
 @SP
@@ -56414,7 +51704,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Math.multiply 2
 @Math.multiply$ret29
 D=A
 @SP
@@ -56465,33 +51754,28 @@ M=D
 @Math.multiply
 0;JMP
 (Math.multiply$ret29)
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -56499,7 +51783,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -56513,7 +51796,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -56524,7 +51806,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -56532,14 +51813,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -56553,7 +51832,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 1
 @LCL
 D=M
 @1
@@ -56564,7 +51842,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop argument 1
 @ARG
 D=M
 @1
@@ -56578,12 +51855,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @String.setInt$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (String.setInt$WHILE_END0)
-// push local 3
 @LCL
 D=M
 @3
@@ -56594,18 +51868,14 @@ A=M
 M=D
 @SP
 AM=M+1
-// if-goto IF_TRUE2
 @SP
 AM=M-1
 D=M
 @String.setInt$IF_TRUE2
 D;JNE
-// goto IF_FALSE2
 @String.setInt$IF_FALSE2
 0;JMP
-// label IF_TRUE2
 (String.setInt$IF_TRUE2)
-// push local 0
 @LCL
 D=M
 @0
@@ -56616,7 +51886,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 2
 @LCL
 D=M
 @2
@@ -56627,14 +51896,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 45
 @45
 D=A
 @SP
@@ -56642,19 +51909,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -56662,7 +51926,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -56676,7 +51939,6 @@ D=M
 @R13
 A=M
 M=D
-// push local 0
 @LCL
 D=M
 @0
@@ -56687,7 +51949,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -56695,14 +51956,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop local 0
 @LCL
 D=M
 @0
@@ -56716,9 +51975,7 @@ D=M
 @R13
 A=M
 M=D
-// label IF_FALSE2
 (String.setInt$IF_FALSE2)
-// push this 0
 @THIS
 D=M
 @0
@@ -56729,7 +51986,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -56740,7 +51996,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -56753,18 +52008,14 @@ D;JLT
 A=M-1
 M=0
 (String.setIntLT_64)
-// if-goto IF_TRUE3
 @SP
 AM=M-1
 D=M
 @String.setInt$IF_TRUE3
 D;JNE
-// goto IF_FALSE3
 @String.setInt$IF_FALSE3
 0;JMP
-// label IF_TRUE3
 (String.setInt$IF_TRUE3)
-// push constant 19
 @19
 D=A
 @SP
@@ -56772,7 +52023,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret17
 D=A
 @SP
@@ -56823,15 +52073,12 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret17)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE3
 (String.setInt$IF_FALSE3)
-// push local 0
 @LCL
 D=M
 @0
@@ -56842,7 +52089,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -56850,7 +52096,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// eq
 @SP
 AM=M-1
 D=M
@@ -56863,18 +52108,14 @@ D;JEQ
 A=M-1
 M=0
 (String.setIntEQ_39)
-// if-goto IF_TRUE4
 @SP
 AM=M-1
 D=M
 @String.setInt$IF_TRUE4
 D;JNE
-// goto IF_FALSE4
 @String.setInt$IF_FALSE4
 0;JMP
-// label IF_TRUE4
 (String.setInt$IF_TRUE4)
-// push constant 0
 @0
 D=A
 @SP
@@ -56882,7 +52123,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -56893,14 +52133,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push constant 48
 @48
 D=A
 @SP
@@ -56908,19 +52146,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -56928,7 +52163,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -56942,7 +52176,6 @@ D=M
 @R13
 A=M
 M=D
-// push constant 1
 @1
 D=A
 @SP
@@ -56950,7 +52183,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -56964,12 +52196,9 @@ D=M
 @R13
 A=M
 M=D
-// goto IF_END4
 @String.setInt$IF_END4
 0;JMP
-// label IF_FALSE4
 (String.setInt$IF_FALSE4)
-// push constant 0
 @0
 D=A
 @SP
@@ -56977,7 +52206,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop this 2
 @THIS
 D=M
 @2
@@ -56991,9 +52219,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP1
 (String.setInt$WHILE_EXP1)
-// push this 2
 @THIS
 D=M
 @2
@@ -57004,7 +52230,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push local 0
 @LCL
 D=M
 @0
@@ -57015,7 +52240,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -57028,17 +52252,14 @@ D;JLT
 A=M-1
 M=0
 (String.setIntLT_65)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END1
 @SP
 AM=M-1
 D=M
 @String.setInt$WHILE_END1
 D;JNE
-// push this 2
 @THIS
 D=M
 @2
@@ -57049,7 +52270,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 1
 @THIS
 D=M
 @1
@@ -57060,14 +52280,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// push local 0
 @LCL
 D=M
 @0
@@ -57078,7 +52296,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push this 2
 @THIS
 D=M
 @2
@@ -57089,7 +52306,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -57097,21 +52313,18 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// push local 2
 @LCL
 D=M
 @2
@@ -57122,20 +52335,17 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push that 0
 @THAT
 D=M
 @0
@@ -57146,19 +52356,16 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// pop pointer 1
 @SP
 AM=M-1
 D=M
 @THAT
 M=D
-// push temp 0
 @R5
 D=M
 @SP
@@ -57166,7 +52373,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop that 0
 @THAT
 D=M
 @0
@@ -57180,7 +52386,6 @@ D=M
 @R13
 A=M
 M=D
-// push this 2
 @THIS
 D=M
 @2
@@ -57191,7 +52396,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -57199,14 +52403,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// add
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=D+M
-// pop this 2
 @THIS
 D=M
 @2
@@ -57220,14 +52422,10 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP1
 @String.setInt$WHILE_EXP1
 0;JMP
-// label WHILE_END1
 (String.setInt$WHILE_END1)
-// label IF_END4
 (String.setInt$IF_END4)
-// push local 2
 @LCL
 D=M
 @2
@@ -57238,7 +52436,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Array.dispose 1
 @Array.dispose$ret1
 D=A
 @SP
@@ -57289,13 +52486,11 @@ M=D
 @Array.dispose
 0;JMP
 (Array.dispose$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -57303,7 +52498,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -57361,9 +52555,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.newLine 0
 (String.newLine)
-// push constant 128
 @128
 D=A
 @SP
@@ -57371,7 +52563,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -57429,9 +52620,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.backSpace 0
 (String.backSpace)
-// push constant 129
 @129
 D=A
 @SP
@@ -57439,7 +52628,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -57497,9 +52685,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function String.doubleQuote 0
 (String.doubleQuote)
-// push constant 34
 @34
 D=A
 @SP
@@ -57507,7 +52693,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -57565,9 +52750,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Sys.init 0
 (Sys.init)
-// call Memory.init 0
 @Memory.init$ret0
 D=A
 @SP
@@ -57618,13 +52801,11 @@ M=D
 @Memory.init
 0;JMP
 (Memory.init$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Math.init 0
 @Math.init$ret0
 D=A
 @SP
@@ -57675,13 +52856,11 @@ M=D
 @Math.init
 0;JMP
 (Math.init$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Screen.init 0
 @Screen.init$ret0
 D=A
 @SP
@@ -57732,13 +52911,11 @@ M=D
 @Screen.init
 0;JMP
 (Screen.init$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Output.init 0
 @Output.init$ret0
 D=A
 @SP
@@ -57789,13 +52966,11 @@ M=D
 @Output.init
 0;JMP
 (Output.init$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Keyboard.init 0
 @Keyboard.init$ret0
 D=A
 @SP
@@ -57846,13 +53021,11 @@ M=D
 @Keyboard.init
 0;JMP
 (Keyboard.init$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Main.main 0
 @Main.main$ret0
 D=A
 @SP
@@ -57903,13 +53076,11 @@ M=D
 @Main.main
 0;JMP
 (Main.main$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Sys.halt 0
 @Sys.halt$ret0
 D=A
 @SP
@@ -57960,13 +53131,11 @@ M=D
 @Sys.halt
 0;JMP
 (Sys.halt$ret0)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -57974,7 +53143,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -58032,11 +53200,8 @@ M=D
 @R14
 A=M
 0;JMP
-// function Sys.halt 0
 (Sys.halt)
-// label WHILE_EXP0
 (Sys.halt$WHILE_EXP0)
-// push constant 0
 @0
 D=A
 @SP
@@ -58044,26 +53209,20 @@ A=M
 M=D
 @SP
 AM=M+1
-// not
 @SP
 A=M-1
 M=!M
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Sys.halt$WHILE_END0
 D;JNE
-// goto WHILE_EXP0
 @Sys.halt$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Sys.halt$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -58071,7 +53230,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -58129,7 +53287,6 @@ M=D
 @R14
 A=M
 0;JMP
-// function Sys.wait 1
 (Sys.wait)
 @0
 D=A
@@ -58138,7 +53295,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push argument 0
 @ARG
 D=M
 @0
@@ -58149,7 +53305,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -58157,7 +53312,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// lt
 @SP
 AM=M-1
 D=M
@@ -58170,18 +53324,14 @@ D;JLT
 A=M-1
 M=0
 (Sys.waitLT_66)
-// if-goto IF_TRUE0
 @SP
 AM=M-1
 D=M
 @Sys.wait$IF_TRUE0
 D;JNE
-// goto IF_FALSE0
 @Sys.wait$IF_FALSE0
 0;JMP
-// label IF_TRUE0
 (Sys.wait$IF_TRUE0)
-// push constant 1
 @1
 D=A
 @SP
@@ -58189,7 +53339,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Sys.error 1
 @Sys.error$ret18
 D=A
 @SP
@@ -58240,17 +53389,13 @@ M=D
 @Sys.error
 0;JMP
 (Sys.error$ret18)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// label IF_FALSE0
 (Sys.wait$IF_FALSE0)
-// label WHILE_EXP0
 (Sys.wait$WHILE_EXP0)
-// push argument 0
 @ARG
 D=M
 @0
@@ -58261,7 +53406,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -58269,7 +53413,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -58282,17 +53425,14 @@ D;JGT
 A=M-1
 M=0
 (Sys.waitGT_50)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END0
 @SP
 AM=M-1
 D=M
 @Sys.wait$WHILE_END0
 D;JNE
-// push constant 50
 @50
 D=A
 @SP
@@ -58300,7 +53440,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// pop local 0
 @LCL
 D=M
 @0
@@ -58314,9 +53453,7 @@ D=M
 @R13
 A=M
 M=D
-// label WHILE_EXP1
 (Sys.wait$WHILE_EXP1)
-// push local 0
 @LCL
 D=M
 @0
@@ -58327,7 +53464,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 0
 @0
 D=A
 @SP
@@ -58335,7 +53471,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// gt
 @SP
 AM=M-1
 D=M
@@ -58348,17 +53483,14 @@ D;JGT
 A=M-1
 M=0
 (Sys.waitGT_51)
-// not
 @SP
 A=M-1
 M=!M
-// if-goto WHILE_END1
 @SP
 AM=M-1
 D=M
 @Sys.wait$WHILE_END1
 D;JNE
-// push local 0
 @LCL
 D=M
 @0
@@ -58369,7 +53501,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -58377,14 +53508,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop local 0
 @LCL
 D=M
 @0
@@ -58398,12 +53527,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP1
 @Sys.wait$WHILE_EXP1
 0;JMP
-// label WHILE_END1
 (Sys.wait$WHILE_END1)
-// push argument 0
 @ARG
 D=M
 @0
@@ -58414,7 +53540,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// push constant 1
 @1
 D=A
 @SP
@@ -58422,14 +53547,12 @@ A=M
 M=D
 @SP
 AM=M+1
-// sub
 @SP
 AM=M-1
 D=M
 @SP
 A=M-1
 M=M-D
-// pop argument 0
 @ARG
 D=M
 @0
@@ -58443,12 +53566,9 @@ D=M
 @R13
 A=M
 M=D
-// goto WHILE_EXP0
 @Sys.wait$WHILE_EXP0
 0;JMP
-// label WHILE_END0
 (Sys.wait$WHILE_END0)
-// push constant 0
 @0
 D=A
 @SP
@@ -58456,7 +53576,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
@@ -58514,9 +53633,7 @@ M=D
 @R14
 A=M
 0;JMP
-// function Sys.error 0
 (Sys.error)
-// push constant 3
 @3
 D=A
 @SP
@@ -58524,7 +53641,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.new 1
 @String.new$ret4
 D=A
 @SP
@@ -58575,7 +53691,6 @@ M=D
 @String.new
 0;JMP
 (String.new$ret4)
-// push constant 69
 @69
 D=A
 @SP
@@ -58583,7 +53698,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret18
 D=A
 @SP
@@ -58634,7 +53748,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret18)
-// push constant 82
 @82
 D=A
 @SP
@@ -58642,7 +53755,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret19
 D=A
 @SP
@@ -58693,7 +53805,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret19)
-// push constant 82
 @82
 D=A
 @SP
@@ -58701,7 +53812,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call String.appendChar 2
 @String.appendChar$ret20
 D=A
 @SP
@@ -58752,7 +53862,6 @@ M=D
 @String.appendChar
 0;JMP
 (String.appendChar$ret20)
-// call Output.printString 1
 @Output.printString$ret4
 D=A
 @SP
@@ -58803,13 +53912,11 @@ M=D
 @Output.printString
 0;JMP
 (Output.printString$ret4)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push argument 0
 @ARG
 D=M
 @0
@@ -58820,7 +53927,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// call Output.printInt 1
 @Output.printInt$ret1
 D=A
 @SP
@@ -58871,13 +53977,11 @@ M=D
 @Output.printInt
 0;JMP
 (Output.printInt$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// call Sys.halt 0
 @Sys.halt$ret1
 D=A
 @SP
@@ -58928,13 +54032,11 @@ M=D
 @Sys.halt
 0;JMP
 (Sys.halt$ret1)
-// pop temp 0
 @SP
 AM=M-1
 D=M
 @R5
 M=D
-// push constant 0
 @0
 D=A
 @SP
@@ -58942,7 +54044,6 @@ A=M
 M=D
 @SP
 AM=M+1
-// return
 @LCL
 D=M
 @R15
