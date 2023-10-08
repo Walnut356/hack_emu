@@ -6,5 +6,11 @@ Contains:
 
 * logic gate and native-rust cpu implementations
 * assembler
-* VM
+* Linker
 * Jack to Hack compiler
+* Simple screen output
+
+Enhancements:
+
+* Doubled addressable ROM space (32k -> 64k) via some assembler fiddling
+* (In progress) OS functions built in to rust via expanded instructionset
