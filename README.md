@@ -4,10 +4,11 @@ Implemented by me in Rust, following the specification described in The Elements
 
 Contains:
 
-* logic gate and native-rust cpu implementations
-* assembler
+* Logic gate and native-rust cpu implementations
+* Assembler
 * Linker
-* Jack to Hack compiler
+* Stack based VM
+* Jack compiler
 * Simple screen output
 
 Enhancements:
