@@ -1,12 +1,12 @@
 use crate::software::vm_instructions::*;
-use crate::utils::get_file_buffers;
+use crate::utils::{get_file_buffers, BuiltInFunc};
 use concat_string::concat_string;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{prelude::*, BufWriter};
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
-use strum_macros::EnumString;
+use strum_macros::{EnumString};
 
 // TODO use box str instead of String?
 
@@ -37,6 +37,8 @@ pub enum Segment {
     #[strum(default)]
     Literal(String),
 }
+
+
 
 #[derive(Debug, Clone, PartialEq, EnumString)]
 #[strum(serialize_all = "lowercase")]
@@ -239,6 +241,9 @@ pub fn parse_line(line: String, counts: &mut LabelCount, module_name: &str, func
             );
             let func_name = l_name.to_string();
 
+            // if let Ok(_builtin) = BuiltInFunc::from_str(&func_name) {
+            //     concat_string!("B", func_name, "\n").into()
+            // } else {
             let n_args = temp.next().expect("Function Call with no Arg count");
 
             let c = counts.ret.entry(func_name.clone()).or_default();
@@ -247,6 +252,7 @@ pub fn parse_line(line: String, counts: &mut LabelCount, module_name: &str, func
             *c += 1;
 
             result.into()
+            // }
         }
         Return => func_return().into(), // 0 tokens
     }

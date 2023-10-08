@@ -2,8 +2,9 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{prelude::*, BufWriter};
 use std::path::{Path, PathBuf};
+use std::str::FromStr;
 
-use crate::utils::get_file_buffers;
+use crate::utils::{get_file_buffers, BuiltInFunc};
 
 #[derive(Debug, Clone, Copy)]
 pub enum Offset {
@@ -19,7 +20,7 @@ impl Into<u16> for Offset {
             Offset::Label(x) => x,
             Offset::Var(x) => x,
             Offset::BuiltIn(x) => x,
-            _ => panic!("Cannot turn OS calls into u16's")
+            _ => panic!("Cannot turn OS calls into u16's"),
         }
     }
 }
@@ -100,7 +101,6 @@ pub fn asm_to_hack(path: &Path) -> PathBuf {
     if second_pass.len() >= u16::MAX as usize {
         panic!("Program is longer than 64k and cannot be run on the hack cpu")
     }
-    println!("\n{counter}\n");
 
     for instr in second_pass {
         write!(output, "{}", translate_instruction(instr, &symbol_table)).unwrap();
@@ -160,7 +160,6 @@ pub fn parse_symbols(
                 // symbol is a label that occurs in the top 32K of rom
                 Some(Offset::Label(x)) if *x >= 32768 => {
                     *counter += 1;
-                    println!("@{}({}) at line {}", key, x, line_count);
                     // see giant comment below for details.
                     for (k, v) in symbol_table.iter_mut() {
                         if let Offset::Label(val) = v {
@@ -169,9 +168,6 @@ pub fn parse_symbols(
                                     panic!("Label {k:?} crossed ROM boundary during handling of ASM -> machine code instruction insertion");
                                 }
                                 *val += 1;
-                                if k == "Screen.drawCircle$WHILE_EXP0" {
-                                    println!("{val}");
-                                }
                             }
                         }
                     }
@@ -223,8 +219,6 @@ pub fn translate_instruction(instr: String, symbol_table: &HashMap<String, Offse
                 return format!("{num:016b}\n").into();
             } else {
                 let inverse = !num;
-                // println!("{:?}, {:?} = !{:?}", instr, val, inverse);
-                println!("{instr}, {num}");
 
                 return format!(
                     "{inverse:016b}\n{}",
@@ -237,6 +231,16 @@ pub fn translate_instruction(instr: String, symbol_table: &HashMap<String, Offse
             return format!("{code:016b}\n").into();
         }
     }
+
+    // if instr.starts_with('B') {
+    //     let func = instr.strip_prefix('B').unwrap();
+    //     let func = BuiltInFunc::from_str(func)
+    //         .unwrap_or_else(|_| panic!("{func} not a valid built in function name"));
+    //     code = func as u16;
+
+    //     return format!("{code:016b}\n").into();
+    // }
+
     // c instruction
     code = 0b1110_0000_0000_0000;
 

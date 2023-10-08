@@ -186,6 +186,10 @@ pub fn decode_instr(instr: u16, vars: &[u16]) -> String {
             _ => format!("@{val}"),
         };
     }
+    if let Some(func) = BuiltInFunc::from_repr(instr) {
+        return func.to_string();
+    }
+
     let a_or_m = match instr & 0b0001_0000_0000_0000 > 0 {
         false => "A",
         true => "M",
@@ -392,4 +396,107 @@ pub enum Key {
     Pipe,
     BraceCl,
     Tilde,
+}
+
+#[derive(Debug, EnumString, FromRepr, strum_macros::Display)]
+#[repr(u16)]
+pub enum BuiltInFunc {
+    #[strum(serialize = "Math.multiply")]
+    /// Accepts 2 int args, returns a * b
+    MathMul = 0b1100_0000_0000_0000,
+    #[strum(serialize = "Math.divide")]
+    /// Accepts 2 int args, returns a / b
+    MathDiv = 0b1100_0000_0000_0001,
+    #[strum(serialize = "Math.min")]
+    /// Accepts 2 int args, returns whichever is less
+    MathMin = 0b1100_0000_0000_0010,
+    #[strum(serialize = "Math.max")]
+    /// Accepts 2 int args, returns whichever is greater
+    MathMax = 0b1100_0000_0000_0011,
+    #[strum(serialize = "Math.sqrt")]
+    /// Accepts 1 int arg, returns the square root
+    MathSqrt = 0b1100_0000_0000_0100,
+
+    #[strum(serialize = "String.new")]
+    StringNew = 0b1100_0010_0000_0000,
+    #[strum(serialize = "String.dispose")]
+    StringDispose = 0b1100_0010_0000_0001,
+    #[strum(serialize = "String.length")]
+    StringLength = 0b1100_0010_0000_0010,
+    #[strum(serialize = "String.charAt")]
+    StringCharAt = 0b1100_0010_0000_0011,
+    #[strum(serialize = "String.setCharAt")]
+    StringSetChar = 0b1100_0010_0000_0100,
+    #[strum(serialize = "String.appendChar")]
+    StringAppendChar = 0b1100_0010_0000_0101,
+    #[strum(serialize = "String.eraseLastChar")]
+    StringEraseLast = 0b1100_0010_0000_0110,
+    #[strum(serialize = "String.intValue")]
+    StringIntVal = 0b1100_0010_0000_0111,
+    #[strum(serialize = "String.setInt")]
+    StringSetInt = 0b1100_0010_0000_1000,
+    #[strum(serialize = "String.backSpace")]
+    StringBackspace = 0b1100_0010_0000_1001,
+    #[strum(serialize = "String.doubleQuote")]
+    StringDblQuote = 0b1100_0010_0000_1010,
+    #[strum(serialize = "String.newLine")]
+    StringNewline = 0b1100_0010_0000_1011,
+
+    #[strum(serialize = "Array.new")]
+    ArrayNew = 0b1100_0100_0000_0000,
+    #[strum(serialize = "Array.dispose")]
+    ArrayDispose = 0b1100_0100_0000_0001,
+
+    #[strum(serialize = "Output.moveCursor")]
+    OutputMoveCursor = 0b1100_0110_0000_0000,
+    #[strum(serialize = "Output.printChar")]
+    OutputPrintChar = 0b1100_0110_0000_0001,
+    #[strum(serialize = "Output.printString")]
+    OutputPrintString = 0b1100_0110_0000_0010,
+    #[strum(serialize = "Output.printInt")]
+    OutputPrintInt = 0b1100_0110_0000_0011,
+    #[strum(serialize = "Output.println")]
+    OutputPrintLn = 0b1100_0110_0000_0100,
+    #[strum(serialize = "Output.backSpace")]
+    OutputBackspace = 0b1100_0110_0000_0101,
+
+    #[strum(serialize = "Screen.clearScreen")]
+    ScreenClear = 0b1100_1000_0000_0000,
+    #[strum(serialize = "Screen.setColor")]
+    ScreenSetColor = 0b1100_1000_0000_0001,
+    #[strum(serialize = "Screen.drawPixel")]
+    ScreenDrawPixel = 0b1100_1000_0000_0010,
+    #[strum(serialize = "Screen.drawLine")]
+    ScreenDrawLine = 0b1100_1000_0000_0011,
+    #[strum(serialize = "Screen.drawRectangle")]
+    ScreenDrawRectangle = 0b1100_1000_0000_0100,
+    #[strum(serialize = "Screen.drawCircle")]
+    ScreenDrawCircle = 0b1100_1000_0000_0101,
+
+    #[strum(serialize = "Keyboard.keyPressed")]
+    KeyboardPressed = 0b1100_1010_0000_0000,
+    #[strum(serialize = "Keyboard.readChar")]
+    KeyboardReadChar = 0b1100_1010_0000_0001,
+    #[strum(serialize = "Keyboard.readLine")]
+    KeyboardReadLine = 0b1100_1010_0000_0010,
+    #[strum(serialize = "Keyboard.readInt")]
+    KeyboardReadInt = 0b1100_1010_0000_0011,
+
+    #[strum(serialize = "Memory.peek")]
+    MemPeek = 0b1100_1100_0000_0000,
+    #[strum(serialize = "Memory.poke")]
+    MemPoke = 0b1100_1100_0000_0001,
+    #[strum(serialize = "Memory.alloc")]
+    MemAlloc = 0b1100_1100_0000_0010,
+    #[strum(serialize = "Memory.deAlloc")]
+    MemDealloc = 0b1100_1100_0000_0011,
+
+    #[strum(serialize = "Sys.Init")]
+    SysInit = 0b1100_1110_0000_0000,
+    #[strum(serialize = "Sys.halt")]
+    SysHalt = 0b1100_1110_0000_0001,
+    #[strum(serialize = "Sys.error")]
+    SysError = 0b1100_1110_0000_0010,
+    #[strum(serialize = "Sys.wait")]
+    SysWait = 0b1100_1110_0000_0011,
 }

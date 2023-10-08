@@ -15,6 +15,7 @@ pub mod hardware {
         pub mod gates;
         pub mod instructions;
         pub mod memory;
+        pub mod os;
     }
 }
 
@@ -33,6 +34,8 @@ pub mod utils;
 
 pub const STACK_START: usize = 256;
 pub const STACK_MAX: usize = 2047;
+
+pub const HEAP_START: usize = 2048;
 
 pub const STACK_POINTER: usize = 0;
 pub const LCL: usize = 1;
@@ -56,16 +59,27 @@ use std::{fs::File, path::PathBuf};
 use bitvec::prelude::*;
 
 pub fn pixels_from_bitplane(vals: &[u16], buffer: &mut [u32]) {
-    for (i, val) in vals.iter().enumerate() {
-        let temp = val.view_bits::<Lsb0>();
-        for bit in temp {
-            if *bit {
-                buffer[i] = 0x00000000;
-            } else {
-                buffer[i] = 0xFFFFFFFF;
-            }
+    let thing = BitVec::<_, Lsb0>::from_slice(vals);
+    assert_eq!(thing.len(), 256 * 512);
+    for (i, bit) in thing.into_iter().enumerate() {
+        if bit {
+            buffer[i] = 0x00000000;
+        } else {
+            buffer[i] = 0xFFFFFFFF;
         }
     }
+    // for (i, val) in vals.iter().enumerate() {
+    //     // dbg!(val);
+    //     let temp = val.view_bits::<Lsb0>();
+    //     for (j, bit) in temp.iter().enumerate() {
+    //         // dbg!(&bit);
+    //         if *bit {
+    //             buffer[i + j] = 0x00000000;
+    //         } else {
+    //             buffer[i + j] = 0xFFFFFFFF;
+    //         }
+    //     }
+    // }
 }
 
 pub fn u16_to_u8_array(vals: &mut [u16]) -> &mut [u8] {
@@ -76,8 +90,8 @@ pub fn u16_to_u8_array(vals: &mut [u16]) -> &mut [u8] {
 
 use hardware::native::cpu::Computer;
 use software::{assembler::asm_to_hack, compiler::JackCompiler, vm::vm_to_asm};
-use utils::{decode_instr, hack_to_vec};
 use std::io::Write;
+use utils::{decode_instr, hack_to_vec};
 
 #[derive(Debug)]
 pub struct HackEmulator {
@@ -85,7 +99,6 @@ pub struct HackEmulator {
     // pub instr: Vec<String>,
     pub cpu: Computer,
 }
-
 
 impl HackEmulator {
     /// Accepts a path to a .jack file or a folder containing .jack files.

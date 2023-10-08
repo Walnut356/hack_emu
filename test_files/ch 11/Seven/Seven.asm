@@ -52,6 +52,9 @@ M=D
 @Sys.init
 0;JMP
 (Sys.init$ret0)
+(INFINITE_LOOP)
+@INFINITE_LOOP
+0;JMP
 (Array.new)
 @ARG
 D=M

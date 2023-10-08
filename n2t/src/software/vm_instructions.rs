@@ -5,6 +5,8 @@ use concat_string::concat_string;
 use lazy_static::lazy_static;
 use strum_macros::EnumString;
 
+use crate::utils::BuiltInFunc;
+
 #[derive(Debug, Clone, PartialEq, EnumString, strum_macros::Display)]
 pub enum Reg {
     A,
@@ -103,6 +105,8 @@ lazy_static! {
     ///
     ///
     pub static ref BOOTSTRAP: String = concat_string!(
+        // "@256\nD=A\n@SP\nM=D\nBSys.Init\n",
+        // func_call(&"Main.main".to_owned(), &"Main.main$ret0".to_owned(), "0"),
         "@256\nD=A\n@SP\nM=D\n",
         func_call(&"Sys.init".to_owned(), &"Sys.init$ret0".to_owned(), "0"),
         INFINITE_LOOP
