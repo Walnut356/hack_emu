@@ -14,3 +14,5 @@ Enhancements:
 
 * Doubled addressable ROM space (32k -> 64k) via some assembler fiddling
 * (In progress) OS functions built in to rust via expanded instructionset
+
+![image](https://github.com/Walnut356/hack_emu/assets/39544927/254bbbc2-a5b9-46a9-bb40-bb5edf49a1d8)
